@@ -1,5 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './asset/imgs/logo.svg';
+import './asset/css/App.css';
+import Button from '@material-ui/core/Button';
+import './asset/scss/style.scss';
+import Items from '../../components/Items.tsx';
 
 function App() {
   return (
@@ -14,10 +17,13 @@ function App() {
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
+          className="red"
         >
           Learn React
         </a>
       </header>
+      <Button variant="contained" color="primary">Hello World</Button>
+      <Items/>
     </div>
   );
 }
