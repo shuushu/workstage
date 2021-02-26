@@ -8,18 +8,29 @@ import {
   useParams
 } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
 //import Button from '@material-ui/core/Button'; // https://material-ui.com/
-import logo from './asset/imgs/logo.svg';
 import Items from '../../components/Items.tsx';
+import { useFetch } from '../../hooks/useFetch.ts';
 import './asset/css/App.css';
 import './asset/scss/style.scss';
 
 
-function Home() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+function Home() {  
+  const [state, dispatch] = useReducer(reducer,  { count: 0, step: 1 });
   const { count, step } = state;
-
-  useEffect(() => {
-    const id = setInterval(() => {
+  
+  function reducer(state, action) {  
+    const { count, step } = state;
+    if (action.type === 'tick') {    
+      return { count: count + step, step };
+    } else if (action.type === 'step') {
+      return { count, step: action.step };
+    } else {
+      throw new Error();
+    }
+  }
+  
+  useEffect(() => {        
+    const id = setInterval(() => {      
       dispatch({ type: 'tick' });
     }, 1000);
     return () => clearInterval(id);
@@ -38,30 +49,19 @@ function Home() {
   );
 }
 
-const initialState = {
-  count: 0,
-  step: 1,
-};
 
-function reducer(state, action) {
-  const { count, step } = state;
-  if (action.type === 'tick') {
-    return { count: count + step, step };
-  } else if (action.type === 'step') {
-    return { count, step: action.step };
-  } else {
-    throw new Error();
-  }
-}
+function About() { 
+  const [ state, refetch ] = useFetch('https://jsonplaceholder.typicode.com/users');  
+  const { loading, data, error } = state;
 
-function About() {
-  return <h2>About</h2>;
+  if (loading) return <div>로딩중..</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  return <Items data={data} refetch={refetch} />
 }
 
 function Topics() {
   let match = useRouteMatch();
-
-
+  
   useEffect(() => {
     /* props 로 받은 값을 컴포넌트의 로컬 상태로 설정
      * 외부 API 요청 (REST API 등)
@@ -78,7 +78,6 @@ function Topics() {
   return (
     <div>
       <h2>Topics</h2>
-
       <ul className="topics">
         <li>
           <Link to={`${match.url}/components`}>Components</Link>
@@ -113,30 +112,14 @@ function Topic() {
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="red"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App">    
       
-      <Items/>
 
       <Router>
       <div>
         <ul>
           <li>
-            <Link to="/">home</Link>
+            <Link to="/" className="red">home</Link>
           </li>
           <li>
             <Link to="/about">About</Link>
