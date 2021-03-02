@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 
-function Items(props) {
+function ItemCard(props) {
     const { data, refetch } = props;
     const classes = useStyles();
   
@@ -51,4 +51,4 @@ function Items(props) {
     );
 }
 
-export default Items;
+export { ItemCard };

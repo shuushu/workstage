@@ -1,11 +1,16 @@
 import { useReducer, useEffect } from 'react';
+interface state {
+    loading: boolean;
+    data: any[];
+    error: ErrorConstructor | null;   
+}
 interface action {
     type: string;
     data?: any;
     error?: ErrorConstructor;
 }
 
-const reducer = (state, action: action) => {
+const reducer = (state: state, action: action) => {
     switch(action.type) {
         case 'LOADING' :
             return {
@@ -32,7 +37,7 @@ const useFetch = (url: string, deps = []) => {
     const [ state, dispatch ] = useReducer(reducer, {
         loading: false,
         data: [],
-        error: false
+        error: null
     });
     
     const fetchData = async () => {        
