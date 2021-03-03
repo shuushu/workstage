@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,30 +30,26 @@ const useStyles = makeStyles((theme: Theme) =>
         textField: {
             width: '25ch',
         },
+        button: {
+            textTransform: 'initial'
+        }
     }),
 );
 
 interface State {
-    password: string;
-    nickname: string;
     showPassword: boolean;
-    context: string;
 }
 
 
 const Basic = () => {
     const classes = useStyles();
     const [values, setValues] = useState<State>({
-        password: '',
-        nickname: '',
-        context: '',
-        showPassword: false,
+        showPassword: false
     });
-
-    const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-        setValues({ ...values, [prop]: event.target.value });
+    const { register, handleSubmit, errors, reset } = useForm(); // initialise the hook
+    const onSubmit = (data: { [key: string]: string }) => {
+        console.log(data);
     };
-
     const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
@@ -62,26 +59,37 @@ const Basic = () => {
     };
 
 
-    const handleClick = () => {
-        console.log(values)
-    }
-
 
     return (
-        <form noValidate autoComplete="off">
+        <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+
             <TextField className={clsx(classes.margin, classes.textField)}
-                required
-                id="outlined-required"
-                label="닉네임"
-                onChange={handleChange('nickname')}
+                name="email"
+                inputRef={register({
+                    required: '필수 값입니다.',
+                    pattern: {
+                        value: /^\S+@\S+$/,
+                        message: '잘못된 이메일 형식'
+                    }
+                })}
+                label="이메일"
+                error={errors.email && true}
+                helperText={errors.email && errors.email.message}
             />
+
             <FormControl className={clsx(classes.margin, classes.textField)}>
-                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <InputLabel error={errors.password && true} htmlFor="standard-adornment-password">Password</InputLabel>
                 <Input
-                    id="standard-adornment-password"
+                    name="password"
                     type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange('password')}
+                    inputRef={register({
+                        required: '필수 값입니다.',
+                        pattern: {
+                            value: /[A-Za-z]/,
+                            message: '비밀 번호 형식 다름'
+                        }
+                    })}
+                    error={errors.password && true}
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -94,6 +102,7 @@ const Basic = () => {
                         </InputAdornment>
                     }
                 />
+                {errors.password && <FormHelperText error={errors.password && true}>{errors.password.message}</FormHelperText>}
             </FormControl>
             <TextField
                 id="outlined-full-width"
@@ -108,9 +117,10 @@ const Basic = () => {
                 }}
                 // rows={4}
                 variant="outlined"
-                onChange={handleChange('context')}
+                inputRef={register}
             />
-            <Button onClick={handleClick} variant="outlined">Default</Button>
+            <Button type="submit" variant="outlined">Default</Button>
+            <Button variant="outlined" className={classes.button} onClick={() => reset()}>Reset</Button>
         </form>
 
 
