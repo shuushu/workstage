@@ -2,29 +2,29 @@ import { useReducer, useEffect } from 'react';
 interface state {
     loading: boolean;
     data: any[];
-    error: ErrorConstructor | null;   
+    error: ErrorConstructor | null;
 }
 interface action {
     type: string;
-    data?: any;
+    data?: any[];
     error?: ErrorConstructor;
 }
 
 const reducer = (state: state, action: action) => {
-    switch(action.type) {
-        case 'LOADING' :
+    switch (action.type) {
+        case 'LOADING':
             return {
                 loading: true,
                 data: state.data,
                 error: null
             }
-        case 'SUCCESS' :
+        case 'SUCCESS':
             return {
                 loading: false,
                 data: action.data,
                 error: null
             };
-        case 'ERROR' :
+        case 'ERROR':
             return {
                 loading: false,
                 data: [],
@@ -33,18 +33,18 @@ const reducer = (state: state, action: action) => {
         default: throw new Error(`Unhandled action type: ${action.type}`);
     }
 }
-const useFetch = (url: string, deps = []) => {    
-    const [ state, dispatch ] = useReducer(reducer, {
+const useFetch = (url: string, deps = []) => {
+    const [state, dispatch] = useReducer(reducer, {
         loading: false,
         data: [],
         error: null
     });
-    
-    const fetchData = async () => {        
-        dispatch({ type: 'LOADING'});
+
+    const fetchData: any = async () => {
+        dispatch({ type: 'LOADING' });
         try {
             const response = await fetch(url);
-            const data = await response.json();            
+            const data = await response.json();
             dispatch({ type: 'SUCCESS', data });
         } catch (e) {
             dispatch({ type: 'ERROR', error: e });
@@ -55,10 +55,10 @@ const useFetch = (url: string, deps = []) => {
         fetchData();
     }, deps);
 
-    return [ state, fetchData ]
+    return [state, fetchData]
 }
 
 
 export {
-    useFetch    
+    useFetch
 }

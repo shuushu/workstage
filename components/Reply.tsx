@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -35,75 +35,70 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     }),
 );
-
-interface State {
-    showPassword: boolean;
-}
-
-
-const Basic = () => {
+const Password = (props) => {
     const classes = useStyles();
-    const [values, setValues] = useState<State>({
-        showPassword: false
-    });
-    const { register, handleSubmit, errors, reset } = useForm(); // initialise the hook
-    const onSubmit = (data: { [key: string]: string }) => {
-        console.log(data);
-    };
-    const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
-    };
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
+    const handleClickShowPassword = useCallback(() => {
+        setShowPassword(!showPassword);
+    }, [showPassword])
 
 
     return (
-        <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-
-            <TextField className={clsx(classes.margin, classes.textField)}
-                name="email"
-                inputRef={register({
-                    required: '필수 값입니다.',
-                    pattern: {
-                        value: /^\S+@\S+$/,
-                        message: '잘못된 이메일 형식'
-                    }
-                })}
-                label="이메일"
-                error={errors.email && true}
-                helperText={errors.email && errors.email.message}
+        <FormControl className={clsx(classes.margin, classes.textField)}>
+            <InputLabel error={props.errors.password && true} htmlFor="standard-adornment-password">Password</InputLabel>
+            <Input
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                inputRef={props.register(props.password)}
+                error={props.errors.password && true}
+                endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                        >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                }
             />
+            {props.errors.password && <FormHelperText error={props.errors.password && true}>{props.errors.password.message}</FormHelperText>}
+        </FormControl>
+    )
+}
 
-            <FormControl className={clsx(classes.margin, classes.textField)}>
-                <InputLabel error={errors.password && true} htmlFor="standard-adornment-password">Password</InputLabel>
-                <Input
-                    name="password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    inputRef={register({
-                        required: '필수 값입니다.',
-                        pattern: {
-                            value: /[A-Za-z]/,
-                            message: '비밀 번호 형식 다름'
-                        }
-                    })}
-                    error={errors.password && true}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                            >
-                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-                {errors.password && <FormHelperText error={errors.password && true}>{errors.password.message}</FormHelperText>}
-            </FormControl>
+const Email = (props) => {
+    const classes = useStyles();
+
+    return (
+        <TextField className={clsx(classes.margin, classes.textField)}
+            name="email"
+            inputRef={props.register(props.email)}
+            label="이메일"
+            error={props.errors.email && true}
+            helperText={props.errors.email && props.errors.email.message}
+        />
+    )
+}
+
+const Basic = (props) => {
+    const classes = useStyles();
+    const { register, handleSubmit, errors, reset } = useForm(); // initialise the hook
+
+    const onSubmit = (data: { [key: string]: string }) => {
+        console.log(data);
+    };
+
+    return (
+        <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+            <Email errors={errors} register={register} {...props} />
+            <Password errors={errors} register={register} {...props} />
             <TextField
                 id="outlined-full-width"
                 label="내용을 입력하세요"
@@ -122,10 +117,24 @@ const Basic = () => {
             <Button type="submit" variant="outlined">Default</Button>
             <Button variant="outlined" className={classes.button} onClick={() => reset()}>Reset</Button>
         </form>
-
-
     )
 }
+Basic.defaultProps = {
+    email: {
+        required: '필수 값입니다.',
+        pattern: {
+            value: /^\S+@\S+$/,
+            message: '잘못된 이메일 형식'
+        }
+    },
+    password: {
+        required: '필수 값입니다.',
+        pattern: {
+            value: /[A-Za-z]/,
+            message: '비밀 번호 형식 다름'
+        }
+    }
+};
 
 export {
     Basic
