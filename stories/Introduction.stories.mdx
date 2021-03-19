@@ -1,12 +1,12 @@
-import { Meta } from '@storybook/addon-docs/blocks';
-import Code from './assets/code-brackets.svg';
-import Colors from './assets/colors.svg';
-import Comments from './assets/comments.svg';
-import Direction from './assets/direction.svg';
-import Flow from './assets/flow.svg';
-import Plugin from './assets/plugin.svg';
-import Repo from './assets/repo.svg';
-import StackAlt from './assets/stackalt.svg';
+import { Meta } from "@storybook/addon-docs/blocks";
+import Code from "./assets/code-brackets.svg";
+import Colors from "./assets/colors.svg";
+import Comments from "./assets/comments.svg";
+import Direction from "./assets/direction.svg";
+import Flow from "./assets/flow.svg";
+import Plugin from "./assets/plugin.svg";
+import Repo from "./assets/repo.svg";
+import StackAlt from "./assets/stackalt.svg";
 
 <Meta title="Example/Introduction" />
 
@@ -114,14 +114,12 @@ import StackAlt from './assets/stackalt.svg';
   
 `}</style>
 
-# Welcome to Storybook
+# Component-Driven Development
 
-Storybook helps you build UI components in isolation from your app's business logic, data, and context.
-That makes it easy to develop hard-to-reach states. Save these UI states as **stories** to revisit during development, testing, or QA.
-
-Browse example stories now by navigating to them in the sidebar.
-View their code in the `src/stories` directory to learn how they work.
-We recommend building UIs with a [**component-driven**](https://componentdriven.org) process starting with atomic components and ending with pages.
+컴포넌트 주도 개발(CDD)은 컴포넌트 주위에 개발 프로세스를 고정하는 개발 방법론입니다.
+자세히 말하자면, 컴포넌트 수준에서 시작해 페이지나 화면 수준에서 끝나는 것으로 "바닥부터 끝까지"(bottom up) UI를 구축하는 과정을 말합니다.
+지난 몇 년 동안, Chroma에서 IBM, Hubspot, AirBnB와 같은 회사의 동료들과 함께 이 접근법을 발견하여
+개발 프로세스를 크게 가속화하고 개발자와 디자이너의 커뮤니케이션을 개선하며 지속적으로 높은 수준의 제품 품질을 달성할 수 있었습니다.
 
 <div className="subheading">Configure</div>
 
@@ -182,14 +180,22 @@ We recommend building UIs with a [**component-driven**](https://componentdriven.
       Configure, customize, and extend
     </span>
   </a>
-  <a className="link-item" href="https://www.learnstorybook.com" target="_blank">
+  <a
+    className="link-item"
+    href="https://www.learnstorybook.com"
+    target="_blank"
+  >
     <img src={Direction} alt="direction" />
     <span>
       <strong>In-depth guides</strong>
       Best practices from leading teams
     </span>
   </a>
-  <a className="link-item" href="https://github.com/storybookjs/storybook" target="_blank">
+  <a
+    className="link-item"
+    href="https://github.com/storybookjs/storybook"
+    target="_blank"
+  >
     <img src={Code} alt="code" />
     <span>
       <strong>GitHub project</strong>
@@ -206,6 +212,10 @@ We recommend building UIs with a [**component-driven**](https://componentdriven.
 </div>
 
 <div className="tip-wrapper">
-  <span className="tip">Tip</span>Edit the Markdown in{' '}
+  <span className="tip">Tip</span>Edit the Markdown in{" "}
   <code>src/stories/Introduction.stories.mdx</code>
+</div>
+<div className="tip-wrapper">
+  <span className="tip">Tip</span>scrooll libraries{" "}
+  <code>https://scrollmagic.io/</code>
 </div>
