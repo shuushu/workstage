@@ -29,6 +29,6 @@ export const 데이터_패치 = Template.bind({});
   loading: true,
   error: false,
   data: ['test', 'test2'],
-  url: ''
+  url: 'https://jsonplaceholder.typicode.com/posts/'
 };
 

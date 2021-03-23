@@ -52,14 +52,14 @@ const animating_with_GSAP_f = () => {
     const v1 = new ScrollMagic.Scene({
             triggerElement: "#trigger1"
         })
-        .setTween("#animate1", 0.5, {backgroundColor: "green", scale: 2.5}) // trigger a TweenMax.to tween
+        .setTween("#animate1", 0.5, {backgroundColor: "green", scale: 2.5, overwrite: false}) // trigger a TweenMax.to tween
         .addIndicators({name: "1 (duration: 0)"}) // add indicators (requires plugin)
         .addTo(controller);
     
     scene.push(v1);
     const v2 = new ScrollMagic.Scene({triggerElement: "#trigger2", duration: 300})
         // animate color and top border in relation to scroll position
-        .setTween("#animate2", {borderTop: "30px solid white", backgroundColor: "blue", scale: 0.7, immediateRender: false}) // the tween durtion can be omitted and defaults to 1
+        .setTween("#animate2", {borderTop: "30px solid white", backgroundColor: "blue", scale: 0.7, overwrite: false, immediateRender: false}) // the tween durtion can be omitted and defaults to 1
         .addIndicators({name: "2 (duration: 300)"}) // add indicators (requires plugin)
         .addTo(controller);
     scene.push(v2);

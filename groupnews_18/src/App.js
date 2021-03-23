@@ -1,12 +1,13 @@
 import { useEffect, useReducer } from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Link,
   useRouteMatch,
   useParams
 } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
+
 //import Button from '@material-ui/core/Button'; // https://material-ui.com/
 import { ItemCard } from '../../components/Items.tsx';
 import { Basic } from '../../components/Reply.tsx';
@@ -123,8 +124,6 @@ function Topic() {
 function App() {
   return (
     <div className="App">
-
-
       <Router>
         <div>
           <ul>

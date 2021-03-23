@@ -19,7 +19,7 @@ const Template: Story = (arg) => {
   let magicObj;
   useEffect(() => {  
     callString().then(r => {      
-      try {      
+      try {
         document.querySelector('#section-wipes').innerHTML = r[name];
         console.log(name)
         magicObj = r[`${name}_f`]();

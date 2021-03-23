@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { TweenMax, TimelineMax, TweenLite, Elastic, Expo, Power4, gsap, Power1 } from "gsap";
-import Draggable from "gsap/Draggable";
+import { gsap, TweenMax, TimelineMax, TweenLite, Elastic, Expo, Power4, Power1 } from "gsap";
+import { Draggable } from "gsap/all";
 import styled from "styled-components"
 import useWindowSize from "../hooks/useWindowSize";
 
