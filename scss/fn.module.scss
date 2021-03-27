@@ -1,1 +1,11 @@
 $pcolor: red;
+
+@mixin 이미지테두리($값) {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  border-radius: 100%;
+  width: $값;
+  height: $값;
+  border: solid 4px red;
+}
