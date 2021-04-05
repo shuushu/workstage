@@ -1,0 +1,338 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet-d: width height image $spritesheet-sprites-d;
+$p1-name: "p1";
+$p1-x: 0px;
+$p1-y: 140px;
+$p1-offset-x: 0px;
+$p1-offset-y: -140px;
+$p1-width: 146px;
+$p1-height: 146px;
+$p1-total-width: 1276px;
+$p1-total-height: 286px;
+$p1-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p1: (
+  0px,
+  140px,
+  0px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p1"
+);
+$p2-name: "p2";
+$p2-x: 146px;
+$p2-y: 140px;
+$p2-offset-x: -146px;
+$p2-offset-y: -140px;
+$p2-width: 146px;
+$p2-height: 146px;
+$p2-total-width: 1276px;
+$p2-total-height: 286px;
+$p2-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p2: (
+  146px,
+  140px,
+  -146px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p2"
+);
+$p3-name: "p3";
+$p3-x: 292px;
+$p3-y: 140px;
+$p3-offset-x: -292px;
+$p3-offset-y: -140px;
+$p3-width: 146px;
+$p3-height: 146px;
+$p3-total-width: 1276px;
+$p3-total-height: 286px;
+$p3-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p3: (
+  292px,
+  140px,
+  -292px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p3"
+);
+$p4-name: "p4";
+$p4-x: 438px;
+$p4-y: 140px;
+$p4-offset-x: -438px;
+$p4-offset-y: -140px;
+$p4-width: 146px;
+$p4-height: 146px;
+$p4-total-width: 1276px;
+$p4-total-height: 286px;
+$p4-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p4: (
+  438px,
+  140px,
+  -438px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p4"
+);
+$p5-name: "p5";
+$p5-x: 584px;
+$p5-y: 140px;
+$p5-offset-x: -584px;
+$p5-offset-y: -140px;
+$p5-width: 146px;
+$p5-height: 146px;
+$p5-total-width: 1276px;
+$p5-total-height: 286px;
+$p5-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p5: (
+  584px,
+  140px,
+  -584px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p5"
+);
+$p6-name: "p6";
+$p6-x: 730px;
+$p6-y: 140px;
+$p6-offset-x: -730px;
+$p6-offset-y: -140px;
+$p6-width: 146px;
+$p6-height: 146px;
+$p6-total-width: 1276px;
+$p6-total-height: 286px;
+$p6-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p6: (
+  730px,
+  140px,
+  -730px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p6"
+);
+$p7-name: "p7";
+$p7-x: 876px;
+$p7-y: 140px;
+$p7-offset-x: -876px;
+$p7-offset-y: -140px;
+$p7-width: 146px;
+$p7-height: 146px;
+$p7-total-width: 1276px;
+$p7-total-height: 286px;
+$p7-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p7: (
+  876px,
+  140px,
+  -876px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p7"
+);
+$p8-name: "p8";
+$p8-x: 1022px;
+$p8-y: 140px;
+$p8-offset-x: -1022px;
+$p8-offset-y: -140px;
+$p8-width: 146px;
+$p8-height: 146px;
+$p8-total-width: 1276px;
+$p8-total-height: 286px;
+$p8-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$p8: (
+  1022px,
+  140px,
+  -1022px,
+  -140px,
+  146px,
+  146px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "p8"
+);
+$pop-t1-name: "pop-t1";
+$pop-t1-x: 0px;
+$pop-t1-y: 0px;
+$pop-t1-offset-x: 0px;
+$pop-t1-offset-y: 0px;
+$pop-t1-width: 526px;
+$pop-t1-height: 70px;
+$pop-t1-total-width: 1276px;
+$pop-t1-total-height: 286px;
+$pop-t1-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$pop-t1: (
+  0px,
+  0px,
+  0px,
+  0px,
+  526px,
+  70px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "pop-t1"
+);
+$pop-t2-name: "pop-t2";
+$pop-t2-x: 526px;
+$pop-t2-y: 0px;
+$pop-t2-offset-x: -526px;
+$pop-t2-offset-y: 0px;
+$pop-t2-width: 750px;
+$pop-t2-height: 46px;
+$pop-t2-total-width: 1276px;
+$pop-t2-total-height: 286px;
+$pop-t2-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$pop-t2: (
+  526px,
+  0px,
+  -526px,
+  0px,
+  750px,
+  46px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "pop-t2"
+);
+$pop-t3-1-name: "pop-t3-1";
+$pop-t3-1-x: 0px;
+$pop-t3-1-y: 70px;
+$pop-t3-1-offset-x: 0px;
+$pop-t3-1-offset-y: -70px;
+$pop-t3-1-width: 411px;
+$pop-t3-1-height: 70px;
+$pop-t3-1-total-width: 1276px;
+$pop-t3-1-total-height: 286px;
+$pop-t3-1-image: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$pop-t3-1: (
+  0px,
+  70px,
+  0px,
+  -70px,
+  411px,
+  70px,
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  "pop-t3-1"
+);
+$spritesheet-width-d: 1276px;
+$spritesheet-height-d: 286px;
+$spritesheet-image-d: "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png";
+$spritesheet-sprites-d: (
+  $p1,
+  $p2,
+  $p3,
+  $p4,
+  $p5,
+  $p6,
+  $p7,
+  $p8,
+  $pop-t1,
+  $pop-t2,
+  $pop-t3-1
+);
+$spritesheet-d: (
+  1276px,
+  286px,
+  "http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/sprite-d.png",
+  $spritesheet-sprites-d
+);
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width-d($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width-d($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height-d($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position-d($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x $sprite-offset-y;
+}
+
+@mixin sprite-image-d($sprite) {
+  $sprite-image-d: nth($sprite, 9);
+  background-image: url(#{$sprite-image-d});
+}
+
+@mixin sprite-d($sprite) {
+  @include sprite-image-d($sprite);
+  @include sprite-position-d($sprite);
+  @include sprite-width-d($sprite);
+  @include sprite-height-d($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites-d);
+@mixin sprites-d($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite-d($sprite);
+    }
+  }
+}

@@ -9,3 +9,127 @@ $pcolor: red;
   height: $값;
   border: solid 4px red;
 }
+
+@mixin sprite-width-2x($sprite) {
+  width: nth($sprite, 5) / 2;
+}
+@mixin sprite-width-2x-d($sprite) {
+  width: nth($sprite, 5) / 2;
+}
+@mixin sprite-left($sprite) {
+  margin-left: nth($sprite, 5) / 2;
+}
+@mixin sprite-left-d($sprite) {
+  margin-left: nth($sprite, 5) / 2;
+}
+@mixin sprite-height-2x($sprite) {
+  height: nth($sprite, 6) / 2;
+}
+@mixin sprite-height-2x-d($sprite) {
+  height: nth($sprite, 6) / 2;
+}
+@mixin sprite-position-2x($sprite) {
+  $sprite-offset-x: nth($sprite, 3) / 2;
+  $sprite-offset-y: nth($sprite, 4) / 2;
+  background-position: convertPx($sprite-offset-x, $sprite-offset-y);
+}
+@mixin sprite-position-2x-d($sprite) {
+  $sprite-offset-x: nth($sprite, 3) / 2;
+  $sprite-offset-y: nth($sprite, 4) / 2;
+  background-position: convertPx($sprite-offset-x, $sprite-offset-y);
+}
+// 0px > 0 으로 치환하기
+@function convertPx($sprite-offset-x, $sprite-offset-y) {
+  @if ($sprite-offset-x == 0px) {
+    $sprite-offset-x: 0;
+  }
+  @if ($sprite-offset-y == 0px) {
+    $sprite-offset-y: 0;
+  }
+  @return $sprite-offset-x $sprite-offset-y;
+}
+
+@mixin sprite-2x($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position-2x($sprite);
+  @include sprite-width-2x($sprite);
+  @include sprite-height-2x($sprite);
+  background-size: $spritesheet-width / 2 auto;
+}
+@mixin sprite-2x-d($sprite) {
+  @include sprite-image-d($sprite);
+  @include sprite-position-2x-d($sprite);
+  @include sprite-width-2x-d($sprite);
+  @include sprite-height-2x($sprite);
+  background-size: $spritesheet-width-d / 2 auto;
+}
+// 레티나 이미지 배경처리
+// .n1{@include ir2($btn-pltaos);}
+
+@mixin ir2($sprite) {
+  background: none;
+  @include sprite-2x($sprite);
+  color: transparent;
+  font-size: 9px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+@mixin ir2-d($sprite) {
+  background: none;
+  @include sprite-2x-d($sprite);
+  color: transparent;
+  font-size: 9px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+// 레티나 배경이미지 상하 중앙 정렬
+@mixin ir2-center($sprite) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -nth($sprite, 5) / 4;
+  margin-top: -nth($sprite, 6) / 4;
+}
+// 멀티줄임말
+@mixin ell($n) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: $n;
+}
+// 속성애니매이션
+@mixin ani($s) {
+  -webkit-transition: all $s;
+  transition: all $s;
+}
+
+// CSS 삼각형 만들기
+@mixin arrow($direction, $size, $color) {
+  width: 0;
+  height: 0;
+  vertical-align: middle;
+  display: inline-block;
+  @if $direction == "up" {
+    border-left: #{$size}px solid transparent;
+    border-right: #{$size}px solid transparent;
+    border-bottom: #{$size}px solid $color;
+  } @else if $direction == "down" {
+    border-left: #{$size}px solid transparent;
+    border-right: #{$size}px solid transparent;
+    border-top: #{$size}px solid $color;
+  } @else if $direction == "right" {
+    border-top: #{$size}px solid transparent;
+    border-bottom: #{$size}px solid transparent;
+    border-left: #{$size}px solid $color;
+  } @else if $direction == "left" {
+    border-top: #{$size}px solid transparent;
+    border-bottom: #{$size}px solid transparent;
+    border-right: #{$size}px solid $color;
+  }
+}

@@ -1,13 +1,1016 @@
+@import "./sprite-p.scss";
+@import "./sprite-d.scss";
 @import "../../../../scss/fn.module.scss";
 
 $국민의힘: #e61e2b;
 $더불어민주당: #0c69b4;
 $무소속: #898a8e;
+$정의당: #ffc800;
+$열린민주당: #000;
+.hm1 {
+  @include ir2($hm1);
+}
+.hm2 {
+  @include ir2($hm2);
+}
+.hm3 {
+  @include ir2($hm3);
+}
+.hm4 {
+  @include ir2($hm4);
+}
+.hm5 {
+  @include ir2($hm5);
+}
+.hm6 {
+  @include ir2($hm6);
+}
+.hm7 {
+  @include ir2($hm7);
+}
+.hm8 {
+  @include ir2($hm8);
+}
+.hm9 {
+  @include ir2($hm9);
+}
+.hm10 {
+  @include ir2($hm10);
+}
+.hm11 {
+  @include ir2($hm11);
+}
+.hm12 {
+  @include ir2($hm12);
+}
+.hm13 {
+  @include ir2($hm13);
+}
+.hm14 {
+  @include ir2($hm14);
+}
+.hm15 {
+  @include ir2($hm15);
+}
+.hm16 {
+  @include ir2($hm16);
+}
+.hm17 {
+  @include ir2($hm17);
+}
+.hm18 {
+  @include ir2($hm18);
+}
+.hm19 {
+  @include ir2($hm19);
+}
+.hm20 {
+  @include ir2($hm20);
+}
+.hm21 {
+  @include ir2($hm21);
+}
+.hm22 {
+  @include ir2($hm22);
+}
+.hm23 {
+  @include ir2($hm23);
+}
+.hm24 {
+  @include ir2($hm24);
+}
+.hm25 {
+  @include ir2($hm25);
+}
+.hm26 {
+  @include ir2($hm26);
+}
+.hm27 {
+  @include ir2($hm27);
+}
+.hm28 {
+  @include ir2($hm28);
+}
+.hm29 {
+  @include ir2($hm29);
+}
+.hm30 {
+  @include ir2($hm30);
+}
+.hm31 {
+  @include ir2($hm31);
+}
+.hm32 {
+  @include ir2($hm32);
+}
+.hm33 {
+  @include ir2($hm33);
+}
+.hm34 {
+  @include ir2($hm34);
+}
+.hm35 {
+  @include ir2($hm35);
+}
+.hm36 {
+  @include ir2($hm36);
+}
+.hm37 {
+  @include ir2($hm37);
+}
+.hm38 {
+  @include ir2($hm38);
+}
+.hm39 {
+  @include ir2($hm39);
+}
+.hm40 {
+  @include ir2($hm40);
+}
+.hm41 {
+  @include ir2($hm41);
+}
+.hm42 {
+  @include ir2($hm42);
+}
+.hm43 {
+  @include ir2($hm43);
+}
+.hm44 {
+  @include ir2($hm44);
+}
+.hm45 {
+  @include ir2($hm45);
+}
+.hm46 {
+  @include ir2($hm46);
+}
+.hm47 {
+  @include ir2($hm47);
+}
+.hm48 {
+  @include ir2($hm48);
+}
+.hm49 {
+  @include ir2($hm49);
+}
+.hm50 {
+  @include ir2($hm50);
+}
+.hm51 {
+  @include ir2($hm51);
+}
+.hm52 {
+  @include ir2($hm52);
+}
+.hm53 {
+  @include ir2($hm53);
+}
+.hm54 {
+  @include ir2($hm54);
+}
+.hm55 {
+  @include ir2($hm55);
+}
+.hm56 {
+  @include ir2($hm56);
+}
+.hm57 {
+  @include ir2($hm57);
+}
+.hm58 {
+  @include ir2($hm58);
+}
+.hm59 {
+  @include ir2($hm59);
+}
+.hm60 {
+  @include ir2($hm60);
+}
+.hm61 {
+  @include ir2($hm61);
+}
+.hm62 {
+  @include ir2($hm62);
+}
+.hm63 {
+  @include ir2($hm63);
+}
+.hm64 {
+  @include ir2($hm64);
+}
+.hm65 {
+  @include ir2($hm65);
+}
+.hm66 {
+  @include ir2($hm66);
+}
+.hm67 {
+  @include ir2($hm67);
+}
+.hm68 {
+  @include ir2($hm68);
+}
+.hm69 {
+  @include ir2($hm69);
+}
+.hm70 {
+  @include ir2($hm70);
+}
+.hm71 {
+  @include ir2($hm71);
+}
+.hm72 {
+  @include ir2($hm72);
+}
+.hm73 {
+  @include ir2($hm73);
+}
+.hm74 {
+  @include ir2($hm74);
+}
+.hm75 {
+  @include ir2($hm75);
+}
+.hm76 {
+  @include ir2($hm76);
+}
+.hm77 {
+  @include ir2($hm77);
+}
+.hm78 {
+  @include ir2($hm78);
+}
+.hm79 {
+  @include ir2($hm79);
+}
+.hm80 {
+  @include ir2($hm80);
+}
+.hm81 {
+  @include ir2($hm81);
+}
+.hm82 {
+  @include ir2($hm82);
+}
+.hm83 {
+  @include ir2($hm83);
+}
+.hm84 {
+  @include ir2($hm84);
+}
+.hm85 {
+  @include ir2($hm85);
+}
+.hm86 {
+  @include ir2($hm86);
+}
+.hm87 {
+  @include ir2($hm87);
+}
+.hm88 {
+  @include ir2($hm88);
+}
+.hm89 {
+  @include ir2($hm89);
+}
+.hm90 {
+  @include ir2($hm90);
+}
+.hm91 {
+  @include ir2($hm91);
+}
+.hm92 {
+  @include ir2($hm92);
+}
+.hm93 {
+  @include ir2($hm93);
+}
+.hm94 {
+  @include ir2($hm94);
+}
+.hm95 {
+  @include ir2($hm95);
+}
+.hm96 {
+  @include ir2($hm96);
+}
+.hm97 {
+  @include ir2($hm97);
+}
+.hm98 {
+  @include ir2($hm98);
+}
+.hm99 {
+  @include ir2($hm99);
+}
+.hm100 {
+  @include ir2($hm100);
+}
+.hm101 {
+  @include ir2($hm101);
+}
+.hm102 {
+  @include ir2($hm102);
+}
+.hm103 {
+  @include ir2($hm103);
+}
+.hm104 {
+  @include ir2($hm104);
+}
+.hm105 {
+  @include ir2($hm105);
+}
+.hm106 {
+  @include ir2($hm106);
+}
+.hm107 {
+  @include ir2($hm107);
+}
+.hm108 {
+  @include ir2($hm108);
+}
+.hm109 {
+  @include ir2($hm109);
+}
+.hm110 {
+  @include ir2($hm110);
+}
+.hm111 {
+  @include ir2($hm111);
+}
+.hm112 {
+  @include ir2($hm112);
+}
+.hm113 {
+  @include ir2($hm113);
+}
+.hm114 {
+  @include ir2($hm114);
+}
+.hm115 {
+  @include ir2($hm115);
+}
+.hm116 {
+  @include ir2($hm116);
+}
+.hm117 {
+  @include ir2($hm117);
+}
+.hm118 {
+  @include ir2($hm118);
+}
+.hm119 {
+  @include ir2($hm119);
+}
+.hm120 {
+  @include ir2($hm120);
+}
+.hm121 {
+  @include ir2($hm121);
+}
+.hm122 {
+  @include ir2($hm122);
+}
+.hm123 {
+  @include ir2($hm123);
+}
+.hm124 {
+  @include ir2($hm124);
+}
+.hm125 {
+  @include ir2($hm125);
+}
+.hm126 {
+  @include ir2($hm126);
+}
+.hm127 {
+  @include ir2($hm127);
+}
+.hm128 {
+  @include ir2($hm128);
+}
+.hm129 {
+  @include ir2($hm129);
+}
+.hm130 {
+  @include ir2($hm130);
+}
+.hm131 {
+  @include ir2($hm131);
+}
+.hm132 {
+  @include ir2($hm132);
+}
+.hm133 {
+  @include ir2($hm133);
+}
+.hm134 {
+  @include ir2($hm134);
+}
+.hm135 {
+  @include ir2($hm135);
+}
+.hm136 {
+  @include ir2($hm136);
+}
+.hm137 {
+  @include ir2($hm137);
+}
+.hm138 {
+  @include ir2($hm138);
+}
+.hm139 {
+  @include ir2($hm139);
+}
+.hm140 {
+  @include ir2($hm140);
+}
+.hm141 {
+  @include ir2($hm141);
+}
+.hm142 {
+  @include ir2($hm142);
+}
+.hm143 {
+  @include ir2($hm143);
+}
+.hm144 {
+  @include ir2($hm144);
+}
+.hm145 {
+  @include ir2($hm145);
+}
+.hm146 {
+  @include ir2($hm146);
+}
+.hm147 {
+  @include ir2($hm147);
+}
+.hm148 {
+  @include ir2($hm148);
+}
+.hm149 {
+  @include ir2($hm149);
+}
+.hm150 {
+  @include ir2($hm150);
+}
+.hm151 {
+  @include ir2($hm151);
+}
+.hm152 {
+  @include ir2($hm152);
+}
+.hm153 {
+  @include ir2($hm153);
+}
+.hm154 {
+  @include ir2($hm154);
+}
+.hm155 {
+  @include ir2($hm155);
+}
+.hm156 {
+  @include ir2($hm156);
+}
+.hm157 {
+  @include ir2($hm157);
+}
+.hm158 {
+  @include ir2($hm158);
+}
+.hm159 {
+  @include ir2($hm159);
+}
+.hm160 {
+  @include ir2($hm160);
+}
+.hm161 {
+  @include ir2($hm161);
+}
+.hm162 {
+  @include ir2($hm162);
+}
+.hm163 {
+  @include ir2($hm163);
+}
+.hm164 {
+  @include ir2($hm164);
+}
+.hm165 {
+  @include ir2($hm165);
+}
+.hm166 {
+  @include ir2($hm166);
+}
+.hm167 {
+  @include ir2($hm167);
+}
+.hm168 {
+  @include ir2($hm168);
+}
+.hm169 {
+  @include ir2($hm169);
+}
+.hm170 {
+  @include ir2($hm170);
+}
+.hm171 {
+  @include ir2($hm171);
+}
+.hm172 {
+  @include ir2($hm172);
+}
+.hm173 {
+  @include ir2($hm173);
+}
+.hm174 {
+  @include ir2($hm174);
+}
+.hm175 {
+  @include ir2($hm175);
+}
+.hm176 {
+  @include ir2($hm176);
+}
+.hm177 {
+  @include ir2($hm177);
+}
+.hm178 {
+  @include ir2($hm178);
+}
+.hm179 {
+  @include ir2($hm179);
+}
+.hm180 {
+  @include ir2($hm180);
+}
+.hm181 {
+  @include ir2($hm181);
+}
+.hm182 {
+  @include ir2($hm182);
+}
+.hm183 {
+  @include ir2($hm183);
+}
+.hm184 {
+  @include ir2($hm184);
+}
+.hm185 {
+  @include ir2($hm185);
+}
+.hm186 {
+  @include ir2($hm186);
+}
+.hm187 {
+  @include ir2($hm187);
+}
+.hm188 {
+  @include ir2($hm188);
+}
+.hm189 {
+  @include ir2($hm189);
+}
+.hm190 {
+  @include ir2($hm190);
+}
+.hm191 {
+  @include ir2($hm191);
+}
+.hm192 {
+  @include ir2($hm192);
+}
+.hm193 {
+  @include ir2($hm193);
+}
+.hm194 {
+  @include ir2($hm194);
+}
+.hm195 {
+  @include ir2($hm195);
+}
+.hm196 {
+  @include ir2($hm196);
+}
+.hm197 {
+  @include ir2($hm197);
+}
+.hm198 {
+  @include ir2($hm198);
+}
+.hm199 {
+  @include ir2($hm199);
+}
+.hm200 {
+  @include ir2($hm200);
+}
+.hm201 {
+  @include ir2($hm201);
+}
+.hm202 {
+  @include ir2($hm202);
+}
+.hm203 {
+  @include ir2($hm203);
+}
+.hm204 {
+  @include ir2($hm204);
+}
+.hm205 {
+  @include ir2($hm205);
+}
+.hm206 {
+  @include ir2($hm206);
+}
+.hm207 {
+  @include ir2($hm207);
+}
+.hm208 {
+  @include ir2($hm208);
+}
+.hm209 {
+  @include ir2($hm209);
+}
+.hm210 {
+  @include ir2($hm210);
+}
+.hm211 {
+  @include ir2($hm211);
+}
+.hm212 {
+  @include ir2($hm212);
+}
+.hm213 {
+  @include ir2($hm213);
+}
+.hm214 {
+  @include ir2($hm214);
+}
+.hm215 {
+  @include ir2($hm215);
+}
+.hm216 {
+  @include ir2($hm216);
+}
+.hm217 {
+  @include ir2($hm217);
+}
+.hm218 {
+  @include ir2($hm218);
+}
+.hm219 {
+  @include ir2($hm219);
+}
+.hm220 {
+  @include ir2($hm220);
+}
+.hm221 {
+  @include ir2($hm221);
+}
+.hm222 {
+  @include ir2($hm222);
+}
+.hm223 {
+  @include ir2($hm223);
+}
+.hm224 {
+  @include ir2($hm224);
+}
+.hm225 {
+  @include ir2($hm225);
+}
+.hm226 {
+  @include ir2($hm226);
+}
+.hm227 {
+  @include ir2($hm227);
+}
+.hm228 {
+  @include ir2($hm228);
+}
+.hm229 {
+  @include ir2($hm229);
+}
+.hm230 {
+  @include ir2($hm230);
+}
+.hm231 {
+  @include ir2($hm231);
+}
+.hm232 {
+  @include ir2($hm232);
+}
+.hm233 {
+  @include ir2($hm233);
+}
+.hm234 {
+  @include ir2($hm234);
+}
+.hm235 {
+  @include ir2($hm235);
+}
+.hm236 {
+  @include ir2($hm236);
+}
+.hm237 {
+  @include ir2($hm237);
+}
+.hm238 {
+  @include ir2($hm238);
+}
+.hm239 {
+  @include ir2($hm239);
+}
+.hm240 {
+  @include ir2($hm240);
+}
+.hm241 {
+  @include ir2($hm241);
+}
+.hm242 {
+  @include ir2($hm242);
+}
+.hm243 {
+  @include ir2($hm243);
+}
+.hm244 {
+  @include ir2($hm244);
+}
+.hm245 {
+  @include ir2($hm245);
+}
+.hm246 {
+  @include ir2($hm246);
+}
+.hm247 {
+  @include ir2($hm247);
+}
+.hm248 {
+  @include ir2($hm248);
+}
+.hm249 {
+  @include ir2($hm249);
+}
+.hm250 {
+  @include ir2($hm250);
+}
+.hm251 {
+  @include ir2($hm251);
+}
+.hm252 {
+  @include ir2($hm252);
+}
+.hm253 {
+  @include ir2($hm253);
+}
+.hm254 {
+  @include ir2($hm254);
+}
+.hm255 {
+  @include ir2($hm255);
+}
+.hm256 {
+  @include ir2($hm256);
+}
+.hm257 {
+  @include ir2($hm257);
+}
+.hm258 {
+  @include ir2($hm258);
+}
+.hm259 {
+  @include ir2($hm259);
+}
+.hm260 {
+  @include ir2($hm260);
+}
+.hm261 {
+  @include ir2($hm261);
+}
+.hm262 {
+  @include ir2($hm262);
+}
+.hm263 {
+  @include ir2($hm263);
+}
+.hm264 {
+  @include ir2($hm264);
+}
+.hm265 {
+  @include ir2($hm265);
+}
+.hm266 {
+  @include ir2($hm266);
+}
+.hm267 {
+  @include ir2($hm267);
+}
+.hm268 {
+  @include ir2($hm268);
+}
+.hm269 {
+  @include ir2($hm269);
+}
+.hm270 {
+  @include ir2($hm270);
+}
+.hm271 {
+  @include ir2($hm271);
+}
+.hm272 {
+  @include ir2($hm272);
+}
+.hm273 {
+  @include ir2($hm273);
+}
+.hm274 {
+  @include ir2($hm274);
+}
+.hm275 {
+  @include ir2($hm275);
+}
+.hm276 {
+  @include ir2($hm276);
+}
+.hm277 {
+  @include ir2($hm277);
+}
+.hm278 {
+  @include ir2($hm278);
+}
+.hm279 {
+  @include ir2($hm279);
+}
+.hm280 {
+  @include ir2($hm280);
+}
+.hm281 {
+  @include ir2($hm281);
+}
+.hm282 {
+  @include ir2($hm282);
+}
+.hm283 {
+  @include ir2($hm283);
+}
+.hm284 {
+  @include ir2($hm284);
+}
+.hm285 {
+  @include ir2($hm285);
+}
+.hm286 {
+  @include ir2($hm286);
+}
+.hm287 {
+  @include ir2($hm287);
+}
+.hm288 {
+  @include ir2($hm288);
+}
+.hm289 {
+  @include ir2($hm289);
+}
+.hm290 {
+  @include ir2($hm290);
+}
+.hm291 {
+  @include ir2($hm291);
+}
+.hm292 {
+  @include ir2($hm292);
+}
+.hm293 {
+  @include ir2($hm293);
+}
+.hm295 {
+  @include ir2($hm295);
+}
+.hm296 {
+  @include ir2($hm296);
+}
+.hm297 {
+  @include ir2($hm297);
+}
+.hm298 {
+  @include ir2($hm298);
+}
+.hm299 {
+  @include ir2($hm299);
+}
+.hm300 {
+  @include ir2($hm300);
+}
 
-$네이버선거: "https://ssl.pstatic.net/sstatic/keypage/outside/scui/election_2021/img/sp_election_2021.png";
+.당마크 {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 3px;
+  margin-right: 10px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 30px;
+  position: relative;
+}
+.로고 {
+  position: absolute;
+  left: -70%;
+  top: -70%;
+  transform: scale(0.5);
+}
+.더불어민주당_로고_30x30 {
+  @include ir2-d($p1);
+}
+.국민의힘_로고_30x30 {
+  @include ir2-d($p2);
+}
+.정의당_로고_30x30 {
+  @include ir2-d($p3);
+}
 
-.비중조절 .MuiSvgIcon-root {
-  transform: scale(0.8);
+.국민의당_로고_30x30 {
+  @include ir2-d($p4);
+}
+
+.열린민주당_로고_30x30 {
+  @include ir2-d($p5);
+}
+
+.기본소득당_로고_30x30 {
+  @include ir2-d($p6);
+}
+.시대전환_로고_30x30 {
+  @include ir2-d($p7);
+}
+.무소속_로고_30x30 {
+  @include ir2-d($p8);
+  transform: scale(1);
+  background: #ccc;
+}
+.무소속_로고_30x30::before {
+  content: "무소속";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: black;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: -1px;
+}
+
+// 국회의원 사진
+.의원사진랩핑 {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 100%;
+}
+.의원사진 {
+  width: 117px;
+  height: 153px;
+  transform: scale(0.5);
+  position: absolute;
+  left: -50%;
+  top: -70%;
+}
+
+.mbc {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 10;
+  display: block;
+  width: 90px;
+  font-size: 0;
+  img {
+    width: 100%;
+  }
+}
+.비중조절 {
+  .MuiSvgIcon-root {
+    transform: scale(0.8);
+  }
+  .MuiChip-labelSmall {
+    padding-left: 0;
+  }
+}
+.랭크및라벨 {
+  margin-left: 0 !important;
+  letter-spacing: -1px;
+  .MuiChip-root {
+    margin-left: 4px;
+  }
 }
 .thumb {
   font-size: 0;
@@ -21,6 +1024,7 @@ $네이버선거: "https://ssl.pstatic.net/sstatic/keypage/outside/scui/election
   top: 0;
   box-sizing: border-box;
   opacity: 0.6;
+  z-index: 5;
 }
 .thumb.무소속::before {
   border-color: $무소속;
@@ -30,6 +1034,18 @@ $네이버선거: "https://ssl.pstatic.net/sstatic/keypage/outside/scui/election
 }
 .thumb.더불어민주당::before {
   border-color: $더불어민주당;
+}
+.thumb.정의당::before {
+  border-color: $정의당;
+}
+.thumb.열린민주당::before {
+  border-color: $열린민주당;
+}
+.wrap {
+  align-items: center;
+}
+.thumb {
+  height: 60px;
 }
 .thumb img {
   border-radius: 100%;
@@ -83,37 +1099,68 @@ $네이버선거: "https://ssl.pstatic.net/sstatic/keypage/outside/scui/election
   vertical-align: middle;
   border-radius: 3px;
   margin-right: 10px;
-}
-.더불어민주당_로고_30x30 {
-  background-image: url($네이버선거);
-  -webkit-background-size: 357px 320px;
-  background-size: 357px 320px;
-  background-repeat: no-repeat;
-  background-position: 0px -261px;
-  width: 30px;
   height: 30px;
-  background-color: #0c69b4;
+  img {
+    width: 30px;
+    object-fit: cover;
+  }
 }
-.국민의힘_로고_30x30 {
-  background-image: url($네이버선거);
-  -webkit-background-size: 357px 320px;
-  background-size: 357px 320px;
-  background-repeat: no-repeat;
-  background-position: -32px -261px;
-  width: 30px;
-  height: 30px;
-  background-color: #e61e2b;
+// .더불어민주당_로고_30x30 {
+//   background-color: #0c69b433;
+// }
+// .국민의힘_로고_30x30 {
+//   background-color: #ffdddf;
+// }
+// .무소속_로고_30x30 {
+//   position: relative;
+//   background-color: #898a8e;
+// }
+.당마크.무소속_로고_30x30::before {
+  content: "무소속";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: -1px;
+  text-shadow: 1px 1px 6px #000;
 }
-.무소속_로고_30x30 {
-  background-image: url($네이버선거);
-  -webkit-background-size: 357px 320px;
-  background-size: 357px 320px;
-  background-repeat: no-repeat;
-  background-position: -280px -87px;
-  width: 30px;
-  height: 30px;
-  background-color: #898a8e;
-}
+// .정의당_로고_30x30 {
+//   background-color: #f8eec9;
+// }
+// .열린민주당_로고_30x30 {
+//   background-color: #b4af0c33;
+// }
+// .더불어민주당_로고_30x30 {
+//   background-image: url($네이버선거);
+//   -webkit-background-size: 357px 320px;
+//   background-size: 357px 320px;
+//   background-repeat: no-repeat;
+//   background-position: 0px -261px;
+//   width: 30px;
+//   height: 30px;
+//   background-color: #0c69b4;
+// }
+// .국민의힘_로고_30x30 {
+//   background-image: url($네이버선거);
+//   -webkit-background-size: 357px 320px;
+//   background-size: 357px 320px;
+//   background-repeat: no-repeat;
+//   background-position: -32px -261px;
+//   width: 30px;
+//   height: 30px;
+//   background-color: #e61e2b;
+// }
+// .무소속_로고_30x30 {
+//   background-image: url($네이버선거);
+//   -webkit-background-size: 357px 320px;
+//   background-size: 357px 320px;
+//   background-repeat: no-repeat;
+//   background-position: -280px -87px;
+//   width: 30px;
+//   height: 30px;
+//   background-color: #898a8e;
+// }
 #roadview {
   width: 100%;
   height: 250px;
@@ -133,33 +1180,116 @@ html,
   padding: 12px;
   min-width: inherit;
 }
-#header {
-  padding-bottom: 20px;
-  position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    z-index: 3;
-    height: 5px;
-    padding: 0 20px;
-    left: -20px;
-    background: #fff;
-    bottom: 10px;
+
+#정당별갯수 {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  .wrapping {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 100%;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    .로고 {
+      left: -22px;
+      top: -22px;
+      transform: scale(0.3);
+    }
   }
-  &::before {
+  .타이틀 {
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: -1px;
+    text-align: center;
+    padding: 5px 0;
+    font-weight: bold;
+  }
+
+  .items {
+    position: relative;
+    text-align: left;
+  }
+  .items::after {
     content: "";
+    background: #eee;
     position: absolute;
-    width: 110%;
-    padding: 0 20px;
-    bottom: 10px;
-    left: -20px;
+    width: 90%;
     height: 1px;
-    z-index: 3;
-    box-shadow: 0 1px 3px #666;
+    display: block;
+    left: 5%;
+    bottom: 0;
+  }
+  .items .MuiButton-label {
+    position: relative;
+  }
+  ul li:last-child::after {
+    display: none !important;
+  }
+
+  .버튼 {
+    width: 100%;
+    justify-content: left;
+  }
+  .로고 {
+    img {
+      width: 20px;
+      object-fit: cover;
+    }
+  }
+  .로고 .정당이름 {
+    letter-spacing: -1px;
+  }
+  .로고.무소속 {
+    background-color: #ccc;
+  }
+  .wrap {
+    padding-left: 10px;
+    line-height: 1;
+    display: flex;
+    flex-flow: column;
+    font-size: 12px;
+    align-items: flex-start;
+    letter-spacing: -1px;
+  }
+  .카운터 {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .wrap.국민의힘 {
+    color: $국민의힘;
+  }
+  .wrap.더불어민주당 {
+    color: $더불어민주당;
+  }
+  .wrap.무소속 {
+    color: $무소속;
+  }
+  .wrap.정의당 {
+    color: $정의당;
+  }
+  .wrap.열린민주당 {
+    color: $열린민주당;
+  }
+  .wrap .카운터 .total {
+    position: relative;
+    color: #666;
+    font-weight: normal;
+    font-size: 16px;
+    padding-left: 10px;
+    vertical-align: middle;
+  }
+  .wrap .카운터 .total::before {
+    content: "/";
+    position: absolute;
+    left: 4px;
+    top: 1px;
   }
 }
-
 .ContentsWrap {
   overflow: hidden;
   height: 100%;
@@ -169,38 +1299,121 @@ html,
   flex-direction: column;
   position: relative;
   z-index: 2;
+
   box-shadow: 5px -4px 13px #666;
+  .MuiFormControl-fullWidth {
+    background: rgba(255, 255, 255, 0.69);
+    border-radius: 4px;
+  }
+
   .banner {
     position: relative;
-    color: transparent;
-    height: 200px;
+    height: 150px;
+    padding-top: 50px;
+    box-sizing: border-box;
     margin: -20px;
-    background: url("https://image.imnews.imbc.com/newszoomin/groupnews/__icsFiles/artimage/2020/06/03/groupnews_a/thum.png");
-    background-size: cover;
-    background-position: center;
+    text-align: center;
+    .한자 {
+      display: block;
+      height: 3vw;
+      background-position: center center;
+      background-size: 18vw auto;
+      background-repeat: no-repeat;
+      color: transparent;
+    }
+    .sub-test {
+      opacity: 0.6;
+      height: 2.3vw;
+      color: transparent;
+      background: url("../imgs/banner-text2.png") no-repeat center center;
+      background-size: 20vw auto;
+    }
   }
-  .banner::after {
+}
+#header {
+  background: url("../imgs/banner.png");
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 10;
+  margin: -20px;
+  padding: 0 20px;
+  box-shadow: 1px 1px 3pc #ccc;
+  //   &::after {
+  //     content: "";
+  //     position: absolute;
+  //     width: 100%;
+  //     z-index: 3;
+  //     height: 2px;
+  //     padding: 0 20px;
+  //     left: -20px;
+  //     background: #fff;
+  //     bottom: 0;
+  //   }
+  &::before {
+    content: "";
+    position: absolute;
+    width: 110%;
+    padding: 0 20px;
+    bottom: 0;
+    left: -20px;
+    height: 1px;
+    z-index: 3;
+    box-shadow: 0 1px 3px #666;
+  }
+  &::after {
     content: "";
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0), #ffffff 100%);
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 40%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    opacity: 0.8;
+  }
+  .필터버튼 {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 10px 0;
+    .MuiButtonGroup-root {
+      width: 100%;
+    }
+    button {
+      font-size: 13px;
+      line-height: 1;
+      padding: 10px 20px;
+      white-space: nowrap;
+      flex: 1;
+      letter-spacing: -0.05em;
+    }
+  }
+  .all button:nth-child(1),
+  .보유수 button:nth-child(2),
+  .총필지면적 button:nth-child(3),
+  .필지가격 button:nth-child(4),
+  .평당가 button:nth-child(5) {
+    background: #777;
+    color: #fff;
   }
 }
-// 검색 영역
+///// 필터버튼
+
+//////////////// 검색 영역
 .search {
   position: relative;
+  z-index: 9;
   .all {
     position: absolute;
     right: 0;
     top: -40px;
     border-radius: 4px;
   }
-}
-// 지도 클릭 툴팀
-.mapclick-tooltip {
 }
 
 .custom-layer-tooltip {
@@ -245,8 +1458,12 @@ html,
     }
   }
 }
-
+///////////////////// 디테일
 .detail {
+  margin-top: 20px;
+  .답변원문 {
+    margin-top: 10px;
+  }
   .헤드라인 {
     position: relative;
     font-size: 1.2rem;
@@ -262,14 +1479,25 @@ html,
       margin-bottom: 10px;
       border-bottom: solid 1px #ddd;
     }
+    .thumb-wrap {
+      overflow: hidden;
+    }
     .thumb {
+      display: block;
+      overflow: hidden;
       margin-right: 10px;
       height: 60px;
+      width: 60px;
+      border-radius: 100%;
+      img {
+        object-fit: cover;
+      }
     }
     .기본정보묶기 {
       justify-content: center;
       display: flex;
       flex-flow: column;
+      flex: 1 1;
     }
     .이름 {
       font-size: 20px;
@@ -289,14 +1517,57 @@ html,
       top: 0;
     }
   }
+  .농지법라벨 {
+    margin: 10px 0 5px;
+  }
+  .농지법라벨 .MuiChip-root {
+    margin: 3px;
+  }
+  .기타 {
+    display: block;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+
   .주소감싸미 {
     color: #666;
+    line-height: 1;
+    margin-bottom: 10px;
     strong {
       color: #000;
     }
     .주소 {
       font-size: 14px;
+    }
+  }
+  .소제목 {
+    display: flex;
+    font-size: 16px;
+    margin: 30px 0 10px;
+    border-bottom: solid 1px #ddd;
+    padding-bottom: 10px;
+    svg {
+      margin-right: 5px;
+    }
+  }
+
+  .텍스트리스트 {
+    font-size: 14px;
+    li {
+      margin: 5px 0;
+      position: relative;
       padding-left: 10px;
+    }
+    li::before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 4px;
+      height: 4px;
+      left: 0;
+      top: 9px;
+      background: #333;
+      border-radius: 100%;
     }
   }
   #roadview {
@@ -355,18 +1626,97 @@ html,
   border-right: 20px solid transparent;
   border-top: 20px solid #fff;
 }
-
-// 의원 검색 결과
+#footer {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  font-size: 12px;
+  color: #000;
+}
+///////////// 의원 검색 결과
 .router-contents {
   position: relative;
   overflow: auto;
-  margin: -10px -20px 0 -20px;
+  margin: 10px -20px 0 -20px;
   padding: 0 20px;
   flex-grow: 1;
   height: 300px;
   background: #efefef;
+  .농지법대상 {
+    color: red;
+    display: block;
+  }
   .list {
     margin: 20px 0;
+    &.전체보기 {
+      .소유 {
+      }
+    }
+    .면적 {
+      font-size: 12px;
+      letter-spacing: -0.5px;
+      margin: 0 5px;
+    }
+    .농지무소유 {
+      opacity: 0.5;
+    }
+    .랭킹 {
+      margin-top: -2px;
+      margin-bottom: 5px;
+    }
+    .랭킹.primary.n2 {
+      background-color: rgba(63, 81, 181, 0.9);
+    }
+    .랭킹.primary.n3 {
+      background-color: rgba(63, 81, 181, 0.8);
+    }
+    .랭킹.primary.n4 {
+      background-color: rgba(63, 81, 181, 0.7);
+    }
+    .랭킹.primary.n5 {
+      background-color: rgba(63, 81, 181, 0.6);
+    }
+    .랭킹.secondary.n2 {
+      background-color: rgba(181, 63, 63, 0.9);
+    }
+    .랭킹.secondary.n3 {
+      background-color: rgba(181, 63, 63, 0.8);
+    }
+    .랭킹.secondary.n4 {
+      background-color: rgba(181, 63, 63, 0.7);
+    }
+    .랭킹.secondary.n5 {
+      background-color: rgba(181, 63, 63, 0.6);
+    }
+    .랭킹.n6,
+    .랭킹.n7,
+    .랭킹.n8,
+    .랭킹.n9,
+    .랭킹.n10 {
+      background-color: #a19d9d;
+      .MuiChip-labelSmall {
+        color: #fff;
+      }
+    }
+    .MuiChip-colorSecondary {
+      background-color: #4cb4b9;
+    }
+    .MuiChip-colorPrimary {
+      background-color: #6e79b6;
+    }
+
+    .보유수 {
+      color: red;
+      margin-left: 5px;
+    }
+    .가액변동 {
+      display: inline-block;
+      margin-left: 10px;
+      color: #3f51b5;
+      svg {
+        vertical-align: middle;
+      }
+    }
     .지역구 {
       color: #666;
       font-size: 13px;
@@ -390,36 +1740,247 @@ html,
       margin-bottom: 5px;
     }
   }
-  // 의원 검색 > 리스트
-  .list.search {
-    .MuiCardContent-root {
-      padding: 16px 0;
+}
+.detail {
+  margin-top: 30px;
+  padding: 10px;
+  .context {
+    font-size: 14px;
+    color: #666;
+    li {
+      margin: 10px 0;
+      word-break: break-all;
     }
-    .MuiCardMedia-img {
-      display: none;
+  }
+  .영농계획뷰 {
+    line-height: 1.6;
+    span {
+      color: $더불어민주당;
     }
-    .wrap {
-      justify-content: left;
+    .장비보유 {
+      padding-top: 5px;
     }
-    .thumb::before {
-      display: none;
+  }
+  .뒤로가기 {
+    margin-top: 20px;
+    letter-spacing: -1px;
+    .MuiButtonBase-root {
+      color: #fff;
+      background-color: #777;
+    }
+  }
+  .답변link {
+    word-break: break-all;
+    font-size: 12px;
+  }
+}
+
+#범례영역 {
+  position: absolute;
+  width: 100%;
+  left: 10px;
+  bottom: 10px;
+  z-index: 10;
+  $var: 20px;
+  width: calc(100% - #{$var});
+  .wrap {
+    position: relative;
+  }
+  #zooinOut {
+    position: absolute;
+    left: 0;
+    bottom: 90px;
+    z-index: 10;
+    button {
+      background: #fff;
     }
   }
 }
-.detail {
-  margin-top: 20px;
-  padding: 10px;
+#요약농지 {
 }
 
+@media (max-width: 1280px) {
+  .ContentsWrap .banner {
+  }
+  .ContentsWrap .banner .한자 {
+    height: 4vw;
+    background-size: 24vw auto;
+  }
+  .ContentsWrap .banner .sub-test {
+    background-size: 28vw auto;
+  }
+}
+@media (max-width: 960px) {
+  #header {
+    padding-top: 10px;
+    background: none;
+  }
+  .ContentsWrap .banner {
+    display: none;
+  }
+  .모바일햄버거 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 11;
+    .MuiFab-sizeSmall {
+      background-color: #6e79b6;
+      color: #fff;
+    }
+    .MuiFab-root:hover {
+      background-color: #42496e;
+      color: #fff;
+    }
+  }
+  #정당별갯수 {
+    display: none;
+  }
+  #정당별갯수.active {
+    display: block;
+  }
+}
+@media (max-width: 840px) {
+}
 @media (max-width: 600px) {
   #app {
     flex-direction: column;
   }
   #map {
-    height: 80%;
+    //height: 100%;
   }
   #container {
-    height: 20%;
     flex-basis: auto;
+  }
+  // 라우터 컨텐츠 랩
+  .ContentsWrap {
+    padding: 10px 10px 0 10px;
+    .router-contents {
+      height: auto;
+    }
+  }
+  #detail-wrap {
+    margin-top: -10px;
+  }
+
+  .router-contents .list {
+    margin: 10px 0;
+  }
+  // 맵 전체 줌버튼
+  #btn-zoom {
+    padding: 5px;
+  }
+
+  // 검색배너
+  #header {
+    padding-top: 10px;
+    .banner {
+      display: none;
+    }
+    // 검색콤보박스
+    .search {
+      display: flex;
+      flex-direction: row-reverse;
+      padding-top: 10px;
+      .all {
+        position: relative;
+        right: 0;
+        top: 0;
+        height: 38px;
+        margin-left: 10px;
+      }
+    }
+    // 의원리스트
+    .router-contents .list {
+      margin: 10px 0;
+    }
+  }
+  .MuiAutocomplete-root {
+    flex: 1px;
+    .MuiInputLabel-outlined {
+      transform: translate(14px, 12px) scale(1);
+    }
+  }
+  // 상세
+  #detail-wrap {
+    height: 200px;
+  }
+  // 리스트 페이지 네비게이션
+  #list-util {
+    display: flex;
+    border: solid 1px #eee;
+    background: #fff;
+    border-bottom: 0;
+    border-radius: 7px 7px 0 0;
+    .swiper-button-disabled {
+      opacity: 0.3;
+    }
+    .list-util-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .게이지 {
+    }
+  }
+  // 맵 > 툴팁
+  .custom-layer-tooltip {
+    min-width: 350px;
+    white-space: normal;
+  }
+
+  // 정당별토지소유
+  #정당별갯수 {
+    .카운터 {
+      letter-spacing: -1px;
+      font-size: 20px;
+    }
+
+    .타이틀,
+    .wrap .정당이름 {
+      display: none;
+    }
+  }
+  #header {
+    background: none;
+  }
+  #정당별갯수 {
+    // display: none;
+  }
+  #zooinOut {
+    display: none;
+  }
+  #footer {
+    font-size: 11px;
+  }
+  .swiper-slide-items {
+    width: 300px;
+  }
+  .swiper-slide {
+    width: auto;
+  }
+  .swiper-container {
+    margin: 10px -10px 0 -10px;
+  }
+  .swiper-wrapper .MuiCardContent-root {
+    padding: 10px 16px;
+  }
+  .router-contents .list .MuiCardActions-root {
+    padding-top: 0;
+  }
+  .swiper-slide .MuiCardActions-spacing > :not(:first-child) {
+    margin-left: 4px;
+  }
+
+  .custom-layer-tooltip .parag {
+    padding: 0;
+    width: 100%;
+  }
+  .mbc {
+    width: 60px;
+  }
+}
+@media (max-width: 320px) {
+  .custom-layer-tooltip {
+    min-width: 300px;
   }
 }

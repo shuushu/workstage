@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H5RTVW0LQE"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
 
-      gtag("config", "G-H5RTVW0LQE");
-    </script>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <!-- meta정보 -->
-    <meta name="title" content="여론조사를 팩트체크하다" />
-    <meta name="url" content="http://poll-mbc.co.kr" />
-    <meta name="description" content="들쭉날쭉한 여론조사, 어떤 게 맞을까요?" />
-    <meta itemprop="name" content="여론조사를 팩트체크하다" />
-    <meta itemprop="image" content="//image.imnews.imbc.com/newszoomin/groupnews/groupnews_16/thum.png" />
-    <!-- OG-info -->
-    <meta property="og:site_name" content="MBC NEWS" />
-    <meta property="article:publisher" content="https://www.facebook.com/MBCnews" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="fb:app_id" content="692275414241491" />
-    <meta name="twitter:site" content="@mbcnews" />
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H5RTVW0LQE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
 
-    <meta property="og:url" content="http://poll-mbc.co.kr" />
-    <meta property="og:title" content="여론조사를 팩트체크하다" />
-    <meta property="og:description" content="들쭉날쭉한 여론조사, 어떤 게 맞을까요?" />  
-    <meta property="og:image" content="https://mbctamsa.cafe24.com/thumb.png" />  
+    gtag("config", "G-H5RTVW0LQE");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <!-- meta정보 -->
+  <meta name="title" content="여의도 농부 80명" />
+  <meta name="url" content="http://nz.assembly-mbc.com/" />
+  <meta name="description" content="무늬만 농부는 누구?" />
+  <meta itemprop="name" content="여의도 농부 80명" />
+  <meta itemprop="image" content="//image.imnews.imbc.com/newszoomin/groupnews/groupnews_16/thum.png" />
+  <!-- OG-info -->
+  <meta property="og:site_name" content="MBC NEWS" />
+  <meta property="article:publisher" content="https://www.facebook.com/MBCnews" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="fb:app_id" content="692275414241491" />
+  <meta name="twitter:site" content="@mbcnews" />
 
-    <link rel="shortcut icon" type="image/x-icon" href="//image.imnews.imbc.com/page/include/images/favicon.ico" />
-    <link rel="apple-touch-icon" href="//image.imnews.imbc.com/page/include/images/favicon.ico" />
-    <!--
+  <meta property="og:url" content="http://nz.assembly-mbc.com/" />
+  <meta property="og:title" content="여의도 농부 80명" />
+  <meta property="og:description" content="무늬만 농부는 누구?" />
+  <meta property="og:image" content="http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/img_640X360.png" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="//image.imnews.imbc.com/page/include/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="//image.imnews.imbc.com/page/include/images/favicon.ico" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
-    <!--
+  <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -50,13 +50,225 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>농지</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2689abe58499de84e51c75f4f5167cb9&libraries=services,clusterer"></script>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+
+
+    #popup {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      cursor: pointer;
+      transition: all 1s;
+    }
+    #popup.hide{
+      opacity: 0;
+    }
+
+    .contents {
+      position: relative;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      flex-flow: column;
+      color: #fff;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .bg {
+      position: absolute;
+      width: 100%;
+      height: 250%;
+      left: 0;
+      bottom: -25vw;
+      background: url('//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/pop-bg.jpg') no-repeat center bottom #000;
+      background-size: 100% auto;
+
+    }
+
+    .parag {
+      padding: 10px 0;
+      line-height: 1.5;
+      font-size: 15px;
+
+      width: 50%;
+
+    }
+
+    .noti {
+      display: block;
+      color: #999;
+      font-size: 14px;
+      width: 50%;
+    }
+
+    #popup h1 {
+      color: transparent;
+      background: url(//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/pop-t1.png) no-repeat left center;
+      height: 50px;
+      width: 50%;
+      background-size: contain;
+    }
+
+    #popup .t2 {
+      color: transparent;
+      background: url(//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/pop-t2.png) no-repeat left center;
+      height: 18px;
+      width: 50%;
+      background-size: contain;
+      margin: 15px 0;
+
+    }
+
+    #popup .t3 {
+      color: transparent;
+      background: url(//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/pop-t3-1.png) no-repeat left center;
+      height: 50px;
+      width: 50%;
+      background-size: auto 100%;
+      margin: 30px 0 20px 0;
+    }
+    .mouse{
+      position: absolute;
+      width: 100px;
+      background-color:rgba(0,0,0,.3);
+      top: 45%;
+      margin-top: -50px;
+
+      left: 50%;
+      margin-left: -50px;
+      height: 100px;
+      display: flex;
+      z-index: 10;
+      color:#fff;
+      justify-items: center;
+      align-items: center;
+    }
+
+   .mouse .circle{
+      width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    border-radius: 100%;
+    background: rgba(255,255,255,.3);
+    animation: 2s slidein2 infinite;    
+    }
+    .mouse .svg-wrap{
+      position: relative;
+      margin: 0 auto;
+      width: 50px;
+      height: 50px;
+    }
+    .mouse svg{
+    position: absolute;
+    animation: 2s slidein infinite;          
+    }    
+    .mouse path{
+      fill: #fff;
+    }
+    @keyframes slidein2 {
+  0%  { transform: scale(1); }
+  50% { transform: scale(0.8); }
+  100%   { transform: scale(1); }
+}
+@keyframes slidein {
+  0%  { transform: scale(0.9); }
+  50% { transform: scale(1); }
+  100%   { transform: scale(0.9); }
+}
+@media (max-width: 813px) {
+  #popup h1,
+  #popup .t3{
+    height:32px
+    }
+  #popup h1,
+  #popup .t2,
+  #popup .t3,
+  .noti,
+  .parag {
+    width: 90%
+  }
+  #popup .t3{
+  }
+
+}
+  @media (max-width: 600px) {
+
+    .pc{
+      display: none;
+    }
+    #popup{
+    }
+    .contents{      
+      overflow: auto;
+      justify-content: normal;
+      padding: 50px 0
+    }
+  }
+  </style>
+  <title>여의도 농부 80명</title>
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2689abe58499de84e51c75f4f5167cb9&libraries=services,clusterer"></script>
+  <!-- <script type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%PUBLIC_KEY%&libraries=services,clusterer"></script> -->
+  <script>
+    function hide(target) {
+      target.className = 'hide';
+      setTimeout(() => {
+        target.style.display = 'none';
+        document.body.removeChild(document.getElementById('popup'));
+      }, 1000)
+    }
+  </script>
+
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+ <div id="popup" onclick="hide(this)">
+    <div class="contents">
+      <h1 class="p1">여의도 농부 80명.</h1>
+      <h2 class="t2">국회의원 80명이 농지를 갖고 있습니다.</h2>
+      <p class="noti">*2021.03.25 공개한 국회의원 재산신고 기준 (본인·배우자·자녀가 소유한 전, 답, 과수원)
+      </p>
+      <p class="parag">네 명 중 한 명 꼴입니다. 이들이 신고한 농지는 총 308필지, 40만3,100.76㎡(12만1,938평)입니다. 금액으로는 160억 원입니다. <span class="pc">1인당 5,038.6㎡ (2,439평), 2억 원 꼴입니다.</span></p>
+      <h2 class="t3">경자유전(耕者有田)<span class="pc"></span></h2>
+      <p class="parag">농지는 헌법의 경자유전 원칙에 따라 농사를 짓는 사람만 소유할 수 있습니다. 농지는 식량 안보 등 공익적 기능을 수행하고 있는 중요한 자원이기도 하고요. 투기의 수단으로 악용되는 것을 막기 위해서입니다.</p>
+      <p class="parag">규제가 까다로운데 어떻게 이렇게 많은 국회의원들이 농지를 소유하고 있는 걸까요? <span class="pc">우리나라 농가 전체의 절반 정도가 농지가 없거나 0.5ha(5,000㎡, 약 1500평) 이하를 소유하고 있는 것을 감안하면 적은 수가
+      아닙니다.</span></p>
+      <p class="parag">MBC는 <span class="pc">농지를 소유하고 있는 의원</span> 80명 의원 전부에게 농지 취득 경위와 활용 현황을 물었습니다.</p>
+      <p class="parag">가짜 농부가 있는지 답변을 꼼꼼히 검증하고 있는데요. 여러분도 함께 검증해주세요.</p>
+      <p class="noti">* 농업인만 농지를 취득할 수 있지만, 예외 사항도 있습니다. 상속을 받은 경우는 자경 의무가 부여되지 않고요. 1996년 농지법 시행 이전에 취득한 농지는 이런 규제를 받지 않습니다.</p>
+    </div>
+    <div class="mouse">
+      <div class="circle">
+      </div>
+      <div class="svg-wrap">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74c-3.6-.76-3.54-.75-3.67-.75-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z">
+            </path>
+          </svg>
+          </div>
+    </div>
+    
+    <div class="bg"></div>
+  </div>
+
+
+
+
+
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -66,5 +278,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

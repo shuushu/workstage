@@ -3,9 +3,12 @@
   "version": "0.1.1",
   "private": true,
   "homepage": "./",
+  "devKey": "2689abe58499de84e51c75f4f5167cb9",
+  "buildKey" : "03a704a6c4180ed9784211785e6ffc0b",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "sprite": "gulp sprite"
   } 
 }
