@@ -384,7 +384,7 @@ function App() {
                 <br />
                 리서처 김민경, 정다현, 구나연, 이승주
                 <br />
-                제보/문의 <a href="mailto:seul@mbc.co.k r">seul@mbc.co.k r</a>
+                제보/문의 <a href="mailto:seul@mbc.co.kr">seul@mbc.co.kr</a>
               </footer>
               {window.innerWidth <= 812 && <정당별카운터버튼 />}
 

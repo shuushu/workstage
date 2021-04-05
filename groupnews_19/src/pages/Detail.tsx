@@ -124,15 +124,16 @@ const Detail = (props) => {
 
                 return (
                     <div className="context 영농계획뷰">
-                        <span className="강조">{target["취득 목적"]} </span>을 위해 농지를 취득하겠다고 밝힌
-                        <span className="강조">{name}</span>의원는
-                        <span className="강조">{target["영농 착수 시기"]} </span>부터
-                        <span className="강조">{노동력}</span>으로 <span className="강조">{target["영농 착수 시기"]}</span>농사 를 지을 예정이라고
+                        <span className="강조">{target["취득 목적"]}</span>을/를 위해 농지를 취득하겠다고 밝힌
+                        <span className="강조"> {name}</span>의원는
+                        <span className="강조"> {target["영농 착수 시기"]}</span>부터
+                        <span className="강조"> {노동력}</span>으로
+                        <span className="강조"> {target["영농 착수 시기"]} </span>농사를 지을 예정이라고
                         <span className="강조">{취득연도}</span>에 농업경영계획서를 제출했습니다.
                         <div className="장비보유">
-                            농업 장비로는 <span className="강조"> {target["장비 보유현황"] === '' ? '-' : target["장비 보유현황"]}</span>을 갖고 있으며
-                                <span className="강조"> {target["장비 보유계획"] === '' ? '-' : target["장비 보유계획"]}</span>을 <span className="강조"> {target["장비 보유계획2"] === '' ? '-' : target["장비 보유계획2"]}</span>로 마련할 계획이라고 밝혔습니다.
-                            <div>* 자세한 내용은 <a href={`//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/nc/${index}.pdf`}>농지취득자격증명서</a>과 <a href={`//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/gh/${index}.pdf`}>농업경영계획서</a>를 참고하세요.</div>
+                            농업 장비로는 <span className="강조"> {target["장비 보유현황"] === '' ? '-' : target["장비 보유현황"]}</span>을/를 갖고 있으며
+                                <span className="강조"> {target["장비 보유계획"] === '' ? '-' : target["장비 보유계획"]}</span>을/를 <span className="강조"> {target["장비 보유계획2"] === '' ? '-' : target["장비 보유계획2"]}</span>로 마련할 계획이라고 밝혔습니다.
+                            <div>* 자세한 내용은 <a href={`//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/nc/${index}.pdf`} target="_blank">농지취득자격증명서</a>과 <a href={`//image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/gh/${index}.pdf`} target="_blank">농업경영계획서</a>를 참고하세요.</div>
                         </div>
                     </div>
 
