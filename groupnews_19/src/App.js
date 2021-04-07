@@ -20,7 +20,6 @@ import { setDataPerson } from "./asset/data/person";
 import GroupAutoComplete from "../../components/GroupAutoComplete.tsx";
 import { 정당별토지카운터 } from "./components/정당별토지안내.tsx";
 import { ResultSearchItem } from "./components/데이터필터.tsx";
-import { 의원별농지시각화 } from "./components/의원별농지시각화.tsx";
 import 리스트필터버튼 from "./components/리스트필터버튼.tsx";
 // 기타
 import { Detail } from "./pages/Detail.tsx";

@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 
 // pages
-import { ImgMediaCard } from "../pages/List.tsx";
+import { List } from "../pages/List.tsx";
 
 // Import Swiper styles
 import "swiper/swiper.scss";
@@ -62,7 +62,7 @@ const ResultSearchItem = (props) => {
         const 토지키 = v.estate.map(v => `${v.index}_${v.index_2}`)
 
         return (
-            <ImgMediaCard
+            <List
                 {...v}
                 handleClick={handleClick}
                 size={getData.length - 1}
@@ -72,7 +72,7 @@ const ResultSearchItem = (props) => {
                 { v['가격랭크'] !== null && <Chip onClick={() => { }} className={`랭킹 n${i}`} size="small" label={`총 신고가액 ${v['가격랭크']}위`} />}
                 { v['넓이랭크'] !== null && <Chip color="primary" onClick={() => { }} className={`랭킹 n${i}`} size="small" label={`면적 기준 ${v['넓이랭크']}위`} />}
                 { v['평당랭크'] !== null && <Chip color="secondary" onClick={() => { }} className={`랭킹 n${i}`} size="small" label={`평당가격 ${v['평당랭크']}위`} />}
-            </ImgMediaCard>
+            </List>
         );
     };
 

@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Chip from "@material-ui/core/Chip";
 
@@ -15,7 +14,7 @@ import Language from "@material-ui/icons/Language"; // Language [답]
 import FaceIcon from "@material-ui/icons/Face";
 
 const g: any = global;
-const ImgMediaCard = (props) => {
+const List = (props) => {
     const { name, party_new, region2, handleClick, index, index_2, size, children, type } = props;
     const 농지소유여부 = props.estate.length > 0;
     const history = useHistory();
@@ -182,4 +181,4 @@ const ImgMediaCard = (props) => {
         </>
     );
 }
-export { ImgMediaCard }
+export { List }
