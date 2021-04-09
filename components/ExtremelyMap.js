@@ -26,37 +26,44 @@ function Map() {
         [132, 39],
       ],
     });
-    //shuushu.ak4o6zr0
-    //http://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v8/14/4823/6160.mvt?access_token=<your access token>
 
     let hoveredStateId = null;
-    let lastFeatureId;
     map.on("load", () => {
-      map.addSource("시군", {
-        type: "vector",
-        url: "mapbox://mapbox.mapbox-streets-v5,shuushu.ak4o6zr0",
-      });
-      // map.addLayer({
-      //   id: "시군벡터",
-      //   type: "line",
-      //   source: "시군",
-      //   "source-layer": "sisi-61f5i6",
-      //   layout: {
-      //     "line-join": "round",
-      //     "line-cap": "round",
-      //   },
-      //   paint: {
-      //     "line-color": "#ff69b4",
-      //     "line-width": [
-      //       "case",
-      //       ["boolean", ["feature-state", "hover"], false],
-      //       3,
-      //       1,
-      //     ],
-      //   },
+      // map.addSource("시군", {
+      //   type: "vector",
+      //   url: "mapbox://mapbox.mapbox-streets-v5,shuushu.ak4o6zr0",
       // });
 
-      map.on("mouseenter", "si", function (e) {
+      map.addSource("SIDO", 행정구역시도);
+      map.addLayer({
+        id: "SIDO-fill-Layer",
+        type: "fill",
+        source: "SIDO",
+        paint: {
+          "fill-color": "black",
+          "fill-opacity": 0.1,
+        },
+      });
+      map.addLayer({
+        id: "SIDO-line-Layer",
+        type: "line",
+        source: "SIDO",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#777",
+          "line-width": [
+            "case",
+            ["boolean", ["feature-state", "hover"], false],
+            1,
+            0.1,
+          ],
+        },
+      });
+
+      map.on("mouseenter", "SIDO-fill-Layer", function (e) {
         if (e.features.length > 0) {
           console.log(e.features[0]);
           /*  map.addSource("TEST", {
@@ -78,7 +85,7 @@ function Map() {
           }); */
         }
       });
-      map.on("mousemove", "si", function (e) {
+      map.on("mousemove", "SIDO-fill-Layer", function (e) {
         ///
         //
         console.log(e);
@@ -86,9 +93,9 @@ function Map() {
           if (hoveredStateId !== null) {
             map.setFeatureState(
               {
-                source: "시군",
+                source: "SIDO",
                 id: hoveredStateId,
-                sourceLayer: "sisi-61f5i6",
+                //sourceLayer: "sisi-61f5i6",
               },
               { hover: false }
             );
@@ -96,21 +103,21 @@ function Map() {
           hoveredStateId = e.features[0].id;
           map.setFeatureState(
             {
-              source: "시군",
+              source: "SIDO",
               id: hoveredStateId,
-              sourceLayer: "sisi-61f5i6",
+              //sourceLayer: "sisi-61f5i6",
             },
             { hover: true }
           );
         }
       });
-      map.on("mouseleave", "si", function () {
+      map.on("mouseleave", "SIDO-fill-Layer", function () {
         if (hoveredStateId !== null) {
           map.setFeatureState(
             {
-              source: "시군",
+              source: "SIDO",
               id: hoveredStateId,
-              sourceLayer: "sisi-61f5i6",
+              //sourceLayer: "sisi-61f5i6",
             },
             { hover: false }
           );
