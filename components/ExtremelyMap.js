@@ -5,8 +5,6 @@ import { 행정구역시도 } from "../example/geoData/행정구역_시도";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2h1dXNodSIsImEiOiJja241YWpkc20wMTZ1MzBxdmYwNnVoNGdqIn0.09g5XcsdpaWW1UyrMU6o2Q";
-const KEY = "E67C3AC5-B75A-39CE-85A3-375C132523FB";
-const DOMAIN = "localhost:3000";
 const MapContainer = styled.div`
   display: flex;
   width: 100%;
@@ -14,11 +12,17 @@ const MapContainer = styled.div`
 `;
 // 단계별 색상 채우기
 function generatorColorSteopExpressions(name, color) {
-  const dyColor = (v) => {
-    let result;
-    let caclu = Math.round(Number(v) / 700);
-    let value = caclu >= 255 ? 0 : 255 - caclu;
-
+  const dyColor = (범위값) => {
+    let result, value;
+    switch (범위값) {
+      case 30000: value = 200; break;
+      case 50000: value = 160; break;
+      case 70000: value = 80; break;
+      case 100000: value = 50; break;
+      case 150000: value = 30; break;
+      case 350000: value = 0; break;
+      default: value = 230; break;
+    }
     switch (color) {
       case "red":
         result = `rgb(255,${value},${value})`;
@@ -38,18 +42,14 @@ function generatorColorSteopExpressions(name, color) {
     }
     return result;
   };
-  const values = ["170000", "150000", "100000", "80000", "60000", "40000", "20000", "10000", "5000", "1000"];
-
+  const values = [30000, 50000, 70000, 100000, 150000, 350000];
   let temp = ["case"];
-
   // 값이 단계가 세분화 되어 표현할 때
-  values.forEach((v, i) => {
-    console.log(name, i, v)
-    temp.push([">=", ["get", name], v]);
-    temp.push(dyColor(v));
+  values.forEach((범위값) => {
+    temp.push(["<", ["to-number", ["get", name]], 범위값]);
+    temp.push(dyColor(범위값));
   });
-  //temp.push("black");
-  temp.push(dyColor(1000));
+  temp.push(dyColor(1));
   return temp;
 }
 
@@ -70,7 +70,7 @@ function drawSI(map, hoveredStateId) {
         "green",
         ["==", ["get", "개표결과"], "정의당심상정"],
         "yellow",
-        "black",
+        "white",
       ],
       "fill-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.5, 10, 0],
     },
@@ -146,6 +146,7 @@ function drawGU(map, hoveredStateId) {
       return generatorColorSteopExpressions(정당, 컬러);
     });
   })();
+
   map.addLayer({
     id: "GU-fill-Layer",
     type: "fill",
@@ -155,23 +156,7 @@ function drawGU(map, hoveredStateId) {
       "fill-color": [
         "case",
         ["==", ["get", "19대대선구시군_개표결과"], "자유한국당홍준표"],
-        [
-          "case",
-          ["<", ["get", "19대대선구시군_자유한국당홍준표"], "471"],
-          "yellow",
-          ["<", ["get", "19대대선구시군_자유한국당홍준표"], "12666"],
-          "orange",
-          ["<", ["get", "19대대선구시군_자유한국당홍준표"], "29739"],
-          "green",
-          ["<", ["get", "19대대선구시군_자유한국당홍준표"], "51613"],
-          "pink",
-          ["<", ["get", "19대대선구시군_자유한국당홍준표"], "86026"],
-          "rgb(255,100,100)",
-          ["<", ["get", "19대대선구시군_자유한국당홍준표"], "165781"],
-          "rgb(255,255,255)",
-          "rgb(255,20,20)",
-        ],
-        //[...정당별컬러스텝[0]],
+        [...정당별컬러스텝[0]],
         ["==", ["get", "19대대선구시군_개표결과"], "더불어민주당문재인"],
         [...정당별컬러스텝[1]],
         ["==", ["get", "19대대선구시군_개표결과"], "국민의당안철수"],
@@ -180,7 +165,7 @@ function drawGU(map, hoveredStateId) {
         [...정당별컬러스텝[3]],
         "black",
       ],
-      "fill-opacity": ["step", ["zoom"], 0.9, 11, 0],
+      "fill-opacity": ["step", ["zoom"], 0.5, 11, 0],
     },
   });
   map.addLayer({
@@ -203,8 +188,25 @@ function drawGU(map, hoveredStateId) {
       "line-opacity": ["step", ["zoom"], 1, 11, 0],
     },
   });
+
+  map.addLayer({
+    id: "SIDO-line-Layer2",
+    type: "fill",
+    source: "SIDO",
+    paint: {
+      "fill-opacity": [
+        "step", ["zoom"], [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          0.2,
+          0,
+        ], 11, 0
+      ],
+    },
+
+  });
   map.on("mousemove", "GU-fill-Layer", function (e) {
-    console.log(e.features[0])
+
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
         map.setFeatureState(
@@ -256,7 +258,6 @@ function Map() {
     });
 
     let hoveredStateId = null;
-    let hoveredStateId2 = null;
     map.on("load", () => {
       drawSI(map, hoveredStateId);
       drawGU(map, hoveredStateId);
