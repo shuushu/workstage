@@ -11,16 +11,16 @@ const MapContainer = styled.div`
   height: 100%;
 `;
 // 단계별 색상 채우기
-function generatorColorSteopExpressions(name, color) {
+function generatorColorSteopExpressions(name, color, valuesRange) {
   const dyColor = (범위값) => {
     let result, value;
     switch (범위값) {
-      case 30000: value = 200; break;
-      case 50000: value = 160; break;
-      case 70000: value = 80; break;
-      case 100000: value = 50; break;
-      case 150000: value = 30; break;
-      case 350000: value = 0; break;
+      case valuesRange[0]: value = 200; break;
+      case valuesRange[1]: value = 160; break;
+      case valuesRange[2]: value = 80; break;
+      case valuesRange[3]: value = 50; break;
+      case valuesRange[4]: value = 30; break;
+      case valuesRange[5]: value = 0; break;
       default: value = 230; break;
     }
     switch (color) {
@@ -42,16 +42,37 @@ function generatorColorSteopExpressions(name, color) {
     }
     return result;
   };
-  const values = [30000, 50000, 70000, 100000, 150000, 350000];
+
   let temp = ["case"];
   // 값이 단계가 세분화 되어 표현할 때
-  values.forEach((범위값) => {
+  valuesRange.forEach((범위값) => {
     temp.push(["<", ["to-number", ["get", name]], 범위값]);
     temp.push(dyColor(범위값));
   });
   temp.push(dyColor(1));
   return temp;
 }
+
+// mapbox expression 만들기
+function makeExpression(valuesRange) {
+  return [
+    ["19대대선구시군_자유한국당홍준표", "red"],
+    ["19대대선구시군_더불어민주당문재인", "blue"],
+    ["19대대선구시군_국민의당안철수", "green"],
+    ["19대대선구시군_정의당심상정", "yellow"],
+  ].map(([정당, 컬러]) => {
+    return generatorColorSteopExpressions(정당, 컬러, valuesRange);
+  });
+}
+
+
+
+
+
+
+
+
+
 
 function drawSI(map, hoveredStateId) {
   map.addSource("SIDO", 행정구역시도);
@@ -136,17 +157,9 @@ function drawGU(map, hoveredStateId) {
     url: "mapbox://mapbox.mapbox-streets-v5,shuushu.68k17yc7",
     promoteId: "SIG_CD"
   });
-  const 정당별컬러스텝 = (() => {
-    return [
-      ["19대대선구시군_자유한국당홍준표", "red"],
-      ["19대대선구시군_더불어민주당문재인", "blue"],
-      ["19대대선구시군_국민의당안철수", "green"],
-      ["19대대선구시군_정의당심상정", "yellow"],
-    ].map(([정당, 컬러]) => {
-      return generatorColorSteopExpressions(정당, 컬러);
-    });
-  })();
-
+  const valuesRange = [30000, 50000, 70000, 100000, 150000, 350000];
+  const 정당별컬러스텝 = makeExpression(valuesRange);
+  console.log(정당별컬러스텝)
   map.addLayer({
     id: "GU-fill-Layer",
     type: "fill",
