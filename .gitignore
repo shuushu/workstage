@@ -12,6 +12,9 @@
 # production
 /build
 **/build
+# panorama resource
+groupnews_20/build
+groupnews_20/public
 
 # misc
 .DS_Store

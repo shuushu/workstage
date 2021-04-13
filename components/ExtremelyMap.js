@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import styled from "styled-components";
-import { 행정구역시도 } from "../example/geoData/행정구역_시도";
+import { 행정구역시도 } from "../example/staticData/행정구역_시도";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2h1dXNodSIsImEiOiJja241YWpkc20wMTZ1MzBxdmYwNnVoNGdqIn0.09g5XcsdpaWW1UyrMU6o2Q";
@@ -15,13 +15,27 @@ function generatorColorSteopExpressions(name, color, valuesRange) {
   const dyColor = (범위값) => {
     let result, value;
     switch (범위값) {
-      case valuesRange[0]: value = 200; break;
-      case valuesRange[1]: value = 160; break;
-      case valuesRange[2]: value = 80; break;
-      case valuesRange[3]: value = 50; break;
-      case valuesRange[4]: value = 30; break;
-      case valuesRange[5]: value = 0; break;
-      default: value = 230; break;
+      case valuesRange[0]:
+        value = 200;
+        break;
+      case valuesRange[1]:
+        value = 160;
+        break;
+      case valuesRange[2]:
+        value = 80;
+        break;
+      case valuesRange[3]:
+        value = 50;
+        break;
+      case valuesRange[4]:
+        value = 30;
+        break;
+      case valuesRange[5]:
+        value = 0;
+        break;
+      default:
+        value = 230;
+        break;
     }
     switch (color) {
       case "red":
@@ -64,15 +78,6 @@ function makeExpression(valuesRange) {
     return generatorColorSteopExpressions(정당, 컬러, valuesRange);
   });
 }
-
-
-
-
-
-
-
-
-
 
 function drawSI(map, hoveredStateId) {
   map.addSource("SIDO", 행정구역시도);
@@ -155,11 +160,11 @@ function drawGU(map, hoveredStateId) {
   map.addSource("GU", {
     type: "vector",
     url: "mapbox://mapbox.mapbox-streets-v5,shuushu.68k17yc7",
-    promoteId: "SIG_CD"
+    promoteId: "SIG_CD",
   });
   const valuesRange = [30000, 50000, 70000, 100000, 150000, 350000];
   const 정당별컬러스텝 = makeExpression(valuesRange);
-  console.log(정당별컬러스텝)
+  console.log(정당별컬러스텝);
   map.addLayer({
     id: "GU-fill-Layer",
     type: "fill",
@@ -208,18 +213,15 @@ function drawGU(map, hoveredStateId) {
     source: "SIDO",
     paint: {
       "fill-opacity": [
-        "step", ["zoom"], [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          0.2,
-          0,
-        ], 11, 0
+        "step",
+        ["zoom"],
+        ["case", ["boolean", ["feature-state", "hover"], false], 0.2, 0],
+        11,
+        0,
       ],
     },
-
   });
   map.on("mousemove", "GU-fill-Layer", function (e) {
-
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
         map.setFeatureState(

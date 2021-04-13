@@ -1,0 +1,103 @@
+@import "../../../../scss/fn.module.scss";
+
+.red {
+  color: $pcolor;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body,
+#root,
+.App,
+.App > div,
+.home {
+  height: 100%;
+}
+ul,
+li {
+  list-style: none;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 550ms ease-in;
+}
+
+/* 홈 */
+.home {
+  position: relative;
+}
+
+// 검색
+.homeContents {
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  display: flex;
+  width: 80%;
+  height: 300px;
+  top: 50%;
+  left: 10%;
+  border-radius: 10px;
+  margin-top: -150px;
+  border: solid 1px #333;
+  flex-flow: column;
+  z-index: 100;
+  padding: 20px;
+  .cell {
+    display: flex;
+  }
+  .fire-Autocomplete {
+  }
+  .fire-searchBtn {
+    padding: 8px;
+    width: 100px;
+    margin-left: 10px;
+  }
+}
+#effect {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  opacity: 0.7;
+}
+
+#smoke {
+  left: 0;
+  mix-blend-mode: lighten;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+/* 
+    mobile-320
+*/
+@media (max-width: 400px) {
+  .homeContents {
+    left: 5%;
+    width: 90%;
+    .cell {
+      flex-flow: column;
+    }
+
+    .fire-searchBtn {
+      margin: 5px 0 0 0;
+      width: 100%;
+    }
+  }
+}
