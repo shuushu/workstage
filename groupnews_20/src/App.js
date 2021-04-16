@@ -3,16 +3,15 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  Link,
   useLocation,
-  useParams,
-} from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
+} from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Button from "@material-ui/core/Button";
 
 import ComboBox from "./components/Search.tsx";
 
 // custom
+import Firedoor from "./components/Firedoor.tsx";
 import Panorama from "./panorama/index";
 import { clearFire, Fire } from "./fire";
 import { init, removeSmoke } from "./smoke";
@@ -43,10 +42,10 @@ function Home() {
             className="fire-searchBtn"
             color="primary"
             onClick={() => {
-              window.location = "/#topics";
+              window.location = "/#detail";
             }}
           >
-            검색하기
+            검색
           </Button>
         </div>
       </div>
@@ -56,14 +55,17 @@ function Home() {
   );
 }
 
-function AnimationExample() {
+function Pages() {
   let location = useLocation();
   return (
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={300}>
         <Switch location={location}>
-          <Route path="/topics">
+          <Route path="/detail">
             <Panorama />
+          </Route>
+          <Route path="/firedoor">
+            <Firedoor />
           </Route>
           <Route path="*">
             <Home />
@@ -80,7 +82,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="*">
-            <AnimationExample />
+            <Pages />
           </Route>
         </Switch>
       </Router>

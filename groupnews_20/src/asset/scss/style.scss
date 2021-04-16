@@ -1,8 +1,5 @@
 @import "../../../../scss/fn.module.scss";
 
-.red {
-  color: $pcolor;
-}
 * {
   margin: 0;
   padding: 0;
@@ -83,7 +80,261 @@ code {
   height: 100%;
   opacity: 0.8;
 }
+#shushu {
+  display: block;
+  position: absolute;
+  left: 0;
+  z-index: 100;
+  background-color: red;
+  margin: 0;
+}
+#panorama {
+  #autorotateToggle,
+  #titleBar {
+    display: none;
+  }
+}
+// 링크
+.link-hotspot .MuiSvgIcon-root {
+  font-size: 50px;
+  color: greenyellow;
+  cursor: pointer;
+  margin: 10px;
+  animation: bounceBigPlace 2s infinite ease-in-out;
+}
+.옥상대피공간 {
+  .info-hotspot-text {
+    overflow: hidden;
+    > div {
+      padding-bottom: 60px;
+    }
+    .수용률 {
+      position: absolute;
+      left: -20px;
+      bottom: -30px;
+      svg {
+        color: #fff;
+        font-size: 120px;
+        vertical-align: middle;
+      }
+      .곱 strong::before {
+        content: "X";
+        font-size: 17px;
+        margin-right: 10px;
+      }
+      .곱 strong {
+        font-size: 30px;
+      }
+    }
+  }
+}
 
+@keyframes bounceBigPlace {
+  0%,
+  100% {
+    -webkit-transform: translateY(-3px);
+  }
+
+  50% {
+    -webkit-transform: translateY(-10px);
+  }
+}
+// 정보
+@mixin iconBg($v) {
+  content: "";
+  display: block;
+  background: url("../imgs/#{$v}") no-repeat center center;
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  margin: 5px 0 0 5px;
+}
+.info-hotspot-icon-wrapper {
+  overflow: hidden;
+
+  &::before {
+    @include iconBg("icon_roof.png");
+  }
+  img {
+    display: none;
+  }
+  .MuiSvgIcon-root {
+    color: #fff;
+  }
+}
+.옥상대피공간 .info-hotspot-icon-wrapper::before,
+.장애요인 .info-hotspot-icon-wrapper::before,
+.옥상출입문설치여부 .info-hotspot-icon-wrapper::before,
+.유도등설치여부 .info-hotspot-icon-wrapper::before {
+  display: none;
+}
+
+// 유도등애니
+@mixin zoomInOut($c, $w) {
+  $v: $w/10;
+  content: "";
+  position: absolute;
+  width: #{$w}px;
+  height: #{$w}px;
+  background-color: $c;
+  z-index: -1;
+  border-radius: 100%;
+}
+@mixin before($color) {
+  @include zoomInOut($color, 50);
+  top: -5px;
+  left: -5px;
+  animation: bounce 2s infinite ease-in-out;
+  @media (max-width: 400px), (-webkit-min-device-pixel-ratio: 2) {
+    top: 0;
+    left: 0;
+  }
+}
+@mixin after($color) {
+  @include zoomInOut($color, 60);
+  top: -10px;
+  left: -10px;
+  animation: bounce 2s infinite ease-in-out;
+  animation-delay: -1s;
+  @media (max-width: 400px), (-webkit-min-device-pixel-ratio: 2) {
+    top: -5px;
+    left: -5px;
+  }
+}
+
+.info-hotspot.red::before {
+  @include before(rgba(255, 0, 0, 0.4));
+}
+.info-hotspot.red::after {
+  @include after(rgba(255, 0, 0, 0.2));
+}
+
+.info-hotspot.green::before {
+  @include before(rgba(4, 182, 4, 0.4));
+}
+.info-hotspot.green::after {
+  @include after(rgba(19, 197, 19, 0.2));
+}
+
+.info-hotspot.yellow::before {
+  content: "";
+  @include before(rgba(219, 187, 6, 0.4));
+}
+.info-hotspot.yellow::after {
+  content: "";
+  @include after(rgba(243, 239, 14, 0.2));
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0.9);
+  }
+
+  50% {
+    -webkit-transform: scale(1.3);
+  }
+}
+
+// 하단
+.말풍선 {
+  position: fixed;
+  width: 90%;
+  left: 5%;
+  bottom: 5%;
+  height: 100px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  line-height: 1.5;
+  align-items: center;
+  display: flex;
+  .noti {
+    position: absolute;
+    bottom: 110px;
+    left: 20px;
+    font-size: 13px;
+  }
+  .dong {
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: url("../imgs/icon_dong.png") no-repeat center center;
+    background-size: cover;
+    opacity: 0.8;
+    .icon {
+      position: absolute;
+      color: greenyellow;
+      animation: bounce2 2s infinite ease-in-out;
+    }
+    @keyframes bounce2 {
+      0%,
+      100% {
+        -webkit-transform: translateY(-3px);
+      }
+
+      50% {
+        -webkit-transform: translateY(-10px);
+      }
+    }
+  }
+  .dong::before {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 40px;
+    background-color: #aaa;
+    position: absolute;
+
+    left: 0;
+  }
+  .dong.A .icon {
+    left: -5px;
+    top: -19px;
+  }
+  .dong.A::before {
+    top: 5px;
+  }
+  .dong.B::before {
+    top: 15px;
+  }
+  .dong.B .icon {
+    left: -5px;
+    top: -7px;
+  }
+}
+
+.infobox {
+  margin-left: 20px;
+  flex: 1;
+  .title em {
+    font-size: 12px;
+    vertical-align: middle;
+    margin-left: 10px;
+    color: #ccc;
+  }
+  .title {
+    position: relative;
+  }
+  li {
+    font-size: 14px;
+  }
+  .강조 {
+    color: greenyellow;
+  }
+}
+.strList li {
+  margin: 5px 0;
+  padding-left: 15px;
+  position: relative;
+}
+.strList li::before {
+  content: "ㆍ";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 /* 
     mobile-320
 */

@@ -1,6 +1,196 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  Link,
+  useParams,
+  useLocation,
+} from "react-router-dom";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import Modal from "../components/Modal.tsx";
+
+import PlaceIcon from "@material-ui/icons/Place";
+import IconLight from "@material-ui/icons/WbIncandescent";
+import IconExit from "@material-ui/icons/DirectionsRun";
+import IconHelp from "@material-ui/icons/EmojiPeople";
+import IconNotice from "@material-ui/icons/Report";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+
+function removeWhiteSpace(str) {
+  var setClassName = str;
+  if (setClassName) {
+    setClassName = setClassName.split(" ");
+    setClassName = setClassName.join("");
+    return setClassName;
+  } else {
+    return false;
+  }
+}
 
 export default function Panorama() {
+  let { path, url } = useRouteMatch();
+  let [mdFlag, setMdFlag] = useState(false);
+  let location = useLocation();
+  let { key } = location;
+
+  const CSV = {
+    건축허가일: "2015-06-16",
+    사용승인일: "2020-03-31",
+    동수: 32,
+    지붕형태: "슬라브",
+    "옥상 대피공간": "있음",
+    "옥상출입문 설치여부": "설치",
+    "옥상 출입문 위치": "최상층 아래층",
+    "옥상 출입문 재질": "방화문",
+    "옥상 출입문 개방관리": "자동개폐장치",
+    "유도등 설치여부": "일부설치",
+    점등상태: "점등",
+    "자동개폐장치 작동상태": "작동",
+    "대피공간내 난간설치": "설치",
+    "대피공간 면적": 258,
+    장애요인: "있음",
+    장애내용:
+      "옥상 출입문으로 나가면 다음 라인으로 연결 통로(옥상바닥)가 있어 대피 가능함 옥상에서 1-2라인,3-4라인,5-6라인으로 상호 나갈 수 있음",
+    참고사항: "",
+  };
+
+  function customUI() {
+    setTimeout(() => {
+      Object.entries(CSV).forEach(([key, value]) => {
+        const className = removeWhiteSpace(key);
+        const getNode = document.querySelectorAll(`.${className}`);
+        const overwriteIcon = document.querySelectorAll(
+          `.${className} .info-hotspot-icon-wrapper`
+        );
+        // const m_overwriteIcon = document.querySelector(
+        //   `.${className}.info-hotspot-modal .info-hotspot-icon-wrapper`
+        // );
+        const overwriteContents = document.querySelectorAll(
+          `.${className} .info-hotspot-text`
+        );
+        // const m_overwriteContents = document.querySelector(
+        //   `.${className}.info-hotspot-modal .info-hotspot-text`
+        // );
+
+        if (getNode.length > 0) {
+          document
+            .querySelectorAll(`.${className}`)
+            .forEach(
+              (v) => (v.querySelector(".info-hotspot-text").innerHTML = value)
+            );
+
+          if (className === "유도등설치여부") {
+            if (value === "설치") {
+              getNode.forEach((v) => v.classList.add("green"));
+            } else if (value === "미설치") {
+              getNode.forEach((v) => v.classList.add("red"));
+            } else {
+              getNode.forEach((v) => v.classList.add("yellow"));
+            }
+            overwriteIcon.forEach((v) => ReactDOM.render(<IconLight />, v));
+            //ReactDOM.render(<IconLight />, m_overwriteIcon);
+          }
+
+          if (className === "옥상출입문설치여부") {
+            let RenderCont = "none";
+
+            if (value === "설치") {
+              getNode.forEach((v) => v.classList.add("green"));
+              RenderCont = () => {
+                return (
+                  <div>
+                    <ul className="strList">
+                      <li>옥상 출입문 재질: {CSV["옥상 출입문 재질"]}</li>
+                      <li>
+                        옥상 출입문 개방관리: {CSV["옥상 출입문 개방관리"]}
+                      </li>
+                      <li>옥상 출입문 위치: {CSV["옥상 출입문 위치"]}</li>
+                    </ul>
+                  </div>
+                );
+              };
+            } else if (value === "미설치") {
+              getNode.forEach((v) => v.classList.add("red"));
+              RenderCont = () => {
+                return <div>옥상대피 공간 없습니다.</div>;
+              };
+            } else {
+              getNode.forEach((v) => v.classList.add("yellow"));
+            }
+            overwriteIcon.forEach((v) =>
+              ReactDOM.render(<IconExit fontSize="large" />, v)
+            );
+            overwriteContents.forEach((v) =>
+              ReactDOM.render(<RenderCont />, v)
+            );
+          }
+          if (className === "옥상대피공간") {
+            if (value === "있음" || value === "혼재") {
+              getNode.forEach((v) => v.classList.add("green"));
+            } else if (value === "없음") {
+              getNode.forEach((v) => v.classList.add("red"));
+            }
+            overwriteIcon.forEach((v) =>
+              ReactDOM.render(<IconHelp fontSize="large" />, v)
+            );
+            const RenderCont = () => {
+              return (
+                <div>
+                  <ul className="strList">
+                    <li>대피공간내 난간설치: {CSV["대피공간내 난간설치"]}</li>
+                    <li>대피공간 면적: {CSV["대피공간 면적"]}</li>
+                  </ul>
+                  <div className="수용률">
+                    <SupervisorAccountIcon />
+                    <span className="곱">
+                      <strong>
+                        {Math.ceil(
+                          Math.ceil(parseInt(CSV["대피공간 면적"]) / 3.3) / 2
+                        )}
+                      </strong>
+                      명
+                    </span>
+                  </div>
+                </div>
+              );
+            };
+            overwriteContents.forEach((v) =>
+              ReactDOM.render(<RenderCont />, v)
+            );
+          }
+
+          if (className === "장애요인") {
+            if (value === "없음") {
+              getNode.forEach((v) => v.classList.add("green"));
+            } else if (value === "있음") {
+              getNode.forEach((v) => v.classList.add("red"));
+            }
+            overwriteIcon.forEach((v) =>
+              ReactDOM.render(<IconNotice fontSize="large" />, v)
+            );
+            overwriteContents.forEach((v) =>
+              ReactDOM.render(
+                <div>
+                  {CSV["장애요인"]} - {CSV["장애내용"]}
+                </div>,
+                v
+              )
+            );
+          }
+        }
+      });
+
+      const link = document.querySelector(".link-hotspot.nth-0");
+      if (CSV["옥상출입문 설치여부"] === "설치") {
+        ReactDOM.render(<PlaceIcon fontSize="large" />, link);
+      } else {
+        ReactDOM.render(<div className="block-door"></div>, link);
+      }
+    }, 0);
+  }
+
   useEffect(() => {
     /*
      * Copyright 2016 Google Inc. All rights reserved.
@@ -75,18 +265,24 @@ export default function Panorama() {
     // Create scenes.
     var scenes = data.scenes.map(function (data) {
       var urlPrefix = "tiles";
+      var ID = data.id;
       var source = Marzipano.ImageUrlSource.fromString(
-        urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
+        urlPrefix + "/" + ID + "/{z}/{f}/{y}/{x}.jpg",
         {
-          cubeMapPreviewUrl: urlPrefix + "/" + data.id + "/preview.jpg",
+          cubeMapPreviewUrl: urlPrefix + "/" + ID + "/preview.jpg",
         }
       );
-      var geometry = new Marzipano.CubeGeometry(data.levels);
 
-      var limiter = Marzipano.RectilinearView.limit.traditional(
-        data.faceSize,
-        (100 * Math.PI) / 180,
-        (120 * Math.PI) / 180
+      var geometry = new Marzipano.CubeGeometry(data.levels);
+      // Y축 범위 제한
+      var limiter = Marzipano.util.compose(
+        Marzipano.RectilinearView.limit.traditional(
+          data.faceSize,
+          (100 * Math.PI) / 180,
+          (120 * Math.PI) / 180
+        ),
+        Marzipano.RectilinearView.limit.yaw(-4, 4),
+        Marzipano.RectilinearView.limit.pitch(-0.4, 0.4)
       );
       var view = new Marzipano.RectilinearView(
         data.initialViewParameters,
@@ -101,8 +297,8 @@ export default function Panorama() {
       });
 
       // Create link hotspots.
-      data.linkHotspots.forEach(function (hotspot) {
-        var element = createLinkHotspotElement(hotspot);
+      data.linkHotspots.forEach(function (hotspot, i) {
+        var element = createLinkHotspotElement(hotspot, i);
         scene.hotspotContainer().createHotspot(element, {
           yaw: hotspot.yaw,
           pitch: hotspot.pitch,
@@ -110,8 +306,8 @@ export default function Panorama() {
       });
 
       // Create info hotspots.
-      data.infoHotspots.forEach(function (hotspot) {
-        var element = createInfoHotspotElement(hotspot);
+      data.infoHotspots.forEach(function (hotspot, i) {
+        var element = createInfoHotspotElement(hotspot, i);
         scene.hotspotContainer().createHotspot(element, {
           yaw: hotspot.yaw,
           pitch: hotspot.pitch,
@@ -127,7 +323,7 @@ export default function Panorama() {
 
     // Set up autorotate, if enabled.
     var autorotate = Marzipano.autorotate({
-      yawSpeed: 0.03,
+      yawSpeed: -0.03,
       targetPitch: 0,
       targetFov: Math.PI / 2,
     });
@@ -188,7 +384,7 @@ export default function Panorama() {
 
     // Dynamic parameters for controls.
     var velocity = 0.7;
-    var friction = 3;
+    var friction = 2;
 
     // Associate view controls with elements.
     var controls = viewer.controls();
@@ -237,7 +433,7 @@ export default function Panorama() {
       new Marzipano.ElementPressControlMethod(
         viewInElement,
         "zoom",
-        -velocity,
+        -3,
         friction
       ),
       true
@@ -321,12 +517,12 @@ export default function Panorama() {
       }
     }
 
-    function createLinkHotspotElement(hotspot) {
+    function createLinkHotspotElement(hotspot, z) {
       // Create wrapper element to hold icon and tooltip.
       var wrapper = document.createElement("div");
       wrapper.classList.add("hotspot");
       wrapper.classList.add("link-hotspot");
-
+      wrapper.classList.add(`nth-${z}`);
       // Create image element.
       var icon = document.createElement("img");
       icon.src = "img/link.png";
@@ -342,15 +538,17 @@ export default function Panorama() {
         var property = transformProperties[i];
         icon.style[property] = "rotate(" + hotspot.rotation + "rad)";
       }
-
-      // Add click event handler.
+      wrapper.id = `target${hotspot.target}`;
       wrapper.addEventListener("click", function (e) {
         e.preventDefault();
-        switchScene(findSceneById(hotspot.target));
+        if (CSV["옥상출입문 설치여부"] === "설치") {
+          switchScene(findSceneById(hotspot.target));
+        }
       });
 
       // Prevent touch and scroll events from reaching the parent element.
       // This prevents the view control logic from interfering with the hotspot.
+
       stopTouchAndScrollEventPropagation(wrapper);
 
       // Create tooltip element.
@@ -370,6 +568,17 @@ export default function Panorama() {
       var wrapper = document.createElement("div");
       wrapper.classList.add("hotspot");
       wrapper.classList.add("info-hotspot");
+
+      var name = removeWhiteSpace(hotspot.icon);
+      var filter = ["유도등설치여부", "옥상대피공간"].filter((v) => v === name);
+
+      if (filter.length === 0) {
+      }
+      wrapper.classList.add("visible");
+
+      if (name) {
+        wrapper.classList.add(`${name}`);
+      }
 
       // Create hotspot/tooltip header.
       var header = document.createElement("div");
@@ -417,6 +626,7 @@ export default function Panorama() {
       var modal = document.createElement("div");
       modal.innerHTML = wrapper.innerHTML;
       modal.classList.add("info-hotspot-modal");
+      modal.classList.add(`${name}`);
       document.body.appendChild(modal);
 
       var toggle = function (e) {
@@ -479,7 +689,7 @@ export default function Panorama() {
 
     // Display the initial scene.
     switchScene(scenes[0]);
-
+    customUI();
     return () => {
       var infoLabels = document.querySelectorAll(".info-hotspot-modal");
       infoLabels.forEach((i) => {
@@ -488,21 +698,76 @@ export default function Panorama() {
     };
   }, []);
 
+  useEffect(() => {
+    //
+    /* const n1 = document.querySelector(".nth-0");
+    const zIn = document.querySelector("#viewIn");
+    zIn.id = "shushu";
+    zIn.cloneNode(true);
+    n1.appendChild(zIn);
+    zIn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setTimeout(() => {
+        //console.log(22);
+        //window.location.href = `#${path}/aaa`;
+        window.location.href = `/#firedoor`;
+      }, 1000);
+    });
+
+    const n2 = document.querySelector(".nth-1");
+    n2.addEventListener("click", (e) => {
+      setMdFlag(true);
+    }); */
+  }, []);
+
   return (
-    <div>
+    <div id="panorama">
       <div id="pano"></div>
 
       <div id="sceneList">
         <ul className="scenes">
           <li className="text">
-            <span
-              className="scene"
-              data-id="0-timothy-oldfield-luufnhochru-unsplash"
-            >
-              timothy-oldfield-luufnHoChRU-unsplash
-            </span>
+            <span className="scene" data-id="0-01"></span>
+          </li>
+          <li className="text">
+            <span className="scene" data-id="1-02"></span>
+          </li>
+          <li className="text">
+            <span className="scene" data-id="2-03"></span>
           </li>
         </ul>
+      </div>
+
+      <TransitionGroup>
+        <CSSTransition key={key} classNames="fade" timeout={300}>
+          <Switch location={location}>
+            <Route path={`${path}/aaa`}>111</Route>
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
+      <Modal mdFlag={mdFlag} setMdFlag={setMdFlag} />
+
+      <div className="말풍선">
+        <span className="noti">
+          ※ 상기 이미지는 이해를 돕기 위해 제작된 것으로 실제와 다릅니다.
+        </span>
+        <span
+          className={CSV["옥상 출입문 위치"] === "최상층" ? "dong A" : "dong B"}
+        >
+          <PlaceIcon className="icon" />
+        </span>
+        <ul className="infobox">
+          <li className="title">
+            <strong>000아파트 {CSV["동수"]}개동</strong>
+            <em>
+              건축허가일: {CSV["건축허가일"]} / 사용승인일: {CSV["사용승인일"]}
+            </em>
+          </li>
+          <li className="강조">옥상 출입문 위치: {CSV["옥상 출입문 위치"]}</li>
+          <li>지붕형태: {CSV["지붕형태"]}</li>
+        </ul>
+        {/* 저층에서 화재가 나서 계단으로 내려 갈 수 없는 상황입니다. <br />
+          대피 할 수 있는 장소는 옥상 외에는 없습니다. */}
       </div>
 
       <div id="titleBar">
