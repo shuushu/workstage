@@ -10,19 +10,13 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-        },
-        paper: {
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3),
-        },
+        }
     }),
 );
 
 export default function TransitionsModal(props) {
     const classes = useStyles();
-    const { mdFlag, setMdFlag } = props;
+    const { mdFlag, setMdFlag, children } = props;
 
     const handleClose = () => {
         setMdFlag(false);
@@ -31,8 +25,9 @@ export default function TransitionsModal(props) {
     return (
 
         <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
+            disablePortal
+            disableEnforceFocus
+            disableAutoFocus
             className={classes.modal}
             open={mdFlag}
             onClose={handleClose}
@@ -43,10 +38,15 @@ export default function TransitionsModal(props) {
             }}
         >
             <Fade in={mdFlag}>
-                <div className={classes.paper}>
-                    <h2 id="transition-modal-title">Transition modal</h2>
-                    <p id="transition-modal-description">react-transition-group animates me.</p>
-                </div>
+
+                {children ? <div className="nodata">{children}</div> : (
+                    <div className="md-wrap">
+                        <div id="chart"></div>
+                        <div id="md-contents"></div>
+                    </div>
+                )}
+
+
             </Fade>
         </Modal>
     );

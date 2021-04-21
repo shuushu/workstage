@@ -1,5 +1,5 @@
-import s1 from "./asset/imgs/Smoke2.png";
-import s2 from "./asset/imgs/Smoke2.png";
+import s1 from "./asset/imgs/Smoke.png";
+import s2 from "./asset/imgs/Smoke3.png";
 var smokeTimer;
 // Create an array to store our particles
 var particles = [];
@@ -134,7 +134,7 @@ function init() {
     };
 
     // Once the callback is arranged then set the source of the image
-    imageObj.src = window.innerWidth <= 400 ? s1 : s2;
+    imageObj.src = window.innerWidth <= 400 ? s2 : s1;
 
     // Create the particles and set their initial positions and velocities
     for (var i = 0; i < particleCount; ++i) {
@@ -162,7 +162,7 @@ function init() {
 
         // Draw the scene
         draw();
-      }, 3000 / targetFPS);
+      }, 1000 / targetFPS);
     }
   } else {
     alert("Please use a modern browser");
