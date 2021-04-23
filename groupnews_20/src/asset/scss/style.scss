@@ -434,6 +434,11 @@ code {
     color: #ff8989;
   }
 }
+.error-contents {
+  display: block;
+  margin-top: 5px;
+  color: greenyellow;
+}
 .strList li {
   margin: 5px 0 10px 0;
   padding-left: 15px;
@@ -442,6 +447,18 @@ code {
   .sub-tit {
     margin-bottom: 10px;
     display: block;
+  }
+}
+.strList .provider {
+  font-size: 12px;
+  display: block;
+  text-align: right;
+}
+.strList li {
+  .li {
+    font-size: 13px;
+    display: block;
+    margin-bottom: 5px;
   }
 }
 .strList li::before {
@@ -486,6 +503,7 @@ code {
 }
 .md-wrap {
   width: 90%;
+  max-width: 600px;
   border-radius: 5px;
   background-color: #fff;
   overflow: hidden;

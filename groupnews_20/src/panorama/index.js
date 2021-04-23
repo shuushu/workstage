@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { useRouteMatch, Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Modal from "../components/Modal.tsx";
 import Exit from "../components/유도등";
 import PlaceIcon from "@material-ui/icons/Place";
@@ -10,7 +10,8 @@ import IconNotice from "@material-ui/icons/Report";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import NoMeetingRoomIcon from "@material-ui/icons/NoMeetingRoom";
-import loadTemtplate, { DATA } from "../components/template";
+import DATA from "../components/data";
+import loadTemtplate from "../components/template";
 import Button from "@material-ui/core/Button";
 function removeWhiteSpace(str) {
   var setClassName = str;
@@ -25,7 +26,6 @@ function removeWhiteSpace(str) {
 
 export default function Panorama() {
   let [mdFlag, setMdFlag] = useState(false);
-  let location = useLocation();
   let { id } = useParams();
   id = id.substr(1);
   const CSV = DATA[id];
@@ -188,12 +188,31 @@ export default function Panorama() {
             overwriteContents.forEach((v) =>
               ReactDOM.render(
                 <div>
-                  {CSV["장애요인"]}
-                  {CSV["장애요인"] === "있음" ? (
-                    <div>{CSV["장애내용"]}</div>
-                  ) : (
-                    ""
-                  )}
+                  <ul className="strList">
+                    <li>
+                      <span className="value">{CSV["장애요인"]}</span>
+                      {CSV["장애요인"] === "있음" ? (
+                        <span className="sub-tit error-contents">
+                          {CSV["장애내용"]}
+                        </span>
+                      ) : null}
+                    </li>
+                    <li>
+                      <span className="sub-tit">화재 발생시 대피 원칙</span>
+                      <span className="li">
+                        1) 공동주택 내 화재발생 시 지상 대피 최우선
+                      </span>
+                      <span className="li">
+                        2) 지상대피가 어려운 경우 집안에서 연기가 들어오지
+                        않도록 조치 후 구조 요청
+                      </span>
+                      <span className="li">
+                        3) 세대안으로 불꽃이 옮겨 붙거나 연기가 들어오는 경우
+                        옥상등 대피공간으로 대피
+                      </span>
+                      <em className="provider">출처: 군포소방</em>
+                    </li>
+                  </ul>
                 </div>,
                 v
               )

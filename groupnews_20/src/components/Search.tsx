@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useWindowSize from '../../../hooks/useWindowSize.ts';
-import { DATA } from '../components/template'
+import DATA from "../components/data";
 interface CountryType {
     title: string;
     year: number;
@@ -20,9 +20,12 @@ export default function Asynchronous() {
 
     React.useEffect(() => {
         if (size >= 2) {
-            if (!loading) {
-                return undefined;
-            }
+            /* (async () => {
+                const response = await fetch('https://image.imnews.imbc.com/newszoomin/groupnews/groupnews_21/data.json');
+                const countries = await response.json();
+
+                setOptions(Object.entries(countries).map(([v, k]: any) => k));
+            })(); */
             setOptions(Object.entries(DATA).map(([v, k]: any) => k));
         }
 
@@ -55,6 +58,7 @@ export default function Asynchronous() {
             loading={loading}
             className="fire-Autocomplete"
             noOptionsText="검색 결과 없음"
+            loadingText={size < 2 ? '두글자 이상 입력 해주세요' : '데이터 가져오는 중...'}
             size={width <= 320 ? 'small' : 'medium'}
             onChange={(o, v: any) => {
                 if (v) {
