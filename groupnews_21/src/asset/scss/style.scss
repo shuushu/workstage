@@ -1,0 +1,375 @@
+@import "./sprite-p.scss";
+@import "../../../../scss/fn.module.scss";
+
+// 국회의원 사진
+.의원사진랩핑 {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 100%;
+  margin: 0 auto;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border: solid 3px #000;
+    box-sizing: border-box;
+    z-index: 10;
+    border-radius: 100%;
+    background-clip: content-box;
+    opacity: 0.6;
+  }
+}
+.의원사진랩핑.더불어민주당::before {
+  border-color: $더불어민주당;
+}
+.의원사진랩핑.국민의힘::before {
+  border-color: $국민의힘;
+}
+.의원사진랩핑.무소속::before {
+  border-color: $무소속;
+}
+.의원사진랩핑.정의당::before {
+  border-color: $정의당;
+}
+.의원사진랩핑.열린민주당::before {
+  border-color: $열린민주당;
+}
+.의원사진랩핑.더불어시민당::before {
+  border-color: $더불어시민당;
+}
+.의원사진랩핑.시대전환::before {
+  border-color: $시대전환;
+}
+.의원사진랩핑.기본소득당::before {
+  border-color: $기본소득당;
+}
+.의원사진랩핑.국민의당::before {
+  border-color: $국민의당;
+}
+.의원사진 {
+  transform: scale(0.4);
+  transform-origin: top left;
+}
+.grid-paper {
+  margin: 10px;
+}
+#chart {
+  height: 500px;
+  // background: url("../imgs//Spinner-1s-200px.gif") no-repeat center center;
+  // background-size: 60px 60px;
+}
+// 테이블
+#detail {
+  max-height: 500px;
+  .MuiTable-root {
+    min-width: 1300px;
+  }
+  .MuiTableCell-root {
+    padding: 0;
+  }
+  .MuiTableHead-root {
+    position: relative;
+    z-index: 1000;
+  }
+  td {
+    text-align: center;
+    cursor: pointer;
+  }
+  .MuiButtonBase-root {
+    .MuiSvgIcon-root {
+      position: absolute;
+      top: 30px;
+    }
+  }
+}
+.tab-wrap {
+  display: flex;
+  .tab {
+    width: 100%;
+    position: relative;
+    background-color: #4dadd6;
+    color: #fff;
+    border-radius: 0;
+  }
+  .tab.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #1c7ba4;
+  }
+  .tab:hover {
+    background-color: #b5cbd4;
+    color: #000;
+  }
+
+  .tab.n2 {
+    background-color: #6794db;
+  }
+  .tab.n2.active::after {
+    background-color: #1e4279;
+  }
+  .tab.n2:hover {
+    background-color: #9fb5d9;
+  }
+  .tab.n3 {
+    background-color: #6671db;
+  }
+  .tab.n3:hover {
+    background-color: #8f95d5;
+  }
+  .tab.n3.active:after {
+    background-color: #b9bbd6;
+  }
+  .tab.n4 {
+    background-color: #aea0e0;
+  }
+  .tab.n4:hover {
+    background-color: #b9b1d5;
+  }
+  .tab.n4.active::after {
+    background-color: #6048b5;
+  }
+}
+.headline {
+  margin: 20px auto;
+  overflow: hidden;
+  width: 860px;
+  h1 {
+    letter-spacing: -1px;
+  }
+  .parag {
+    margin: 10px 0;
+  }
+  strong {
+    letter-spacing: -0.05em;
+    background: #bebebe96;
+    color: #f62947;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 1px 5px;
+    font-weight: normal;
+  }
+}
+.grid-paper {
+  // cell
+  .MuiTableSortLabel-root {
+    padding: 15px 5px;
+    min-width: 80px;
+    line-height: 1.3;
+    justify-content: center;
+  }
+  .MuiTableCell-root.nth-2 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-6 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-9 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-11 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-13 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-4 .MuiTableSortLabel-root {
+    width: 95px;
+  }
+  .MuiTableCell-root.nth-15 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-8 .MuiTableSortLabel-root {
+    width: 110px;
+  }
+  .MuiTableSortLabel-root,
+  .MuiDataGrid-root .MuiDataGrid-colCell,
+  .MuiDataGrid-root .MuiDataGrid-cell {
+    text-align: center;
+    font-size: 13px;
+  }
+  // thead
+  .MuiDataGrid-root .MuiDataGrid-colCellTitle {
+    font-size: 13px;
+    letter-spacing: -0.05em;
+  }
+  .MuiDataGrid-root .MuiDataGrid-colCellTitle {
+    width: 100%;
+  }
+  .MuiDataGrid-root .MuiDataGrid-colCell,
+  .MuiDataGrid-root .MuiDataGrid-cell {
+    padding: 0;
+    .MuiDataGrid-colCellTitle {
+      padding: 0 10px;
+    }
+  }
+  .thumb-wrap {
+    line-height: 1.5;
+    text-align: center;
+    padding: 5px 0;
+    position: relative;
+    .name {
+    }
+  }
+  .MuiDataGrid-menuIcon {
+    display: none !important;
+  }
+  .MuiDataGrid-colCellWrapper > div:first-child .MuiDataGrid-menuIcon {
+    display: block !important;
+  }
+  .yellow,
+  .green,
+  .blue {
+    width: 100%;
+  }
+  .yellow {
+    background-color: #fcf3cbd5;
+  }
+  .green {
+    background-color: #cbfcdfd5;
+  }
+  .blue {
+    background-color: #cbe8fcd5;
+  }
+
+  // 출석율 퍼센트
+  .rect-wrap {
+    position: relative;
+    width: 70px;
+    margin: 0 auto;
+    background-color: #666;
+    .value {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 0;
+      left: 0;
+      line-height: 20px;
+    }
+    .value {
+      color: #fff;
+      font-size: 13px;
+    }
+    .per {
+      height: 20px;
+      background-color: red;
+      display: block;
+    }
+    .per.더불어민주당 {
+      background-color: $더불어민주당;
+    }
+    .per.국민의힘 {
+      background-color: $국민의힘;
+    }
+    .per.무소속 {
+      background-color: $무소속;
+    }
+    .per.정의당 {
+      background-color: $정의당;
+    }
+    .per.열린민주당 {
+      background-color: $열린민주당;
+    }
+    .per.더불어시민당 {
+      background-color: $더불어시민당;
+    }
+    .per.시대전환 {
+      background-color: $시대전환;
+    }
+    .per.기본소득당 {
+      background-color: $기본소득당;
+    }
+    .per.국민의당 {
+      background-color: $국민의당;
+    }
+  }
+}
+@media (max-width: 1600px) {
+  .headline {
+    width: 60%;
+  }
+}
+@media (max-width: 1400px) {
+  .headline {
+    width: 850px;
+  }
+}
+@media (max-width: 1200px) {
+  .headline {
+    width: 70%;
+  }
+}
+@media (max-width: 500px) {
+  .headline {
+    width: 90%;
+    h1 {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+    .parag {
+      font-size: 14px;
+    }
+    strong {
+      font-size: 16px;
+    }
+  }
+  // 테이블
+  .grid-paper .MuiTableSortLabel-root {
+    min-width: 60x;
+    padding: 15px 0;
+    font-size: 12px;
+  }
+  .MuiTableCell-root.nth-2 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-6 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-9 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-11 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-13 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-4 .MuiTableSortLabel-root {
+    width: 75px;
+  }
+  .MuiTableCell-root.nth-15 .MuiTableSortLabel-root,
+  .MuiTableCell-root.nth-8 .MuiTableSortLabel-root {
+    width: 90px;
+  }
+  // 테이블 페이징
+  .MuiTablePagination-spacer + .MuiTablePagination-caption {
+    display: none;
+  }
+  .MuiTablePagination-root .MuiTablePagination-selectRoot {
+    margin-right: 15px;
+  }
+  .MuiTablePagination-root .MuiTablePagination-actions {
+    margin-left: 10px;
+  }
+  // 탭
+  .tab-wrap {
+    .MuiButton-textSizeLarge {
+      padding: 10px 8px;
+    }
+    .MuiButton-label {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+  }
+}
+@media (max-width: 320px) {
+  .headline {
+    h1 {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .parag {
+      font-size: 12px;
+    }
+    strong {
+      font-size: 14px;
+    }
+  }
+  // 탭
+  .tab-wrap {
+    .MuiButton-textSizeLarge {
+      padding: 8px 5px;
+    }
+    .MuiButton-label {
+      font-size: 12px;
+    }
+  }
+}
