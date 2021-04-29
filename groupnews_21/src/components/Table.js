@@ -1,21 +1,37 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableContainer from "@material-ui/core/TableContainer";
+import TablePagination from "@material-ui/core/TablePagination";
 import HeadLine from "./HeadLine";
 import Paper from "@material-ui/core/Paper";
 import { rows } from "../asset/data/출석현황";
 import Button from "@material-ui/core/Button";
 import { init, createSeries } from "./Chart";
 import { ua } from "../../../components/Util";
+import Notice from "./Notice";
+import EnhancedTableHead from "./TableHead";
+import FilterBar from "./FilterBar";
 const g = window;
+
+function trClassRemove() {
+  document
+    .querySelectorAll(".MuiTableBody-root tr")
+    .forEach((i) => i.classList.remove("active"));
+}
+function trClassAdd(ev) {
+  document.querySelectorAll(".MuiTableBody-root tr").forEach((i) => {
+    if (i !== ev.target.parentElement) {
+      i.classList.remove("active");
+    } else {
+      i.classList.add("active");
+    }
+  });
+}
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -44,83 +60,6 @@ function stableSort(array, comparator, orderBy) {
   return arr;
 }
 
-const headCells = [
-  "이름",
-  "전체불출석",
-  "본회의_총회의",
-  "본회의_출석",
-  "본회의_불출석",
-  "본회의_청가",
-  "본회의_신고서",
-  "본회의_출장",
-  "본회의_무단결석",
-  "상임위_총회의",
-  "상임위_출석",
-  "상임위_불출석",
-  "상임위_청가",
-  "상임위_신고서",
-  "상임위_출장",
-  "상임위_무단결석",
-].map((i) => {
-  let numeric = true;
-  if (i === "이름") {
-    numeric = false;
-  }
-  return {
-    id: i,
-    label: i.replace("_", " "),
-    numeric,
-  };
-});
-
-function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell, i) => {
-          return (
-            <TableCell
-              key={`${headCell.id}-${i}`}
-              align="center"
-              padding={headCell.disablePadding ? "none" : "default"}
-              sortDirection={orderBy === headCell.id ? order : false}
-              className={`nth-${i}`}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <span className={classes.visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </span>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          );
-        })}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
 const useStyles = makeStyles((theme) => ({
   visuallyHidden: {
     border: 0,
@@ -138,14 +77,17 @@ let prefix = null;
 
 export default function EnhancedTable() {
   const classes = useStyles();
+  const [rowsData, setRowsData] = React.useState(rows);
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("전체불출석");
+  const [orderBy, setOrderBy] = React.useState("전체무단");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [active, setActive] = React.useState(0);
+  const [fillType, setFillType] = React.useState("all");
 
   const handleRequestSort = (event, property) => {
     let isAsc = orderBy === property && order === "desc";
+
     if (prefix) {
       property = prefix.split("_의원").join("");
     } else {
@@ -155,40 +97,56 @@ export default function EnhancedTable() {
   };
 
   const handleClick = (ev, index, data) => {
-    const range = ua ? 3 : 8;
+    const range = ua() ? 2 : 8;
     window.chart.categoryAxis.zoomToIndexes(
       index - range <= 0 ? 0 : index - range,
       index + range
     );
-
-    window.chart.series.each(function (series) {
-      series.columns.each(function (column) {
-        if (
-          column.dataItem.categoryX ===
-          ev.target.parentElement.getAttribute("data-name")
-        ) {
-          column.isActive = true;
-        } else {
-          column.isActive = false;
-        }
+    setTimeout(() => {
+      window.chart.series.each(function (series) {
+        series.columns.each(function (column) {
+          const getName = column.dataItem.categoryX.split(" ").pop();
+          if (getName === ev.target.parentElement.getAttribute("data-name")) {
+            column.isActive = true;
+          } else {
+            column.isActive = false;
+          }
+        });
       });
-    });
+    }, 300);
+    window.chart.categoryAxis.renderer.labels.template.rotation = 0;
+    window.scrollTo(0, document.querySelector(".tab-wrap").offsetTop);
+
+    trClassAdd(ev);
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setTimeout(() => {
+      window.chart.categoryAxis.renderer.labels.template.rotation = 0;
+    }, 0);
+    document.querySelectorAll(".MuiTableBody-root tr").forEach((i) => {
+      i.classList.remove("active");
+    });
   };
 
   const handleChangeRowsPerPage = (event) => {
+    setTimeout(() => {
+      window.chart.categoryAxis.renderer.labels.template.rotation = 0;
+    }, 0);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    document.querySelectorAll(".MuiTableBody-root tr").forEach((i) => {
+      i.classList.remove("active");
+    });
   };
 
-  const getItems = () => {
-    let data = stableSort(rows, getComparator(order, orderBy), orderBy).slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    );
+  const getItems = (DATA) => {
+    let data = stableSort(
+      rowsData,
+      getComparator(order, orderBy),
+      orderBy
+    ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
     let type = orderBy;
     if (g.chart) {
       g.chart.dispose();
@@ -196,48 +154,62 @@ export default function EnhancedTable() {
 
       if (prefix) {
         type = prefix;
-        data = stableSort(rows, getComparator(order, orderBy), orderBy);
+        data = stableSort(rowsData, getComparator(order, orderBy), orderBy);
       }
       init();
+
       switch (type) {
-        case "전체불출석":
+        case "무단 결석":
+          type = "본회의_의원_무단결석";
+          break;
+        case "청가ㆍ결석계":
+          type = "청가_의원";
+          break;
+        case "불출석":
+          type = "전체_의원_불출석";
+          break;
+      }
+
+      switch (type) {
         case "전체_의원_불출석":
           g.chart.data = Object.entries(data).map(([key, value]) => {
             return {
-              category: value["이름"],
+              category: `${value["R1"]}위) ${value["이름"]}`,
               value1: value["본회의_불출석"],
               value2: value["상임위_불출석"],
             };
           });
-          createSeries("value1", "전체 본회의 불출석", prefix ? 200 : 1000);
-          createSeries("value2", "전체 상임위 불출석", prefix ? 200 : 1000);
+          createSeries("value1", "전체 본회의 불출석", 0);
+          createSeries("value2", "전체 상임위 불출석", 0);
           prefix = null;
           break;
         case "본회의_의원_무단결석":
           g.chart.data = Object.entries(data).map(([key, value]) => {
             return {
-              category: value["이름"],
-              value1: value[orderBy],
+              category: `${value["R0"]}위) ${value["이름"]}`,
+              value1: value["본회의_무단결석"],
+              value2: value["상임위_무단결석"],
             };
           });
-          createSeries("value1", "전체 무단 결석", prefix ? 200 : 1000);
+          createSeries("value2", "상임위 무단결석", 0);
+          createSeries("value1", "본회의 무단결석", 0);
           prefix = null;
 
           break;
         case "청가_의원":
           g.chart.data = Object.entries(data).map(([key, value]) => {
             return {
-              category: value["이름"],
+              category: `${value["R2"]}위) ${value["이름"]}`,
               value1: value["상임위_청가"],
               value2: value["상임위_신고서"],
               value3: value["본회의_청가"],
               value4: value["본회의_신고서"],
             };
           });
-          createSeries("value1", "상임위_청가", 0);
-          createSeries("value2", "상임위_신고서", 0);
-          createSeries("value3", "본회의_청가", 0);
-          createSeries("value4", "본회의_신고서", 0);
+          createSeries("value1", "상임위 청가", 0);
+          createSeries("value2", "상임위 결석계", 0);
+          createSeries("value3", "본회의 청가", 0);
+          createSeries("value4", "본회의 결석계", 0);
           prefix = null;
           break;
         case "출석순":
@@ -253,13 +225,14 @@ export default function EnhancedTable() {
           prefix = null;
           break;
         default:
-          createSeries("value1", orderBy);
           g.chart.data = Object.entries(data).map(([key, value]) => {
             return {
               category: value["이름"],
               value1: value[orderBy],
             };
           });
+          createSeries("value1", orderBy);
+          window.chart.categoryAxis.renderer.labels.template.rotation = 0;
           prefix = null;
           break;
       }
@@ -267,81 +240,161 @@ export default function EnhancedTable() {
     return data;
   };
 
+  const clickTab = (params) => {
+    const { field, prefixName, n } = params;
+    prefix = prefixName;
+
+    setOrder("desc");
+    setOrderBy(field);
+    setActive(n);
+    setRowsData(rows);
+    window.chart.categoryAxis.renderer.labels.template.rotation = 270;
+  };
+
+  const isSpecial = (name) => {
+    const list = {
+      이인영: "통일부장관 겸임 중",
+      전해철: "행안부장관 겸임 중",
+      한정애: "환경부장관 겸임 중",
+      박범계: "법무부장관 겸임 중",
+      권칠승: "중소벤처기업부장관 겸임 중",
+      김진애: "사퇴",
+    };
+    if (list[name]) {
+      return <div className="special">{list[name]}</div>;
+    }
+  };
+  const rowsFilter = (p) => {
+    const obj = {};
+    setFillType(p);
+    setTimeout(() => {
+      window.chart.categoryAxis.renderer.labels.template.rotation = 0;
+    }, 0);
+    trClassRemove();
+    if (p === "all") {
+      setRowsData(rows);
+      return rows;
+    } else {
+      const type = p === "본회의" ? "상임위" : "본회의";
+      Object.entries(rows).forEach(([key, value]) => {
+        obj[key] = {};
+        Object.entries(value).forEach(([k2, v2]) => {
+          if (k2.indexOf(type) < 0) {
+            obj[key][k2] = v2;
+          }
+        });
+      });
+      setRowsData(Object.entries(obj).map(([k, v]) => v));
+
+      window.rows = Object.entries(obj);
+      return obj;
+    }
+  };
+  const totalCell = (row) => {
+    switch (active) {
+      case 0:
+        return <TableCell className="무단">{row["전체무단"]}</TableCell>;
+        break;
+      case 1:
+        return <TableCell className="청가">{row["청가"]}</TableCell>;
+        break;
+      case 2:
+        return <TableCell className="불출석">{row["전체불출석"]}</TableCell>;
+        break;
+      default:
+        return <TableCell className="출석">{row["전체출석"]}</TableCell>;
+        break;
+    }
+  };
   useEffect(() => {
     init();
     g.chart.data = Object.entries(g.rows).map(([key, value]) => {
       return {
-        category: value["이름"],
-        value1: value["본회의_불출석"],
-        value2: value["상임위_불출석"],
+        category: `${value["R0"]}위) ${value["이름"]}`,
+        value1: value["본회의_무단결석"],
+        value2: value["상임위_무단결석"],
       };
     });
-    createSeries("value2", "상임위_불출석", 0);
-    createSeries("value1", "본회의_불출석", 0);
+    createSeries("value2", "상임위 무단결석", 0);
+    createSeries("value1", "본회의 무단결석", 0);
   }, []);
-  useEffect(() => {}, [active]);
 
   return (
-    <Paper className="grid-paper">
+    <Paper className="grid-paper" id={`dataType${active}`}>
       <HeadLine />
       <div className="tab-wrap">
         <Button
           size="large"
-          onClick={() => {
-            prefix = "전체_의원_불출석";
-            setOrder("desc");
-            setOrderBy("전체불출석");
-          }}
+          onClick={() =>
+            clickTab({
+              prefixName: "본회의_의원_무단결석",
+              field: "전체무단",
+              n: 0,
+            })
+          }
           className={`tab ${active === 0 ? "active" : null}`}
         >
-          전체 불출석 순위
+          무단결석
         </Button>
         <Button
           size="large"
-          onClick={() => {
-            prefix = "본회의_의원_무단결석";
-            setOrder("desc");
-            setOrderBy("본회의_무단결석");
-          }}
+          onClick={() =>
+            clickTab({
+              prefixName: "청가_의원",
+              field: "청가",
+              n: 1,
+            })
+          }
           className={`tab n2 ${active === 1 ? "active" : null}`}
         >
-          전체 무단 결석
+          청가ㆍ결석계
         </Button>
         <Button
           size="large"
-          onClick={() => {
-            prefix = "청가_의원";
-            setOrder("desc");
-            setOrderBy("청가");
-          }}
+          onClick={() =>
+            clickTab({
+              prefixName: "전체_의원_불출석",
+              field: "전체불출석",
+              n: 2,
+            })
+          }
           className={`tab n3 ${active === 2 ? "active" : null}`}
         >
-          전체 청가 및 결석계
+          불출석
         </Button>
+
         <Button
           size="large"
-          onClick={() => {
-            prefix = "출석순";
-            setOrder("desc");
-            setOrderBy("전체출석");
-          }}
+          onClick={() =>
+            clickTab({
+              prefixName: "출석순",
+              field: "전체출석",
+              n: 3,
+            })
+          }
           className={`tab n4  ${active === 3 ? "active" : null}`}
         >
-          전체 출석 순위
+          출석
         </Button>
       </div>
+      <Notice active={active} />
       <div id="chart"></div>
+
+      <FilterBar rowsFilter={rowsFilter} />
+
       <TableContainer id="detail">
-        <Table stickyHeader>
+        <Table stickyHeader id={`${fillType}-타입`}>
           <EnhancedTableHead
             classes={classes}
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
-            rowCount={rows.length}
+            rowCount={rowsData.length}
+            active={active}
+            fillType={fillType}
           />
           <TableBody>
-            {getItems().map((row, index) => {
+            {getItems(rowsData).map((row, index) => {
               const labelId = `enhanced-table-checkbox-${index}`;
 
               return (
@@ -352,6 +405,15 @@ export default function EnhancedTable() {
                   key={`${row.name}-${index}`}
                   data-name={row["이름"]}
                 >
+                  {active < 3 ? (
+                    <TableCell className={`C${active} R${row[`R${active}`]}`}>
+                      <div className="rank-wrap">
+                        {isSpecial(row["이름"])}
+                        <div className="rank">{row[`R${active}`]}위</div>
+                        <div className="name">{row["이름"]}</div>
+                      </div>
+                    </TableCell>
+                  ) : null}
                   <TableCell
                     component="th"
                     id={labelId}
@@ -362,7 +424,7 @@ export default function EnhancedTable() {
                       <span className={`의원사진랩핑 ${row.info["정당_21"]}`}>
                         <span className={`의원사진 hm${row.info.index}`}></span>
                       </span>
-                      <span className="name">{row["이름"]}</span>
+                      {active === 3 ? row["이름"] : null}
                     </div>
                   </TableCell>
                   {/* <TableCell>
@@ -374,21 +436,45 @@ export default function EnhancedTable() {
                         ></span>
                       </div>
                     </TableCell> */}
-                  <TableCell>{row["전체불출석"]}</TableCell>
-                  <TableCell>{row["본회의_총회의"]}</TableCell>
-                  <TableCell>{row["본회의_출석"]}</TableCell>
-                  <TableCell>{row["본회의_불출석"]}</TableCell>
-                  <TableCell>{row["본회의_청가"]}</TableCell>
-                  <TableCell>{row["본회의_신고서"]}</TableCell>
-                  <TableCell>{row["본회의_출장"]}</TableCell>
-                  <TableCell>{row["본회의_무단결석"]}</TableCell>
-                  <TableCell>{row["상임위_총회의"]}</TableCell>
-                  <TableCell>{row["상임위_출석"]}</TableCell>
-                  <TableCell>{row["상임위_불출석"]}</TableCell>
-                  <TableCell>{row["상임위_청가"]}</TableCell>
-                  <TableCell>{row["상임위_신고서"]}</TableCell>
-                  <TableCell>{row["상임위_출장"]}</TableCell>
-                  <TableCell>{row["상임위_무단결석"]}</TableCell>
+                  {fillType === "all" ? totalCell(row) : null}
+                  {fillType === "본회의" || fillType === "all" ? (
+                    <>
+                      <TableCell>{row["본회의_총회의"]}</TableCell>
+                      <TableCell>{row["본회의_출석"]}</TableCell>
+                      <TableCell className={active === 2 && "불출석"}>
+                        {row["본회의_불출석"]}
+                      </TableCell>
+                      <TableCell className={active === 1 && "청가"}>
+                        {row["본회의_청가"]}
+                      </TableCell>
+                      <TableCell className={active === 1 && "청가"}>
+                        {row["본회의_신고서"]}
+                      </TableCell>
+                      <TableCell>{row["본회의_출장"]}</TableCell>
+                      <TableCell className={active === 0 && "무단"}>
+                        {row["본회의_무단결석"]}
+                      </TableCell>
+                    </>
+                  ) : null}
+                  {fillType === "상임위" || fillType === "all" ? (
+                    <>
+                      <TableCell>{row["상임위_총회의"]}</TableCell>
+                      <TableCell>{row["상임위_출석"]}</TableCell>
+                      <TableCell className={active === 2 && "불출석"}>
+                        {row["상임위_불출석"]}
+                      </TableCell>
+                      <TableCell className={active === 1 && "청가"}>
+                        {row["상임위_청가"]}
+                      </TableCell>
+                      <TableCell className={active === 1 && "청가"}>
+                        {row["상임위_신고서"]}
+                      </TableCell>
+                      <TableCell>{row["상임위_출장"]}</TableCell>
+                      <TableCell className={active === 0 && "무단"}>
+                        {row["상임위_무단결석"]}
+                      </TableCell>
+                    </>
+                  ) : null}
                 </TableRow>
               );
             })}
@@ -396,9 +482,9 @@ export default function EnhancedTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[25, 50, 100]}
         component="div"
-        count={rows.length}
+        count={rowsData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

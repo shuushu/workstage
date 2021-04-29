@@ -30,7 +30,9 @@ function createSeries(field, name, timer = 1000) {
   series.stacked = true;
   series.sequencedInterpolation = timer !== 0;
   // Configure columns
-  series.columns.template.width = am4core.percent(60);
+  series.columns.template.width = UA
+    ? am4core.percent(50)
+    : am4core.percent(60);
   series.columns.template.tooltipText =
     "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
   series.tooltip.background.filters.clear();
@@ -47,8 +49,16 @@ function createSeries(field, name, timer = 1000) {
       if (column !== event.target) {
         column.setState("default");
         column.isActive = false;
+      } else {
+        const index = event.target.dataItem.index;
+        const range = UA ? 2 : 8;
+        window.chart.categoryAxis.zoomToIndexes(
+          index - range <= 0 ? 0 : index - range,
+          index + range
+        );
       }
     });
+    window.chart.categoryAxis.renderer.labels.template.rotation = 0;
   });
 
   // Add label
@@ -80,13 +90,37 @@ function init() {
   categoryAxis.dataFields.category = "category";
   categoryAxis.renderer.minGridDistance = 30;
   categoryAxis.renderer.grid.template.location = 0;
-  //categoryAxis.renderer.labels.template.rotation = 270;
+  categoryAxis.renderer.labels.template.rotation = 90;
   //categoryAxis.renderer.labels.template.adapter.add("dx", (dx) => dx - 20);
   categoryAxis.renderer.grid.template.disabled = true;
+  // 라벨클릭이벤트
   var label = categoryAxis.renderer.labels.template;
   label.wrap = true;
-  label.truncate = true;
-  label.maxWidth = 300;
+  label.maxWidth = 120;
+
+  function highlighColumn(ev) {
+    chart.series.each(function (series) {
+      if (series instanceof am4charts.ColumnSeries) {
+        series.columns.each(function (column) {
+          if (column.dataItem.categoryX === ev.target.dataItem.category) {
+            column.isActive = true;
+          } else {
+            column.isActive = false;
+          }
+        });
+      }
+    });
+    const index = ev.target.dataItem.index;
+    const range = UA ? 2 : 8;
+    window.chart.categoryAxis.zoomToIndexes(
+      index - range <= 0 ? 0 : index - range,
+      index + range
+    );
+    window.chart.categoryAxis.renderer.labels.template.rotation = 0;
+  }
+
+  label.events.on("hit", highlighColumn);
+  label.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 
   let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   valueAxis.strictMinMax = true;
@@ -95,13 +129,11 @@ function init() {
   chart.scrollbarX = new am4core.Scrollbar();
   chart.categoryAxis = categoryAxis;
   chart.tooltip.fillOpacity = 0.4;
-  //   init.timer = setTimeout(
-  //     () => {
-  //       //categoryAxis.zoomToIndexes(0, range);
-  //     },
-  //     timer,
-  //     range
-  //   );
+  // zoombtn
+
+  chart.zoomOutButton.events.on("hit", (ev) => {
+    categoryAxis.renderer.labels.template.rotation = 90;
+  });
 }
 
 export { init, createSeries };

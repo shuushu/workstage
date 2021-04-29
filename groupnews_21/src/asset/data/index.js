@@ -1,4 +1,4 @@
-export default {
+const profile = {
   이낙연: {
     index: 1,
     이름: "이낙연",
@@ -2692,7 +2692,7 @@ export default {
     이름: "송언석",
     index__1: 225,
     정당_old: "미래통합당",
-    정당_21: "국민의힘",
+    정당_21: "무소속",
     광역: "경북",
     지역구: "경북김천시",
     국무위원_2012: "",
@@ -3612,3 +3612,5 @@ export default {
     재산공개: 0,
   },
 };
+
+export default profile;

@@ -368,7 +368,7 @@ function App() {
     <Router>
       <Grid container id="app">
         <Grid item xs id="map">
-          <a href="//imnews.imbc.com/" class="mbc">
+          <a href="//imnews.imbc.com/" className="mbc">
             <img
               src="//image.imnews.imbc.com/newszoomin/groupnews/groupnews_16/img/mbc_logo.png"
               alt="MBC"
