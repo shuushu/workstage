@@ -248,6 +248,7 @@ export default function EnhancedTable() {
     setOrderBy(field);
     setActive(n);
     setRowsData(rows);
+    setPage(0);
     window.chart.categoryAxis.renderer.labels.template.rotation = 270;
   };
 
@@ -440,18 +441,20 @@ export default function EnhancedTable() {
                   {fillType === "본회의" || fillType === "all" ? (
                     <>
                       <TableCell>{row["본회의_총회의"]}</TableCell>
-                      <TableCell>{row["본회의_출석"]}</TableCell>
-                      <TableCell className={active === 2 && "불출석"}>
+                      <TableCell className={active === 3 ? "출석" : null}>
+                        {row["본회의_출석"]}
+                      </TableCell>
+                      <TableCell className={active === 2 ? "불출석" : null}>
                         {row["본회의_불출석"]}
                       </TableCell>
-                      <TableCell className={active === 1 && "청가"}>
+                      <TableCell className={active === 1 ? "청가" : null}>
                         {row["본회의_청가"]}
                       </TableCell>
-                      <TableCell className={active === 1 && "청가"}>
+                      <TableCell className={active === 1 ? "청가" : null}>
                         {row["본회의_신고서"]}
                       </TableCell>
                       <TableCell>{row["본회의_출장"]}</TableCell>
-                      <TableCell className={active === 0 && "무단"}>
+                      <TableCell className={active === 0 ? "무단" : null}>
                         {row["본회의_무단결석"]}
                       </TableCell>
                     </>
@@ -459,18 +462,20 @@ export default function EnhancedTable() {
                   {fillType === "상임위" || fillType === "all" ? (
                     <>
                       <TableCell>{row["상임위_총회의"]}</TableCell>
-                      <TableCell>{row["상임위_출석"]}</TableCell>
-                      <TableCell className={active === 2 && "불출석"}>
+                      <TableCell className={active === 3 ? "출석" : null}>
+                        {row["상임위_출석"]}
+                      </TableCell>
+                      <TableCell className={active === 2 ? "불출석" : null}>
                         {row["상임위_불출석"]}
                       </TableCell>
-                      <TableCell className={active === 1 && "청가"}>
+                      <TableCell className={active === 1 ? "청가" : null}>
                         {row["상임위_청가"]}
                       </TableCell>
-                      <TableCell className={active === 1 && "청가"}>
+                      <TableCell className={active === 1 ? "청가" : null}>
                         {row["상임위_신고서"]}
                       </TableCell>
                       <TableCell>{row["상임위_출장"]}</TableCell>
-                      <TableCell className={active === 0 && "무단"}>
+                      <TableCell className={active === 0 ? "무단" : null}>
                         {row["상임위_무단결석"]}
                       </TableCell>
                     </>

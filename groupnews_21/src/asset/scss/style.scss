@@ -297,11 +297,13 @@ body {
   }
 }
 // 불출석모드
+#dataType3 .출석,
 #dataType0 .무단,
 #dataType2 .불출석,
 #dataType1 .청가 {
   background-color: #efefef;
 }
+#dataType3 tr:hover .출석,
 #dataType0 tr:hover .무단,
 #dataType2 tr:hover .불출석,
 #dataType1 tr:hover .청가 {

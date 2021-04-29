@@ -15,6 +15,9 @@ export default function EnhancedTableHead(props) {
       case "불출석":
         property = "전체불출석";
         break;
+      default:
+        property = "전체출석";
+        break;
     }
     if (property.indexOf("청가") >= 0 && property.indexOf("결석계") >= 0) {
       property = "청가";
@@ -57,6 +60,9 @@ export default function EnhancedTableHead(props) {
         case 2:
           label = "불출석";
           break;
+        default:
+          label = "출석";
+          break;
       }
       return ["이름", label, ...본회의, ...상임위];
     }
@@ -82,13 +88,12 @@ export default function EnhancedTableHead(props) {
     switch (active) {
       case 0:
         return "무단결석 순위";
-        break;
       case 1:
         return "청가ㆍ결석계 순위";
-        break;
-      default:
+      case 2:
         return "불출석 순위";
-        break;
+      default:
+        return "출석 순위";
     }
   };
 

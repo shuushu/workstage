@@ -11,7 +11,6 @@ export default function Notice(props) {
           횟수입니다.
         </Alert>
       );
-      break;
     case 1:
       return (
         <Alert severity="warning">
@@ -19,14 +18,12 @@ export default function Notice(props) {
           이를 더한 횟수입니다.
         </Alert>
       );
-      break;
     case 2:
       return (
         <Alert severity="info">
           불출석은 무단 결석에 청가 및 결석계를 제출한 횟수를 더했습니다.
         </Alert>
       );
-      break;
 
     default:
       return (
@@ -34,6 +31,5 @@ export default function Notice(props) {
           본회의나 소속 상임위원회 또는 특별위원회를 모두 출석한 횟수입니다.
         </Alert>
       );
-      break;
   }
 }

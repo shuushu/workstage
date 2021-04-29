@@ -27,12 +27,7 @@ export default function HeadLine() {
     return data.map((d, i) => {
       const { link, src, str, provider } = d;
       return (
-        <a
-          href={link}
-          target="_blank"
-          key={`list-video-${i}`}
-          relel="noreferrer"
-        >
+        <a href={link} target="_blank" key={`list-video-${i}`} rel="noreferrer">
           <span className="thumb">
             <img src={src} alt="" />
           </span>
@@ -73,7 +68,7 @@ export default function HeadLine() {
         &#9997;
         <a
           href="https://news.imbc.com/newszoomin/groupnews/"
-          relel="noreferrer"
+          rel="noreferrer"
           target="_blank"
         >
           기획: MBC기획취재팀
