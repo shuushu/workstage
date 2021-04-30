@@ -33,17 +33,26 @@ const reducer = (state: state, action: action) => {
         default: throw new Error(`Unhandled action type: ${action.type}`);
     }
 }
-const useFetch = (url: string, deps = []) => {
+const useFetch = (props: any, deps = []) => {
+    const { url, params } = props;
     const [state, dispatch] = useReducer(reducer, {
         loading: false,
         data: [],
         error: null
     });
+    let PATH = url;
 
     const fetchData: any = async () => {
         dispatch({ type: 'LOADING' });
         try {
-            const response = await fetch(url);
+            if (params) {
+                const arr = Object.entries(params);
+                PATH = PATH + arr.reduce((p: any, n, z) => {
+                    
+                    return p = p + `${n[0]}=${n[1]}${arr.length-1 !== z ? '&' : ''}`
+                }, '?')
+            }
+            const response = await fetch(PATH);
             const data = await response.json();
             dispatch({ type: 'SUCCESS', data });
         } catch (e) {

@@ -4,7 +4,7 @@ import { FetchApi } from '../components/FetchApi';
 import { ItemCard } from '../components/Items';
 import { useFetch } from '../hooks/useFetch';
 import { makeStyles } from '@material-ui/core/styles';
-
+// 국회의원 API관련 사용한 모듈
 import Avatar from '@material-ui/core/Avatar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +13,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+// 주소검색 api관련 사용한 모듈
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
   large: {
@@ -28,7 +30,7 @@ export default {
 
 const Template: Story = (args) => {
   if (args.url.length > 0) {
-    const [state, refetch] = useFetch(args.url);
+    const [state, refetch] = useFetch(args);
 
     return (
       <FetchApi {...state} refetch={refetch}>
@@ -53,7 +55,7 @@ const CardTemplate: Story = (args) => {
   const classes = useStyles();
 
   if (args.url.length > 0) {
-    const [state, refetch] = useFetch(args.url);
+    const [state, refetch] = useFetch(args);
 
     const Profile = (props: any) => {
       const { data } = props;
@@ -115,3 +117,41 @@ export const 국회의원이력API = CardTemplate.bind({});
   url: 'https://open.assembly.go.kr/portal/assm/search/searchAssmMemberSch.do?unitCd=100021&rows=300&page=1'
 };
 
+const Juso: Story = (args) => {
+  if (args.url.length > 0) {
+    console.log(args.params)
+    const [state, refetch] = useFetch(args);
+
+    const ItemRender = () => {
+      const { common, juso } = state.data.results;
+      if (common.errorCode !== '0') {
+        return <div>{common.errorMessage}</div>
+      } else {
+        return <ItemCard key={juso.zipNo} data={juso} refetch={refetch} />
+      }
+    }
+
+    return (
+      <FetchApi {...state} data={Object.entries(state.data)} refetch={refetch}>
+        <ItemRender />
+      </FetchApi>
+    )
+  } else {
+    // 테스트 버젼
+    return <FetchApi {...args} />
+  }
+};
+
+export const 주소API = Juso.bind({});
+주소API.args = {
+
+  url: 'https://www.juso.go.kr/addrlink/addrLinkApi.do',
+  params: {
+    confmKey: 'U01TX0FVVEgyMDIxMDQzMDE2MjkxODExMTExNTU=',
+    resultType: 'json',
+    countPerPage: 100,
+    currentPage: 1,
+    keyword: '숲쟁이로'
+  }
+
+};
