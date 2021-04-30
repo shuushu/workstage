@@ -13,4 +13,4 @@
 - 360장비가 없어 휴대폰 파노라마로 촬영하여 제작 하였는데, 상/하 일그러짐이 심하여 라이브러리 코드에서 좌/우로만 이동가능하게 편집
   [https://github.com/shuushu/workstage/blob/0bbe15af713d9a841db0536e2449dab88368b050/groupnews_20/src/panorama/index.js#L372]
 
-* [demo](http://nz.assembly-mbc.com/)
+* [demo](http://fire.assembly-mbc.com/)
