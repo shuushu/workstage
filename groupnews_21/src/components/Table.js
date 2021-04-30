@@ -179,8 +179,8 @@ export default function EnhancedTable() {
               value2: value["상임위_불출석"],
             };
           });
-          createSeries("value1", "전체 본회의 불출석", 0);
-          createSeries("value2", "전체 상임위 불출석", 0);
+          createSeries("value1", "본회의", 0);
+          createSeries("value2", "상임위ㆍ특위", 0);
           prefix = null;
           break;
         case "본회의_의원_무단결석":
@@ -191,8 +191,8 @@ export default function EnhancedTable() {
               value2: value["상임위_무단결석"],
             };
           });
-          createSeries("value2", "상임위 무단결석", 0);
-          createSeries("value1", "본회의 무단결석", 0);
+          createSeries("value2", "상임위ㆍ특위", 0);
+          createSeries("value1", "본회의", 0);
           prefix = null;
 
           break;
@@ -206,8 +206,8 @@ export default function EnhancedTable() {
               value4: value["본회의_신고서"],
             };
           });
-          createSeries("value1", "상임위 청가", 0);
-          createSeries("value2", "상임위 결석계", 0);
+          createSeries("value1", "상임위ㆍ특위 청가", 0);
+          createSeries("value2", "상임위ㆍ특위 결석계", 0);
           createSeries("value3", "본회의 청가", 0);
           createSeries("value4", "본회의 결석계", 0);
           prefix = null;
@@ -220,8 +220,8 @@ export default function EnhancedTable() {
               value2: value["상임위_출석"],
             };
           });
-          createSeries("value1", "본회의 출석", 0);
-          createSeries("value2", "상임위 출석", 0);
+          createSeries("value1", "본회의", 0);
+          createSeries("value2", "상임위ㆍ특위", 0);
           prefix = null;
           break;
         default:
@@ -316,8 +316,8 @@ export default function EnhancedTable() {
         value2: value["상임위_무단결석"],
       };
     });
-    createSeries("value2", "상임위 무단결석", 0);
-    createSeries("value1", "본회의 무단결석", 0);
+    createSeries("value2", "상임위ㆍ특위", 0);
+    createSeries("value1", "본회의", 0);
   }, []);
 
   return (

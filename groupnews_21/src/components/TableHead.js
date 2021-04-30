@@ -3,7 +3,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-
+import InfoIcon from "@material-ui/icons/Info";
 export default function EnhancedTableHead(props) {
   const { classes, order, orderBy, onRequestSort, active, fillType } = props;
   const createSortHandler = (property) => (event) => {
@@ -96,6 +96,22 @@ export default function EnhancedTableHead(props) {
         return "출석 순위";
     }
   };
+  const setTitleProps = (label) => {
+    let cv = label;
+    if (
+      label.indexOf("상임위") >= 0 &&
+      label.indexOf("특위") >= 0 &&
+      label.indexOf("횟수") >= 0
+    ) {
+      cv = "상임위특위횟수";
+    }
+    const HELP_STR = {
+      "본회의 횟수": "본회의 횟수 = 본회의 출석 + 본회의 불출석",
+      상임위특위횟수:
+        "상임위ㆍ특위 횟수 =  상임위ㆍ특위 출석 + 상임위ㆍ특위 불출석",
+    };
+    return HELP_STR[cv] ? <div className="tooltip">{HELP_STR[cv]}</div> : null;
+  };
 
   return (
     <TableHead>
@@ -127,7 +143,11 @@ export default function EnhancedTableHead(props) {
               align="center"
               padding={headCell.disablePadding ? "none" : "default"}
               sortDirection={orderBy === headCell.id ? order : false}
-              className={`nth-${i}`}
+              className={`nth-${i} ${
+                label === "본회의 횟수" || label === "상임위ㆍ특위 횟수"
+                  ? "HOVER"
+                  : null
+              }`}
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -135,6 +155,15 @@ export default function EnhancedTableHead(props) {
                 onClick={createSortHandler(headCell.id)}
               >
                 {label}
+                {label === "본회의 횟수" || label === "상임위ㆍ특위 횟수" ? (
+                  <>
+                    <span className="emo">
+                      <InfoIcon />
+                    </span>
+                    {setTitleProps(label)}
+                  </>
+                ) : null}
+
                 {orderBy === headCell.id ? (
                   <span className={classes.visuallyHidden}>
                     {order === "desc"
