@@ -31,6 +31,12 @@ var APP_DATA = {
       linkHotspots: [],
       infoHotspots: [
         {
+          yaw: 1.065701322263694,
+          pitch: -0.6023976009030545,
+          title: "EXIT",
+          icon: "EXIT",
+        },
+        {
           yaw: 1.305701322263694,
           pitch: -0.6823976009030545,
           title: "옥상출입문 설치여부",
@@ -147,6 +153,12 @@ var APP_DATA = {
       },
       linkHotspots: [],
       infoHotspots: [
+        {
+          yaw: 1.065701322263694,
+          pitch: -0.6023976009030545,
+          title: "EXIT",
+          icon: "EXIT",
+        },
         {
           yaw: 1.305701322263694,
           pitch: -0.6823976009030545,

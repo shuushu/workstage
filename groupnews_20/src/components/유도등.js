@@ -13,12 +13,12 @@ export default function SwitchLabels(props) {
     if (window.isOn) {
       switchScene(scenes[2]);
       d.forEach((i) => i.classList.remove("Mui-checked"));
-      t.forEach((i) => (i.innerHTML = "조명 켜기"));
+      t.forEach((i) => (i.innerHTML = "유도등이 있다면?"));
       window.isOn = false;
     } else {
       switchScene(scenes[0]);
       d.forEach((i) => i.classList.add("Mui-checked"));
-      t.forEach((i) => (i.innerHTML = "조명 끄기"));
+      t.forEach((i) => (i.innerHTML = "유도등이 없다면?"));
 
       window.isOn = true;
     }
@@ -45,7 +45,7 @@ export default function SwitchLabels(props) {
               name="checkedA"
             />
           }
-          label={window.isOn ? "조명 끄기" : "조명 켜기"}
+          label={window.isOn ? "유도등이 없다면?" : "유도등이 있다면?"}
         />
         <div>
           <a href="#r" className="link" onClick={clickModal}>

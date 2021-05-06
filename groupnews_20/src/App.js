@@ -10,9 +10,9 @@ import ComboBox from "./components/Search.tsx";
 
 // custom
 import Panorama from "./panorama/index";
+import Result from "./panorama/Result";
 import { clearFire, Fire } from "./fire";
 import { init, removeSmoke } from "./smoke";
-
 import "./asset/scss/style.scss";
 
 const gisa = [
@@ -123,6 +123,9 @@ function Pages() {
         <Switch location={location}>
           <Route path="/detail:id">
             <Panorama />
+          </Route>
+          <Route path="/result:id">
+            <Result />
           </Route>
           <Route path="*">
             <Home />

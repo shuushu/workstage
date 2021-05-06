@@ -9,7 +9,9 @@ import IconHelp from "@material-ui/icons/EmojiPeople";
 import IconNotice from "@material-ui/icons/Report";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
 import NoMeetingRoomIcon from "@material-ui/icons/NoMeetingRoom";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 import DATA from "../components/data";
 import loadTemtplate from "../components/template";
 import Button from "@material-ui/core/Button";
@@ -23,7 +25,9 @@ function removeWhiteSpace(str) {
     return false;
   }
 }
-
+let flag = false;
+let autoTimer;
+let activeTimer;
 export default function Panorama() {
   let [mdFlag, setMdFlag] = useState(false);
   let { id } = useParams();
@@ -37,6 +41,16 @@ export default function Panorama() {
 
   function customUI(switchScene, scenes) {
     setTimeout(() => {
+      // [0]
+      const exitIcon = document.querySelectorAll(`.info-hotspot.EXIT`);
+
+      exitIcon.forEach((v) => {
+        v.addEventListener("click", () => {
+          setMdFlag(true);
+        });
+        return ReactDOM.render(<TransitEnterexitIcon fontSize="large" />, v);
+      });
+
       Object.entries(CSV).forEach(([key, value]) => {
         const className = removeWhiteSpace(key);
         const getNode = document.querySelectorAll(`.${className}`);
@@ -210,7 +224,6 @@ export default function Panorama() {
                         3) 세대안으로 불꽃이 옮겨 붙거나 연기가 들어오는 경우
                         옥상등 대피공간으로 대피
                       </span>
-                      <em className="provider">출처: 군포소방</em>
                     </li>
                   </ul>
                 </div>,
@@ -807,6 +820,17 @@ export default function Panorama() {
           }
         });
       });
+      // 제한시간 내 클릭 안할 경우
+      /* autoTimer = setInterval(() => {
+        if (flag === false) {
+          const mask = document.getElementById("mask");
+          mask.classList.add("active");
+          clearTimeout(activeTimer);
+          activeTimer = setTimeout(() => {
+            mask.classList.remove("active");
+          }, 3000);
+        }
+      }, 15000); */
 
       return () => {
         var infoLabels = document.querySelectorAll(".info-hotspot-modal");
@@ -852,7 +876,7 @@ export default function Panorama() {
             </li>
           </ul>
 
-          <span
+          {/* <span
             className={
               CSV["옥상 출입문 위치"] === "최상층" ? "dong A" : "dong B"
             }
@@ -877,7 +901,7 @@ export default function Panorama() {
               </li>
             )}
             <li>지붕형태: {CSV["지붕형태"]}</li>
-          </ul>
+          </ul> */}
           {/* 저층에서 화재가 나서 계단으로 내려 갈 수 없는 상황입니다. <br />
           대피 할 수 있는 장소는 옥상 외에는 없습니다. */}
         </div>
@@ -918,6 +942,16 @@ export default function Panorama() {
         </div>
         <div id="viewOut" className="viewControlButton viewControlButton-6">
           <img className="icon" alt="" src="img/minus.png" />
+        </div>
+        <div id="mask">
+          <SnackbarContent
+            message="위험합니다. 대피하여 주세요"
+            action={
+              <Button color="secondary" size="small">
+                대피하기
+              </Button>
+            }
+          />
         </div>
       </div>
     );

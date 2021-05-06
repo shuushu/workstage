@@ -3,41 +3,68 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import useWindowSize from '../../../hooks/useWindowSize.ts';
 import DATA from "../components/data";
-interface CountryType {
-    title: string;
-    year: number;
-}
+import {
+    AsyncArray
+} from '../../../components/Util'
+
+let timer;
 
 export default function Asynchronous() {
     const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState<CountryType[]>([]);
-    const [size, setSize] = React.useState(0);
+    const [options, setOptions] = React.useState([]);
+    const [feieldHelpText, setFieldHelpText] = React.useState('');
     const textRef = React.useRef();
     const loading = open && options.length === 0;
-    const [width] = useWindowSize();
+    const [tValue, setTValue] = React.useState('')
 
     React.useEffect(() => {
-        if (size >= 2) {
-            /* (async () => {
-                const response = await fetch('https://image.imnews.imbc.com/newszoomin/groupnews/groupnews_21/data.json');
-                const countries = await response.json();
+        clearTimeout(timer);
+        if (tValue.length > 2) {
+            timer = setTimeout(() => {
+                (async () => {
+                    const JUSO = {
+                        url: 'https://www.juso.go.kr/addrlink/addrLinkApi.do',
+                        params: {
+                            confmKey: 'U01TX0FVVEgyMDIxMDQzMDE2MjkxODExMTExNTU=',
+                            resultType: 'json',
+                            countPerPage: 100,
+                            currentPage: 1,
+                            keyword: '숲쟁이로'
+                        }
+                    }
 
-                setOptions(Object.entries(countries).map(([v, k]: any) => k));
-            })(); */
-            setOptions(Object.entries(DATA).map(([v, k]: any) => k));
+                    JUSO.params.keyword = tValue;
+                    const arr = Object.entries(JUSO.params);
+                    JUSO.url = JUSO.url + arr.reduce((p: any, n, z) => {
+                        return p = p + `${n[0]}=${n[1]}${arr.length - 1 !== z ? '&' : ''}`
+                    }, '?')
+                    setFieldHelpText('검색중');
+
+                    const response = await fetch(JUSO.url);
+                    const countries = await response.json();
+                    const { common, juso } = countries.results;
+
+                    if (common.errorCode !== '0' || juso.length === 0) {
+                        setFieldHelpText('네트워크 에러');
+                    } else {
+                        const getAPT = juso.filter(v => v.bdNm.length > 0);
+                        if (getAPT.length === 0) {
+                            setFieldHelpText('검색 결과 없음');
+                        }
+                        setOptions(getAPT);
+                    }
+                })();
+            }, 1000)
         }
 
-    }, [size]);
+    }, [tValue]);
 
     React.useEffect(() => {
         if (!open) {
             setOptions([]);
         }
     }, [open]);
-
-
 
     return (
         <Autocomplete
@@ -47,23 +74,41 @@ export default function Asynchronous() {
             blurOnSelect
             onOpen={() => {
                 setOpen(true);
+                setTValue('')
             }}
             onClose={() => {
                 setOpen(false);
-                setSize(0);
+                setTValue('')
+                //setSize(0);
             }}
-            getOptionSelected={(option, value) => option['유도등 설치여부'] === value['유도등 설치여부']}
-            getOptionLabel={(option) => option['유도등 설치여부']}
+            //getOptionSelected={(option, value) => option.bdNm === value.bdNm}
+            getOptionLabel={option => {
+                return `${option.bdNm} - ${option.roadAddr}`
+            }}
+            renderOption={(option) => {
+                const { bdNm, roadAddr, jibunAddr } = option;
+                return (
+                    <div className="optionsLabel">
+                        <strong className="bdNm">{bdNm}</strong>
+                        <div className="juso">
+                            <em className="roadAddr">{roadAddr}</em>
+                            <em className="jibunAddr">{jibunAddr}</em>
+                        </div>
+                    </div>
+                )
+            }}
+
             options={options}
             loading={loading}
             className="fire-Autocomplete"
-            noOptionsText="검색 결과 없음"
-            loadingText={size < 2 ? '두글자 이상 입력 해주세요' : '데이터 가져오는 중...'}
-            size={width <= 320 ? 'small' : 'medium'}
+            noOptionsText="검색중"
+            loadingText={tValue.length < 3 ? '두글자 이상 입력 해주세요' : feieldHelpText}
+            size={window.innerWidth <= 320 ? 'small' : 'medium'}
             onChange={(o, v: any) => {
                 if (v) {
+                    console.log(v);
                     // PK값 - object키 값이어야 함
-                    window.location.href = `#/detail:키${v['순']}`
+                    //window.location.href = `#/detail:키${v['순']}`
                 }
             }}
             renderInput={(params) => {
@@ -74,23 +119,15 @@ export default function Asynchronous() {
                         variant="outlined"
                         inputRef={textRef}
                         onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            if (size < 2) {
-                                setSize(e.target.value.length);
-                            }
-                            if (e.target.value.length < 2) {
-                                setOptions([]);
-                                // if (e.target.value.length === 0) {
-                                // }
-                                setSize(0);
-                            }
+                            setTValue(e.target.value);
                         }}
                         InputProps={{
                             ...params.InputProps,
                             endAdornment: (
-                                <React.Fragment>
+                                <>
                                     {loading ? <CircularProgress size={20} /> : null}
                                     {params.InputProps.endAdornment}
-                                </React.Fragment>
+                                </>
                             ),
                         }}
                     />
