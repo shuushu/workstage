@@ -6,7 +6,10 @@ import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import DATA from "../components/data";
 import Recent from "./Recent";
 import { useEffect } from "react";
-import 자동개폐이미지 from "../asset/imgs/auto.jpg";
+import 자동개폐이미지 from "../asset/imgs/auto2.jpg";
+import nangan from "../asset/imgs/nangan.jpg";
+import nangan2 from "../asset/imgs/nangan2.jpg";
+import nangan3 from "../asset/imgs/nangan3.jpg";
 
 export default function Result() {
   let { id } = useParams();
@@ -217,13 +220,36 @@ export default function Result() {
       </div>
       <div className="example">
         <div className="wrap">
-          <img src={자동개폐이미지} alt="" />
-          화재예방 소방시설 설치·유지 및 안전관리에 관한 법률에 따라 2016년 이후
-          건축된 아파트에선 상시 개방해야 합니다. 옥상문을 평소 닫아놓을 경우
-          화재 시에는 자동으로 열리는 개폐 시스템을 갖춰야 합니다. <br />
-          비상문 자동개폐장치의 구입비용은 50만∼100만원 정도로 비교적 저렴한
-          편이지만, 자동화재탐지설비, 유도등 등과 연동시켜야 하기 때문에 추가
-          설치비용이 발생합니다. <br />
+          <h3>옥상 설비 올바른 예</h3>
+          <div className="left">
+            <span className="thumb">
+              <img src={자동개폐이미지} alt="" />
+            </span>
+            <div className="info-wrap">
+              <h4>자동개폐장치 설치</h4>
+              화재예방 소방시설 설치·유지 및 안전관리에 관한 법률에 따라 2016년
+              이후 건축된 아파트에선 상시 개방해야 합니다. 옥상문을 평소
+              닫아놓을 경우 화재 시에는 자동으로 열리는 개폐 시스템을 갖춰야
+              합니다. <br />
+              비상문 자동개폐장치의 구입비용은 50만∼100만원 정도로 비교적 저렴한
+              편이지만, 자동화재탐지설비, 유도등 등과 연동시켜야 하기 때문에
+              추가 설치비용이 발생합니다.{" "}
+            </div>
+          </div>
+          <div className="right">
+            <span className="nangan">
+              <img src={nangan} alt="" />
+              <span className="txt">옥상 대피 공간</span>
+            </span>
+            <span className="nangan2">
+              <img src={nangan2} alt="" />
+              <span className="txt">평지붕 + 옥상 난간 설치</span>
+            </span>
+            <span className="nangan3">
+              <img src={nangan3} alt="" />
+              <span className="txt">박공지붕 + 옥상 난간 설치</span>
+            </span>
+          </div>
         </div>
       </div>
       <Recent />

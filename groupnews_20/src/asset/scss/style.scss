@@ -1,4 +1,8 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 @import "../../../../scss/fn.module.scss";
+body {
+  font-family: "Noto Sans KR", sans-serif;
+}
 
 * {
   margin: 0;
@@ -52,6 +56,10 @@ code {
     color: #62ad62;
   }
 }
+.success .App,
+.fail .App {
+  overflow: auto;
+}
 .fade-enter {
   opacity: 0;
   z-index: 1;
@@ -73,9 +81,9 @@ code {
 .recent {
   background: #fff;
   color: #000;
-  padding: 20px 0;
+  padding: 20px 10px;
   box-sizing: border-box;
-  width: 1000px;
+  max-width: 1000px;
   margin: 0 auto;
   .items-container {
     overflow: hidden;
@@ -89,23 +97,115 @@ code {
 .example {
   background: #efefef;
   .wrap {
-    width: 1000px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 10px 0;
+    padding: 20px 10px;
     box-sizing: border-box;
     line-height: 1.3;
     overflow: hidden;
-    img {
+    font-size: 14px;
+    .thumb {
       float: left;
+      position: relative;
       margin-right: 10px;
+      font-size: 0;
+      max-width: 50%;
+      height: 250px;
+      overflow: hidden;
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border: solid 1px #000;
+        opacity: 0.2;
+      }
     }
+    .left {
+      float: left;
+      width: 50%;
+      .info-wrap {
+        padding: 0 10px;
+      }
+    }
+    .right {
+      float: left;
+      width: 50%;
+      font-size: 0;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .txt {
+        position: absolute;
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        left: 0;
+        bottom: 0;
+        color: #fff;
+        font-size: 13px;
+      }
+      .nangan {
+        width: 50%;
+        height: 250px;
+        float: left;
+        overflow: hidden;
+        position: relative;
+        &::before {
+          content: "";
+          width: 1px;
+          display: block;
+          height: 100%;
+          position: absolute;
+          right: 0;
+          top: 0;
+          background: #fff;
+        }
+      }
+      .nangan3,
+      .nangan2 {
+        display: block;
+        float: right;
+        width: 50%;
+        height: 125px;
+        position: relative;
+      }
+      .nangan2::before {
+        content: "";
+        width: 100%;
+        display: block;
+        height: 1px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+      }
+    }
+  }
+  h3 {
+    margin: 0 0 7px 0;
+    font-size: 18px;
+  }
+  h4 {
+    margin: 0 0 7px 0;
+    font-size: 16px;
   }
 }
 .result {
-  width: 1000px;
+  max-width: 1000px;
   margin: 0 auto;
   line-height: 1.3;
-
+  padding: 0 10px;
   h3 {
     font-weight: bold;
   }
@@ -235,13 +335,14 @@ code {
     position: relative;
     border-radius: 5px;
     overflow: hidden;
+    font-size: 0;
   }
   .thumb::before {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    border: solid 1px #fff;
+    border: solid 1px #000;
     box-sizing: border-box;
     border-radius: 5px;
     opacity: 0.2;
@@ -309,6 +410,13 @@ code {
   padding-bottom: 140px;
   z-index: -1;
   background: rgba(255, 0, 0, 0.1);
+  .sr {
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -20px;
+  }
   > div {
     transition: all 0.5s;
     transform: translateX(200%);

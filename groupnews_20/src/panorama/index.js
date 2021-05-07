@@ -15,6 +15,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import DATA from "../components/data";
 import loadTemtplate from "../components/template";
 import Button from "@material-ui/core/Button";
+import 이미지 from "../asset/imgs/sr.png";
 function removeWhiteSpace(str) {
   var setClassName = str;
   if (setClassName) {
@@ -944,6 +945,7 @@ export default function Panorama() {
           <img className="icon" alt="" src="img/minus.png" />
         </div>
         <div id="mask">
+          <img src={이미지} className="sr" alt="" />
           <SnackbarContent
             message="위험합니다. 대피하여 주세요"
             action={
