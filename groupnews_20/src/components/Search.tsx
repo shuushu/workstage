@@ -15,7 +15,7 @@ export default function Asynchronous() {
     const [options, setOptions] = React.useState([]);
     const [feieldHelpText, setFieldHelpText] = React.useState('');
     const textRef = React.useRef();
-    const loading = open && options.length === 0;
+    const [loading, setLoading] = React.useState(false);
     const [tValue, setTValue] = React.useState('')
 
     React.useEffect(() => {
@@ -45,8 +45,10 @@ export default function Asynchronous() {
                     const countries = await response.json();
                     const { common, juso } = countries.results;
 
-                    if (common.errorCode !== '0' || juso.length === 0) {
-                        setFieldHelpText('네트워크 에러');
+                    if (common.errorCode !== '0') {
+                        setFieldHelpText(common.errorMessage);
+                    } else if (juso.length === 0) {
+                        setFieldHelpText('검색 결과 없음');
                     } else {
                         const getAPT = juso.filter(v => v.bdNm.length > 0);
                         if (getAPT.length === 0) {
@@ -65,7 +67,6 @@ export default function Asynchronous() {
             setOptions([]);
         }
     }, [open]);
-
     return (
         <Autocomplete
             id="asynchronous-demo"
@@ -74,16 +75,19 @@ export default function Asynchronous() {
             blurOnSelect
             onOpen={() => {
                 setOpen(true);
+                setLoading(true);
                 setTValue('')
             }}
             onClose={() => {
                 setOpen(false);
+                setLoading(false);
                 setTValue('')
                 //setSize(0);
             }}
+            filterOptions={x => x}
             //getOptionSelected={(option, value) => option.bdNm === value.bdNm}
             getOptionLabel={option => {
-                return `${option.bdNm} - ${option.roadAddr}`
+                return `${option.bdNm}`
             }}
             renderOption={(option) => {
                 const { bdNm, roadAddr, jibunAddr } = option;
@@ -108,7 +112,10 @@ export default function Asynchronous() {
                 if (v) {
                     console.log(v);
                     // PK값 - object키 값이어야 함
+                    //#/detail:키99
+                    window.location.href = `#/detail:키99`
                     //window.location.href = `#/detail:키${v['순']}`
+
                 }
             }}
             renderInput={(params) => {

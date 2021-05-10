@@ -12,6 +12,7 @@ import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
 import NoMeetingRoomIcon from "@material-ui/icons/NoMeetingRoom";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import DATA from "../components/data";
 import loadTemtplate from "../components/template";
 import Button from "@material-ui/core/Button";
@@ -47,7 +48,8 @@ export default function Panorama() {
 
       exitIcon.forEach((v) => {
         v.addEventListener("click", () => {
-          setMdFlag(true);
+          //setMdFlag(true);
+          window.location.href = `#/result:키99`;
         });
         return ReactDOM.render(<TransitEnterexitIcon fontSize="large" />, v);
       });
@@ -68,6 +70,46 @@ export default function Panorama() {
             .forEach(
               (v) => (v.querySelector(".info-hotspot-text").innerHTML = value)
             );
+          let RenderCont = "none";
+          // [1]
+          if (className === "옥상출입문위치") {
+            console.log(value);
+            if (value === "최상층") {
+              getNode.forEach((v) => v.classList.add("green"));
+              RenderCont = () => {
+                return (
+                  <div>
+                    <ul className="strList">
+                      <li>
+                        <span className="sub-tit">옥상 출입문 위치</span>
+                        <span className="value">{CSV["옥상 출입문 위치"]}</span>
+                        <a
+                          href={`#${CSV["옥상 출입문 위치"]}`}
+                          className="link"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleClick("옥상출입문위치");
+                          }}
+                        >
+                          현황 보기
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                );
+              };
+            } else if (value === "미설치") {
+              getNode.forEach((v) => v.classList.add("red"));
+            } else {
+              getNode.forEach((v) => v.classList.add("yellow"));
+            }
+            overwriteIcon.forEach((v) =>
+              ReactDOM.render(<ExitToAppIcon fontSize="large" />, v)
+            );
+            overwriteContents.forEach((v) =>
+              ReactDOM.render(<RenderCont />, v)
+            );
+          }
           // [1]
           if (className === "유도등설치여부") {
             if (value === "설치") {
@@ -94,8 +136,6 @@ export default function Panorama() {
           }
           // [2]
           if (className === "옥상출입문설치여부") {
-            let RenderCont = "none";
-
             if (value === "설치") {
               getNode.forEach((v) => v.classList.add("green"));
               RenderCont = () => {
@@ -148,20 +188,6 @@ export default function Panorama() {
                           rel="noopener noreferrer"
                         >
                           행정 규칙 보기
-                        </a>
-                      </li>
-                      <li>
-                        <span className="sub-tit">옥상 출입문 위치</span>
-                        <span className="value">{CSV["옥상 출입문 위치"]}</span>
-                        <a
-                          href={`#${CSV["옥상 출입문 위치"]}`}
-                          className="link"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleClick("옥상출입문위치");
-                          }}
-                        >
-                          현황 보기
                         </a>
                       </li>
                     </ul>
@@ -822,7 +848,7 @@ export default function Panorama() {
         });
       });
       // 제한시간 내 클릭 안할 경우
-      /* autoTimer = setInterval(() => {
+      autoTimer = setInterval(() => {
         if (flag === false) {
           const mask = document.getElementById("mask");
           mask.classList.add("active");
@@ -831,13 +857,14 @@ export default function Panorama() {
             mask.classList.remove("active");
           }, 3000);
         }
-      }, 15000); */
+      }, 15000);
 
       return () => {
         var infoLabels = document.querySelectorAll(".info-hotspot-modal");
         infoLabels.forEach((i) => {
           document.body.removeChild(i);
         });
+        clearInterval(autoTimer);
       };
     }
   }, []);
@@ -949,7 +976,11 @@ export default function Panorama() {
           <SnackbarContent
             message="위험합니다. 대피하여 주세요"
             action={
-              <Button color="secondary" size="small">
+              <Button
+                color="secondary"
+                size="small"
+                onClick={() => (window.location.href = `#/result:키99`)}
+              >
                 대피하기
               </Button>
             }

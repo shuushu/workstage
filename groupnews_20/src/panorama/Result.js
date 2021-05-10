@@ -191,16 +191,20 @@ export default function Result() {
     if (check()) {
       document.body.classList.add("fail");
     } else {
-      console.log(check());
       document.body.classList.add("success");
     }
+
+    return () => {
+      document.body.classList.remove("success");
+      document.body.classList.remove("fail");
+    };
   }, []);
   return (
-    <>
+    <div id="result-wrap">
       <div className="result">
         <h2 className="info">
           마포 한강 아파트 <span>13동수</span>
-          <span>서울시 마포구 방울내로74길 323-12</span>
+          <span className="adr">서울시 마포구 방울내로74길 323-12</span>
         </h2>
 
         <div className="history">
@@ -256,6 +260,6 @@ export default function Result() {
       <div className="bg">
         {check() ? <CancelOutlinedIcon /> : <CheckCircleOutlineOutlinedIcon />}
       </div>
-    </>
+    </div>
   );
 }

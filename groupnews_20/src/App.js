@@ -13,42 +13,8 @@ import Panorama from "./panorama/index";
 import Result from "./panorama/Result";
 import { clearFire, Fire } from "./fire";
 import { init, removeSmoke } from "./smoke";
+import SidoSVG from "./components/지도.tsx";
 import "./asset/scss/style.scss";
-
-const gisa = [
-  {
-    thumb: "https://cdn.kihoilbo.co.kr/news/photo/202012/899731_313585_956.jpg",
-    link: "https://www.kihoilbo.co.kr/news/articleView.html?idxno=899731",
-    tit:
-      "여기는 괜찮을까… 옥상문 열러 갔더니 도로 내려와야 했다 여기는 괜찮을까… ",
-    provider: "기호일보",
-    date: "2020.12.03",
-  },
-  {
-    thumb:
-      "https://thumb.mt.co.kr/06/2020/12/2020120211338296959_1.jpg/dims/optimize/",
-    link: "https://news.mt.co.kr/mtview.php?no=2020120211338296959",
-    tit: "4명 숨진 군포 아파트 화재 '특이 구조'가 화 키웠나…옥상 혼동 가능성",
-    provider: "뉴스1 ",
-    date: "2020.12.02",
-  },
-  {
-    thumb: "https://cdn.kihoilbo.co.kr/news/photo/202012/899731_313585_956.jpg",
-    link: "https://www.kihoilbo.co.kr/news/articleView.html?idxno=899731",
-    tit:
-      "여기는 괜찮을까… 옥상문 열러 갔더니 도로 내려와야 했다 여기는 괜찮을까… ",
-    provider: "기호일보",
-    date: "2020.12.03",
-  },
-  {
-    thumb:
-      "https://thumb.mt.co.kr/06/2020/12/2020120211338296959_1.jpg/dims/optimize/",
-    link: "https://news.mt.co.kr/mtview.php?no=2020120211338296959",
-    tit: "4명 숨진 군포 아파트 화재 '특이 구조'가 화 키웠나…옥상 혼동 가능성",
-    provider: "뉴스1 ",
-    date: "2020.12.02",
-  },
-];
 
 function Home() {
   useEffect(() => {
@@ -59,36 +25,11 @@ function Home() {
       removeSmoke();
     };
   }, []);
-  const RenderExample = () => {
-    return gisa.map((items, i) => {
-      const { thumb, link, tit, provider, date } = items;
-      return (
-        <li key={`itmes-${i}`} className="items-wrap">
-          <a
-            href={link}
-            className="itmes"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="thumb">
-              <img src={thumb} alt="" />
-            </span>
-            <span className="info">
-              <span className="ell">{tit}</span>
-              <span className="date">
-                [{provider}]<em>{date}</em>
-              </span>
-            </span>
-          </a>
-        </li>
-      );
-    });
-  };
 
   return (
     <div className="home">
       <div className="homeContents">
-        <h1 className="tit">공동주택조회</h1>
+        <h1 className="tit">우리 아파트 옥상은 어떻게 되어 있을까?</h1>
         <div className="cell">
           <ComboBox />
         </div>
@@ -103,10 +44,8 @@ function Home() {
           되어있는지 함께 확인해 주세요.
         </div>
         <div>
-          <h3 className="s-tit">관련기사</h3>
-          <ul className="items-container">
-            <RenderExample />
-          </ul>
+          <h3 className="s-tit">소방특별조사 결과(30층 이상 고층건축물)</h3>
+          <SidoSVG />
         </div>
       </div>
       <canvas id="smoke" width="400" height="400"></canvas>
@@ -121,11 +60,11 @@ function Pages() {
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={300}>
         <Switch location={location}>
-          <Route path="/detail:id">
-            <Panorama />
-          </Route>
           <Route path="/result:id">
             <Result />
+          </Route>
+          <Route path="/detail:id">
+            <Panorama />
           </Route>
           <Route path="*">
             <Home />
