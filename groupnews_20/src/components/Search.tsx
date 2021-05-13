@@ -1,12 +1,8 @@
-// *https://www.registers.service.gov.uk/registers/country/use-the-api*
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DATA from "../components/data";
-import {
-    AsyncArray
-} from '../../../components/Util'
 
 let timer;
 
@@ -58,6 +54,8 @@ export default function Asynchronous() {
                     }
                 })();
             }, 1000)
+        } else {
+            setOptions([]);
         }
 
     }, [tValue]);
@@ -106,7 +104,7 @@ export default function Asynchronous() {
             loading={loading}
             className="fire-Autocomplete"
             noOptionsText="검색중"
-            loadingText={tValue.length < 3 ? '두글자 이상 입력 해주세요' : feieldHelpText}
+            loadingText={tValue.length < 3 ? '세글자 이상 입력 해주세요' : feieldHelpText}
             size={window.innerWidth <= 320 ? 'small' : 'medium'}
             onChange={(o, v: any) => {
                 if (v) {

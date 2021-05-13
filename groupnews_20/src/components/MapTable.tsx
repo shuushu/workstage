@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import SIdoTower30 from './SIdoTower30';
 let ff = false
 const DD = [
     ['서울', 13, 2, 0, 0, 0, 35, 2],
@@ -24,7 +25,9 @@ const DD = [
 
 export default function FullWidthTabs(props) {
     const { area } = props;
-    const DATA = DD;
+    const DATA = area === 'all' ? DD : DD.filter(i => {
+        return i[0] === area
+    });
 
     const RenderTable = () => {
         return DATA.map((v1, i1) => {
@@ -79,6 +82,7 @@ export default function FullWidthTabs(props) {
                     {RenderTable()}
                 </tbody>
             </table>
+            {area === 'all' ? null : <SIdoTower30 area={area} />}
         </div>
     );
 }

@@ -14,6 +14,7 @@ import Result from "./panorama/Result";
 import { clearFire, Fire } from "./fire";
 import { init, removeSmoke } from "./smoke";
 import SidoSVG from "./components/지도.tsx";
+import SliderImage from "./components/Slider";
 import "./asset/scss/style.scss";
 
 function Home() {
@@ -40,9 +41,11 @@ function Home() {
         </div>
         <div className="parag">
           이러한 사고를 사전에 예방하고자 MBC는 경기도 내 공동주택 옥상 출입문
-          실태 조사를 꼼꼼히 검증하고 있습니다. 여러분의 아파트가 소방 설비가 잘
+          실태 조사를 꼼꼼히 검증하고 있습니다. 여러분 아파트의 소방 설비가 잘
           되어있는지 함께 확인해 주세요.
         </div>
+        <h3 className="s-tit">장애요인 사례</h3>
+        <SliderImage />
         <div>
           <h3 className="s-tit">소방특별조사 결과(30층 이상 고층건축물)</h3>
           <SidoSVG />

@@ -13,10 +13,11 @@ import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
 import NoMeetingRoomIcon from "@material-ui/icons/NoMeetingRoom";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import DATA from "../components/data";
 import loadTemtplate from "../components/template";
 import Button from "@material-ui/core/Button";
-import 이미지 from "../asset/imgs/sr.png";
+
 function removeWhiteSpace(str) {
   var setClassName = str;
   if (setClassName) {
@@ -71,7 +72,7 @@ export default function Panorama() {
               (v) => (v.querySelector(".info-hotspot-text").innerHTML = value)
             );
           let RenderCont = "none";
-          // [1]
+          // [0]
           if (className === "옥상출입문위치") {
             console.log(value);
             if (value === "최상층") {
@@ -83,18 +84,16 @@ export default function Panorama() {
                       <li>
                         <span className="sub-tit">옥상 출입문 위치</span>
                         <span className="value">{CSV["옥상 출입문 위치"]}</span>
-                        <a
-                          href={`#${CSV["옥상 출입문 위치"]}`}
-                          className="link"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleClick("옥상출입문위치");
-                          }}
-                        >
-                          현황 보기
-                        </a>
                       </li>
                     </ul>
+                    <div className="guideText">
+                      <InfoOutlinedIcon />
+                      <div className="text">
+                        최상층에 설치된 엘리베이터 기계실을 옥상문으로 착각하여
+                        큰 인명피해가 난 사례도 있었습니다. 내 아파트가 옥상문은
+                        어디에 있는지 미리 점검하세요.
+                      </div>
+                    </div>
                   </div>
                 );
               };
@@ -108,6 +107,30 @@ export default function Panorama() {
             );
             overwriteContents.forEach((v) =>
               ReactDOM.render(<RenderCont />, v)
+            );
+          }
+          // [1]
+          if (className === "지붕형태") {
+            overwriteContents.forEach((v) =>
+              ReactDOM.render(
+                <div>
+                  <ul className="strList">
+                    <li>
+                      <span className="sub-tit">지붕형태</span>
+                      <span className="value">{CSV["지붕형태"]}</span>
+                    </li>
+                  </ul>
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      대체적으로 박공 형태 지붕이 대피공간이 협소하며, 장애 요인
+                      및 위험이 있습니다. <br />
+                      우리집 옥상 대피시 위험 요인은 없는지 확인해 주세요.
+                    </div>
+                  </div>
+                </div>,
+                v
+              )
             );
           }
           // [1]
@@ -146,16 +169,6 @@ export default function Panorama() {
                         <span className="sub-tit">옥상 출입문 재질</span>
                         <span className="value">{CSV["옥상 출입문 재질"]}</span>
                         <a
-                          href={`#${CSV["옥상 출입문 재질"]}`}
-                          className="link"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleClick("옥상출입문재질");
-                          }}
-                        >
-                          현황 보기
-                        </a>
-                        <a
                           className="link small"
                           href="https://www.law.go.kr/법령/건축물의피난ㆍ방화구조등의기준에관한규칙/(20210409,00832,20210326)/제26조"
                           target="_blank"
@@ -171,16 +184,6 @@ export default function Panorama() {
                           {CSV["옥상 출입문 개방관리"]}
                         </span>
                         <a
-                          href={`#${CSV["옥상 출입문 개방관리"]}`}
-                          className="link"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleClick("옥상출입문개방관리");
-                          }}
-                        >
-                          현황 보기
-                        </a>
-                        <a
                           className="link small"
                           href="https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000089377"
                           target="_blank"
@@ -191,6 +194,14 @@ export default function Panorama() {
                         </a>
                       </li>
                     </ul>
+                    <div className="guideText">
+                      <InfoOutlinedIcon />
+                      <div className="text">
+                        자동개폐장치의 작동 여부를 정기적으로 점검해 주세요.
+                        열쇠는 눈에 잘보이는 곳에 비치, 비밀번호는 무엇인지
+                        확인해 주세요.
+                      </div>
+                    </div>
                   </div>
                 );
               };
@@ -299,9 +310,17 @@ export default function Panorama() {
                     </li>
                     <li>대피공간 면적: {CSV["대피공간 면적"]}</li>
                   </ul>
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      대피공간이 충분히 확보 되어 있나요? 대피공간내 난간은
+                      추락의 위험에서 보호할 수 있는 최소한의 장치입니다.
+                    </div>
+                  </div>
                   <div className="수용률">
                     <SupervisorAccountIcon />
                     <span className="곱">
+                      수용률 약
                       <strong>
                         {Math.ceil(
                           Math.ceil(parseInt(CSV["대피공간 면적"]) / 3.3) / 2
@@ -850,12 +869,11 @@ export default function Panorama() {
       // 제한시간 내 클릭 안할 경우
       autoTimer = setInterval(() => {
         if (flag === false) {
-          const mask = document.getElementById("mask");
-          mask.classList.add("active");
+          document.body.classList.add("maskActive");
           clearTimeout(activeTimer);
           activeTimer = setTimeout(() => {
-            mask.classList.remove("active");
-          }, 3000);
+            document.body.classList.remove("maskActive");
+          }, 4000);
         }
       }, 15000);
 
@@ -891,6 +909,19 @@ export default function Panorama() {
         <Modal mdFlag={mdFlag} setMdFlag={setMdFlag} />
 
         <div className="말풍선">
+          <SnackbarContent
+            message="위험합니다. 대피하여 주세요"
+            action={
+              <Button
+                color="secondary"
+                size="small"
+                onClick={() => (window.location.href = `#/result:키99`)}
+              >
+                대피하기
+              </Button>
+            }
+          />
+
           <ul className="noti">
             <li>
               상기 이미지는 이해를 돕기 위해 제작된 것으로 실제와 다릅니다.
@@ -971,21 +1002,7 @@ export default function Panorama() {
         <div id="viewOut" className="viewControlButton viewControlButton-6">
           <img className="icon" alt="" src="img/minus.png" />
         </div>
-        <div id="mask">
-          <img src={이미지} className="sr" alt="" />
-          <SnackbarContent
-            message="위험합니다. 대피하여 주세요"
-            action={
-              <Button
-                color="secondary"
-                size="small"
-                onClick={() => (window.location.href = `#/result:키99`)}
-              >
-                대피하기
-              </Button>
-            }
-          />
-        </div>
+        <div id="mask"></div>
       </div>
     );
   };

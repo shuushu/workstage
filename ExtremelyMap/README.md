@@ -18,9 +18,13 @@
 
 ## 개발노트
 
-1. mapshaper에서 폴리곤을 단순화 (QGIS에서도 가능) 후 shp파일로 export한다. \*[참조](https://neurowhai.tistory.com/350)
+1. mapshaper에서 폴리곤을 단순화 (QGIS에서도 가능) 후 shp파일로 export한다. &nbsp; \*[참조](https://neurowhai.tistory.com/350)
+
+> 행정구역 동은 행정동과 법정동으로 구분이 되며, 병합 및 나눠지기도 해서 데이터를 맵핑하기에 어려움이 있었다.
 
 2. 단순화 시킨 shp파일을 QGIS로 불러온 후 CSV 데이터와 컬럼을 조인한다.
+
+> 조인시 데이터형을 확인해야한다. 한 예로 동단위 정당별 득표을 색상으로 시각화하기위한 작업이었는데 타일로 변환된 데이터가 string이어서 범위 값이 구현이 안되었다. 또한 데이터 변환시 콤마를 제거한다.
 
 - [QGIS에서 데이터 조인](https://m.blog.naver.com/flyproject/222020577393)
 

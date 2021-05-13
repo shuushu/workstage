@@ -64,7 +64,7 @@ function drawGU() {
     source: "GU",
     name: "GU19-63mwoh",
     sourceLayer: "GU19-63mwoh",
-    level: [0, 8, 1],
+    level: [0, 9, 1],
   };
   makeStepFillLayer(valuesRange, {
     ...identifier,
@@ -105,6 +105,63 @@ function drawGU() {
   });
 }
 
+function drawDONG() {
+  g.map.addSource("DONG", {
+    type: "vector",
+    url: "mapbox://mapbox.mapbox-streets-v5,shuushu.7upuc8js",
+    promoteId: "adm_dr_cd", // 필드명을 고유아디로 지정
+  });
+  const valuesRange = [35, 40, 45, 50, 55, 100];
+  const identifier = {
+    source: "DONG",
+    name: "DONG19-8yl2io",
+    sourceLayer: "DONG19-8yl2io",
+    level: [0, 10, 1],
+  };
+
+  makeStepFillLayer(valuesRange, {
+    ...identifier,
+    id: "DONG-fill-Layer",
+    prefix: "19대대선동",
+    layout: {
+      "text-size": 11,
+      "text-letter-spacing": 0.05,
+      "text-offset": [0, 1.5],
+    },
+  });
+  makeStrokeLayer({
+    ...identifier,
+    id: "DONG-line-Layer",
+  });
+
+  map.addLayer({
+    id: "DONG-label",
+    type: "symbol",
+    source: "DONG",
+    "source-layer": "DONG19-8yl2io",
+    layout: {
+      "text-field": "{19대대선동_구시군} {adm_dr_nm}",
+      "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+      "text-size": 12,
+    },
+    paint: {
+      "text-opacity": ["step", ["zoom"], ...identifier.level],
+    },
+  });
+
+  handleEvent({
+    type: "mousemove",
+    ...identifier,
+    layerName: "DONG-fill-Layer",
+  });
+
+  handleEvent({
+    type: "mouseleave",
+    ...identifier,
+    layerName: "DONG-fill-Layer",
+  });
+}
+
 function Map() {
   useEffect(() => {
     g.map = new mapboxgl.Map({
@@ -121,6 +178,7 @@ function Map() {
     g.map.on("load", () => {
       drawSI();
       drawGU();
+      drawDONG();
     });
 
     //getData();

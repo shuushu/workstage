@@ -150,7 +150,9 @@ export default function Result() {
       return (
         <>
           <div className="면적">
-            수용 가능한 인원은 약 00명입니다 <em>(면적: {v})</em>
+            수용 가능한 인원은 약{" "}
+            {Math.ceil(Math.ceil(parseInt(CSV["대피공간 면적"]) / 3.3) / 2)}
+            명입니다 <em>(면적: {CSV["대피공간 면적"]})</em>
           </div>
           {난간설치여부()}
         </>

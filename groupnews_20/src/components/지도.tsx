@@ -7,8 +7,6 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import ko from "@amcharts/amcharts4/lang/ko_KR";
 import MapTable from './MapTable.tsx'
 import { useEffect, useState } from "react";
-import { getNameOfDeclaration } from "typescript";
-import { AnyStyledComponent } from "styled-components";
 import { ua } from '../../../components/Util'
 am4core.useTheme(am4themes_animated);
 
@@ -36,7 +34,6 @@ const data = {
 export default function 지도컨텐츠() {
     const [area, setArea] = useState('all');
     useEffect(() => {
-
         let chart = am4core.create("chartdiv", am4maps.MapChart);
 
         try {
@@ -87,17 +84,20 @@ export default function 지도컨텐츠() {
 
         // what to do when country is clicked
         polygonTemplate.events.on("hit", function (event: any) {
-            event.target.zIndex = 1000000;
+
             const gn = event.target.dataItem.dataContext.name;
             setArea(gn);
             if (data[gn] !== null) {
+                event.target.zIndex = 1000000;
                 selectPolygon(event.target);
             } else {
+                zoomOut()
                 countryLabel.text = '선택 한 지역의 점검 결과 현황이 없습니다.';
                 setTimeout(() => {
                     countryLabel.text = '지역을 선택하면 현황을 볼 수 있습니다'
                 }, 3000)
             }
+
         })
 
         // Pie chart
@@ -315,7 +315,7 @@ export default function 지도컨텐츠() {
                 dataItem.slice.fill = am4core.color(am4core.colors.interpolate(
                     fill.rgb,
                     am4core.color("#ffffff").rgb,
-                    0.2 * i
+                    0.5 * i
                 ));
 
                 dataItem.label.background.fill = desaturated;

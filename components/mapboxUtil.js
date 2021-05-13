@@ -81,6 +81,7 @@ function makeExpression(valuesRange, prefix) {
 function makeStepFillLayer(valuesRange, props) {
   const { id, source, name, prefix, level } = props;
   const 정당별컬러스텝 = makeExpression(valuesRange, prefix);
+
   g.map.addLayer({
     id,
     source,
@@ -99,7 +100,7 @@ function makeStepFillLayer(valuesRange, props) {
         [...정당별컬러스텝[3]],
         ["==", ["get", `${prefix}_개표결과`], "바른정당_득표율"],
         [...정당별컬러스텝[4]],
-        "black",
+        "#cccccc",
       ],
       "fill-opacity": ["step", ["zoom"], ...level],
     },
