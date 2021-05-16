@@ -5,6 +5,34 @@ Highcharts.setOptions({
     thousandsSep: ",",
   },
 });
+
+const initHight = (props) => {
+  const { categories, text, series } = props;
+  Highcharts.chart("chart", {
+    chart: {
+      type: "bar",
+    },
+    title: {
+      text,
+    },
+    xAxis: {
+      categories,
+    },
+    yAxis: {
+      min: 0,
+    },
+    legend: {
+      reversed: true,
+    },
+    plotOptions: {
+      series: {
+        stacking: "normal",
+      },
+    },
+    series,
+  });
+};
+
 const TEMPLATE = {
   자동개폐장치: `
 <div class="help">
@@ -24,6 +52,68 @@ const getPer = (arr) => {
   });
 };
 const 이벤트 = {
+  지붕형태() {
+    const DATA = [
+      {
+        미설치: 1189,
+        일부설치: 2,
+        설치: 5128,
+        혼재: 1,
+      },
+      {
+        미설치: 1009,
+        일부설치: 12,
+        설치: 3128,
+        혼재: 3,
+      },
+    ];
+    const arr = getPer(DATA);
+
+    Highcharts.chart("chart", {
+      chart: {
+        type: "column",
+      },
+      title: {
+        text: "인천/경기 유도등 설치 현황",
+      },
+      xAxis: {
+        categories: ["미설치", "일부설치", "설치", "혼재"],
+      },
+      yAxis: {
+        title: "",
+        labels: {
+          format: "{value}%",
+        },
+      },
+      credits: {
+        enabled: false,
+      },
+      tooltip: {
+        borderRadius: 10,
+        formatter: function () {
+          const idx = this.series.name === "인천" ? 0 : 1;
+          return `<span class="tooltip">${this.series.name}: <strong>${
+            DATA[idx][this.x]
+          }개 ${this.x}</strong></span>`;
+        },
+      },
+      plotOptions: {
+        column: {
+          stacking: "percent",
+        },
+      },
+      series: [
+        {
+          name: "인천",
+          data: arr[0],
+        },
+        {
+          name: "경기도",
+          data: arr[1],
+        },
+      ],
+    });
+  },
   유도등설치여부() {
     const DATA = [
       {
@@ -292,8 +382,8 @@ const 이벤트 = {
   },
 };
 
-const showContents = (name, v) => {
-  이벤트[name]();
+const showContents = (props) => {
+  initHight(props);
 };
 
 export default showContents;

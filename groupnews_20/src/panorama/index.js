@@ -119,6 +119,43 @@ export default function Panorama() {
                       <span className="sub-tit">지붕형태</span>
                       <span className="value">{CSV["지붕형태"]}</span>
                     </li>
+                    <li>
+                      <span
+                        className="sub-tit"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () =>
+                              loadTemtplate({
+                                categories: [
+                                  "Apples",
+                                  "Oranges",
+                                  "Pears",
+                                  "Grapes",
+                                  "Bananas",
+                                ],
+                                series: [
+                                  {
+                                    name: "John",
+                                    data: [5, 3, 4, 7, 2],
+                                  },
+                                  {
+                                    name: "Jane",
+                                    data: [2, 2, 3, 2, 1],
+                                  },
+                                  {
+                                    name: "Joe",
+                                    data: [3, 4, 4, 2, 5],
+                                  },
+                                ],
+                              }),
+                            0
+                          );
+                        }}
+                      >
+                        내 지역 {CSV["지붕형태"]} 현황
+                      </span>
+                    </li>
                   </ul>
                   <div className="guideText">
                     <InfoOutlinedIcon />
@@ -168,30 +205,15 @@ export default function Panorama() {
                       <li>
                         <span className="sub-tit">옥상 출입문 재질</span>
                         <span className="value">{CSV["옥상 출입문 재질"]}</span>
-                        <a
-                          className="link small"
-                          href="https://www.law.go.kr/법령/건축물의피난ㆍ방화구조등의기준에관한규칙/(20210409,00832,20210326)/제26조"
-                          target="_blank"
-                          title="새창"
-                          rel="noopener noreferrer"
-                        >
-                          관련 법령 보기
-                        </a>
                       </li>
                       <li>
                         <span className="sub-tit">옥상 출입문 개방관리</span>
                         <span className="value">
                           {CSV["옥상 출입문 개방관리"]}
                         </span>
-                        <a
-                          className="link small"
-                          href="https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000089377"
-                          target="_blank"
-                          title="새창"
-                          rel="noopener noreferrer"
-                        >
-                          행정 규칙 보기
-                        </a>
+                      </li>
+                      <li>
+                        <span className="sub-tit">지역별 통계</span>
                       </li>
                     </ul>
                     <div className="guideText">
@@ -288,25 +310,9 @@ export default function Panorama() {
                       <span className="value">
                         {CSV["대피공간내 난간설치"]}
                       </span>
-                      <a
-                        href={`#${CSV["대피공간내 난간설치"]}`}
-                        className="link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleClick("대피공간내난간설치");
-                        }}
-                      >
-                        현황 보기
-                      </a>
-                      <a
-                        className="link small"
-                        href="https://law.go.kr/법령/건축법시행령/제40조"
-                        target="_blank"
-                        title="새창"
-                        rel="noopener noreferrer"
-                      >
-                        관련 법령 보기
-                      </a>
+                    </li>
+                    <li>
+                      <span className="sub-tit">지역별 통계</span>
                     </li>
                     <li>대피공간 면적: {CSV["대피공간 면적"]}</li>
                   </ul>
@@ -867,7 +873,7 @@ export default function Panorama() {
         });
       });
       // 제한시간 내 클릭 안할 경우
-      autoTimer = setInterval(() => {
+      /* autoTimer = setInterval(() => {
         if (flag === false) {
           document.body.classList.add("maskActive");
           clearTimeout(activeTimer);
@@ -875,7 +881,7 @@ export default function Panorama() {
             document.body.classList.remove("maskActive");
           }, 4000);
         }
-      }, 15000);
+      }, 15000); */
 
       return () => {
         var infoLabels = document.querySelectorAll(".info-hotspot-modal");
