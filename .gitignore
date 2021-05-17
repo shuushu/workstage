@@ -10,6 +10,9 @@
 # testing
 /coverage
 
+# auth
+token.json
+
 # production
 /build
 **/build

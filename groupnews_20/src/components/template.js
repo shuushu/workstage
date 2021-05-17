@@ -1,386 +1,135 @@
 import Highcharts from "highcharts";
-import imgs from "../asset/imgs/auto.jpg";
+import darkUnica from "highcharts/themes/dark-unica";
+
+darkUnica(Highcharts);
 Highcharts.setOptions({
   lang: {
     thousandsSep: ",",
   },
 });
 
+export const data = [
+    {
+        text: '경기도 지역 옥상출입문 설치 현황',
+        categories: ["가평", "고양", "과천", "광명", "광주", "구리", "군포", "김포", "남양주", "동두천", "부천", "분당", "성남", "송탄", "수원", "수원남부", "시흥", "안산", "안성", "안양", "양주", "양평", "여주", "연천", "오산", "용인", "의왕", "의정부", "이천", "일산", "파주", "평택", "포천", "하남", "화성"],
+        series: [
+        {
+            name: "설치",
+            data: [38, 245, 10, 102, 115, 97, 169, 173, 329, 54, 524, 126, 102, 94, 244, 247, 283, 132, 74, 265, 117, 51, 41, 32, 90, 663, 222, 137, 151, 267, 172, 163, 44, 110, 345],
+        },
+        {
+            name: "일부설치",
+            data: [0, 0, 0, 1, 0, 0, 5, 0, 0, 0, 2, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        },
+        {
+            name: "미설치",
+            data: [1, 28, 2, 1, 3, 6, 19, 11, 8, 24, 21, 23, 0, 0, 8, 25, 12, 7, 5, 17, 1, 2, 0, 2, 7, 24, 9, 0, 1, 4, 0, 11, 7, 1, 3],
+        },
+        ],
+        target: `chart0`
+    },
+    {
+        text: '경기도 지역 옥상 대피공간 현황',
+        categories: ["가평", "고양", "과천", "광명", "광주", "구리", "군포", "김포", "남양주", "동두천", "부천", "분당", "성남", "송탄", "수원", "수원남부", "시흥", "안산", "안성", "안양", "양주", "양평", "여주", "연천", "오산", "용인", "의왕", "의정부", "이천", "일산", "파주", "평택", "포천", "하남", "화성"],
+        series: [
+            {
+            name: "있음",
+            data: [38, 199, 10, 95, 100, 87, 165, 159, 286, 52, 439, 122, 89, 92, 194, 220, 224, 109, 60, 265, 102, 47, 36, 29, 83, 652, 207, 127, 145, 196, 137, 149, 36, 108, 317],
+            },
+            {
+            name: "없음",
+            data: [0, 46, 0, 7, 15, 10, 3, 14, 43, 2, 87, 3, 14, 2, 50, 27, 58, 23, 14, 0, 15, 4, 5, 3, 7, 11, 15, 10, 6, 72, 35, 14, 8, 2, 28],
+            },
+            {
+            name: "혼재/기타",
+            data: [0, 0, 0, 1, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            },
+        ],
+        target: `chart1`
+    },
+    {
+        text: '경기도 지역 지붕 형태 현황',
+        categories: ["가평", "고양", "과천", "광명", "광주", "구리", "군포", "김포", "남양주", "동두천", "부천", "분당", "성남", "송탄", "수원", "수원남부", "시흥", "안산", "안성", "안양", "양주", "양평", "여주", "연천", "오산", "용인", "의왕", "의정부", "이천", "일산", "파주", "평택", "포천", "하남", "화성"],
+        series: [
+            {
+            name: "박공",
+            data: [8, 96, 5, 29, 56, 40, 57, 67, 140, 24, 128, 80, 30, 24, 130, 94, 116, 68, 29, 93, 51, 6, 14, 11, 32, 140, 52, 0, 31, 201, 69, 51, 23, 24, 135],
+            },
+            {
+            name: "슬라브",
+            data: [26, 172, 6, 74, 48, 63, 118, 108, 180, 47, 419, 70, 76, 68, 119, 163, 180, 1, 50, 175, 64, 41, 27, 23, 62, 455, 175, 137, 119, 64, 100, 121, 27, 81, 188],
+            },
+            {
+            name: "혼재",
+            data: [5, 5, 1, 1, 14, 0, 18, 9, 17, 7, 0, 0, 5, 3, 3, 15, 0, 70, 0, 14, 3, 7, 0, 0, 3, 92, 4, 0, 2, 7, 3, 2, 1, 6, 25],
+            },
+        ],
+        target: `chart2`
+    }
+]
+
+
 const initHight = (props) => {
-  const { categories, text, series } = props;
-  Highcharts.chart("chart", {
+  const { categories, text, series, target  } = props;
+  const node = target || 'chart';
+  const chart = Highcharts.chart(node, {
     chart: {
       type: "bar",
+      height: '100%'
     },
     title: {
       text,
     },
     xAxis: {
       categories,
+      labels: {
+        style: {
+          fontSize: '16px',
+        }
+      }
     },
     yAxis: {
+      title: "",
       min: 0,
+      max: 100,
+      labels: {
+        format: "{value}%",
+        style: {
+          fontSize: '15px',
+        }        
+      },
+    },
+    credits: {
+      enabled: false,
     },
     legend: {
-      reversed: true,
+      reversed: false,
     },
     plotOptions: {
       series: {
-        stacking: "normal",
+        stacking: "percent",
       },
     },
     series,
+  }, function (chart) {
+    const target = document.querySelector('#modal .md-wrap');
+    if(target) {
+      var setHeight = function () {
+        chart.setSize(target.clientWidht, target.clientHeight);
+      }      
+      setHeight();
+    } else {
+      const target = document.querySelector('#tab-contents');
+      var setHeight = function () {
+        const h = target.clientWidth * 2 > 1000 ? 1000 : target.clientWidth * 2;
+        chart.setSize(target.clientWidth, h);
+      }      
+      setHeight();
+    }
   });
 };
 
-const TEMPLATE = {
-  자동개폐장치: `
-<div class="help">
-    <h6>자동개폐장치란?</h6>
-    <div class="parag">
-        <img src=${imgs} class="float"  alt="" /> 화재 등 각종재난에 대비하여 설치된 방화문(아파트,빌딩 등)을 평상시에는 잠금상태를 유지하고, 비상 또는 화재시 자동으로 잠금 상태를 해제 할 수 있도록 설치하는 개폐 장치.
-    </div>
-</div>
-`,
-};
-// 비중구하기
-const getPer = (arr) => {
-  return arr.map((i) => {
-    return Object.entries(i).map(([k, v]) => {
-      return Number((v / (arr[0][k] + arr[1][k])).toFixed(2));
-    });
-  });
-};
-const 이벤트 = {
-  지붕형태() {
-    const DATA = [
-      {
-        미설치: 1189,
-        일부설치: 2,
-        설치: 5128,
-        혼재: 1,
-      },
-      {
-        미설치: 1009,
-        일부설치: 12,
-        설치: 3128,
-        혼재: 3,
-      },
-    ];
-    const arr = getPer(DATA);
 
-    Highcharts.chart("chart", {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "인천/경기 유도등 설치 현황",
-      },
-      xAxis: {
-        categories: ["미설치", "일부설치", "설치", "혼재"],
-      },
-      yAxis: {
-        title: "",
-        labels: {
-          format: "{value}%",
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      tooltip: {
-        borderRadius: 10,
-        formatter: function () {
-          const idx = this.series.name === "인천" ? 0 : 1;
-          return `<span class="tooltip">${this.series.name}: <strong>${
-            DATA[idx][this.x]
-          }개 ${this.x}</strong></span>`;
-        },
-      },
-      plotOptions: {
-        column: {
-          stacking: "percent",
-        },
-      },
-      series: [
-        {
-          name: "인천",
-          data: arr[0],
-        },
-        {
-          name: "경기도",
-          data: arr[1],
-        },
-      ],
-    });
-  },
-  유도등설치여부() {
-    const DATA = [
-      {
-        미설치: 1189,
-        일부설치: 2,
-        설치: 5128,
-        혼재: 1,
-      },
-      {
-        미설치: 1009,
-        일부설치: 12,
-        설치: 3128,
-        혼재: 3,
-      },
-    ];
-    const arr = getPer(DATA);
-
-    Highcharts.chart("chart", {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "인천/경기 유도등 설치 현황",
-      },
-      xAxis: {
-        categories: ["미설치", "일부설치", "설치", "혼재"],
-      },
-      yAxis: {
-        title: "",
-        labels: {
-          format: "{value}%",
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      tooltip: {
-        borderRadius: 10,
-        formatter: function () {
-          const idx = this.series.name === "인천" ? 0 : 1;
-          return `<span class="tooltip">${this.series.name}: <strong>${
-            DATA[idx][this.x]
-          }개 ${this.x}</strong></span>`;
-        },
-      },
-      plotOptions: {
-        column: {
-          stacking: "percent",
-        },
-      },
-      series: [
-        {
-          name: "인천",
-          data: arr[0],
-        },
-        {
-          name: "경기도",
-          data: arr[1],
-        },
-      ],
-    });
-  },
-  옥상출입문재질() {
-    Highcharts.chart("chart", {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "인천/경기 출입문 재질 현황",
-      },
-      xAxis: {
-        categories: ["방화문 ", "불연재", "가연재", "혼재", "기타"],
-        labels: {
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-      yAxis: {
-        title: "",
-        labels: {
-          format: "{value:,.0f}",
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-
-      tooltip: {
-        borderRadius: 10,
-        formatter: function () {
-          return `<span class="tooltip">${this.series.name} 출입문 재질: <strong>${this.x} ${this.y}</strong>단지</span>`;
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      series: [
-        {
-          name: "인천",
-          data: [5790, 481, 24, 8, 17],
-        },
-        {
-          name: "경기도",
-          data: [7790, 1381, 124, 80, 170],
-        },
-      ],
-    });
-  },
-  옥상출입문개방관리() {
-    Highcharts.chart("chart", {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "인천/경기 출입문 개방 관리 현황",
-      },
-      xAxis: {
-        categories: [
-          "열쇠 또는 번호키 ",
-          "자동개폐장치",
-          "항시개방",
-          "수동개방장치",
-          "원격개방장치",
-          "폐쇄",
-          "혼재",
-        ],
-        labels: {
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-      yAxis: {
-        title: "",
-        labels: {
-          format: "{value:,.0f}",
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-
-      tooltip: {
-        borderRadius: 10,
-        formatter: function () {
-          return `<span class="tooltip">${this.series.name}: <strong>${this.x} ${this.y}</strong>단지</span>`;
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      series: [
-        {
-          name: "인천",
-          data: [1294, 1677, 1334, 14, 23, 13, 15],
-        },
-        {
-          name: "경기도",
-          data: [1694, 2677, 1934, 4, 3, 3, 5],
-        },
-      ],
-    });
-    document.getElementById("md-contents").innerHTML = TEMPLATE["자동개폐장치"];
-  },
-  옥상출입문위치() {
-    Highcharts.chart("chart", {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "인천/경기 출입문 위치 현황",
-      },
-      xAxis: {
-        categories: [
-          "최상층",
-          "최상층 아래층",
-          "최상층 2개층 아래층",
-          "수동개방장치",
-          "혼재",
-          "기타",
-        ],
-        labels: {
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-      yAxis: {
-        title: "",
-        labels: {
-          format: "{value:,.0f}",
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-
-      tooltip: {
-        borderRadius: 10,
-        formatter: function () {
-          return `<span class="tooltip">${this.series.name} 옥상 출입문 위치: <strong>${this.x} ${this.y}</strong>단지</span>`;
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      series: [
-        {
-          name: "인천",
-          data: [2062, 1677, 12, 22, 15],
-        },
-        {
-          name: "경기도",
-          data: [4062, 2158, 17, 79, 4],
-        },
-      ],
-    });
-  },
-  대피공간내난간설치() {
-    Highcharts.chart("chart", {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "인천/경기 대피 공간 내 난간 설치 현황",
-      },
-      xAxis: {
-        categories: ["설치", "미설치", "알수없음", "일부설치"],
-        labels: {
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-      yAxis: {
-        title: "",
-        labels: {
-          format: "{value:,.0f}",
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-
-      tooltip: {
-        borderRadius: 10,
-        formatter: function () {
-          return `<span class="tooltip">${this.series.name} 난간 설치 현황: <strong>${this.x} ${this.y}</strong>단지</span>`;
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      series: [
-        {
-          name: "인천",
-          data: [3921, 985, 101, 10],
-        },
-        {
-          name: "경기도",
-          data: [4921, 1085, 301, 13],
-        },
-      ],
-    });
-  },
-};
 
 const showContents = (props) => {
   initHight(props);

@@ -2,9 +2,9 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DATA from "../components/data";
 
 let timer;
+const g: any = window;
 
 export default function Asynchronous() {
     const [open, setOpen] = React.useState(false);
@@ -19,7 +19,23 @@ export default function Asynchronous() {
         if (tValue.length > 2) {
             timer = setTimeout(() => {
                 (async () => {
-                    const JUSO = {
+                    g.KAKAO.keywordSearch(tValue, placesSearchCB);
+                    setFieldHelpText('검색중');
+
+                    // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+                    function placesSearchCB(data, status) {                
+                        if (status === g.kakao.maps.services.Status.OK) {
+                            if (data.length > 0 ) {
+                                setOptions(data);
+                            } else {
+                                setFieldHelpText('검색 결과 없음');
+                            }                            
+                        } else {
+                            setFieldHelpText('검색 결과 없음');
+                        }
+
+                    }
+                    /* const JUSO = {
                         url: 'https://www.juso.go.kr/addrlink/addrLinkApi.do',
                         params: {
                             confmKey: 'U01TX0FVVEgyMDIxMDQzMDE2MjkxODExMTExNTU=',
@@ -51,15 +67,14 @@ export default function Asynchronous() {
                             setFieldHelpText('검색 결과 없음');
                         }
                         setOptions(getAPT);
-                    }
+                    } */
                 })();
-            }, 1000)
+            }, 300)
         } else {
             setOptions([]);
         }
 
     }, [tValue]);
-
     React.useEffect(() => {
         if (!open) {
             setOptions([]);
@@ -88,18 +103,17 @@ export default function Asynchronous() {
                 return `${option.bdNm}`
             }}
             renderOption={(option) => {
-                const { bdNm, roadAddr, jibunAddr } = option;
+                const { address_name, place_name, road_address_name, category_name } = option;
                 return (
                     <div className="optionsLabel">
-                        <strong className="bdNm">{bdNm}</strong>
+                        <strong className="bdNm">{place_name}<span>{category_name}</span></strong>
                         <div className="juso">
-                            <em className="roadAddr">{roadAddr}</em>
-                            <em className="jibunAddr">{jibunAddr}</em>
+                            <em className="roadAddr">(도로명) {road_address_name}</em>
+                            <em className="jibunAddr">(지번) {address_name}</em>
                         </div>
                     </div>
                 )
             }}
-
             options={options}
             loading={loading}
             className="fire-Autocomplete"
@@ -108,12 +122,9 @@ export default function Asynchronous() {
             size={window.innerWidth <= 320 ? 'small' : 'medium'}
             onChange={(o, v: any) => {
                 if (v) {
-                    console.log(v);
-                    // PK값 - object키 값이어야 함
-                    //#/detail:키99
-                    window.location.href = `#/detail:키99`
-                    //window.location.href = `#/detail:키${v['순']}`
-
+                    
+                    
+                    window.location.href = `#/detail:${v.address_name}`
                 }
             }}
             renderInput={(params) => {

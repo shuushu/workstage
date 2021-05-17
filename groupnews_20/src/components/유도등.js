@@ -5,7 +5,7 @@ import Switch from "@material-ui/core/Switch";
 
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 export default function SwitchLabels(props) {
-  const { value, switchScene, scenes, setMdFlag } = props;
+  const { value, right, switchScene, scenes, setMdFlag } = props;
 
   const handleChange = () => {
     const d = document.querySelectorAll(".MuiSwitch-colorSecondary");
@@ -27,7 +27,20 @@ export default function SwitchLabels(props) {
   return (
     <FormGroup row>
       <div className="contentsValue">
-        <div className="value">{value}</div>
+        <ul className="strList">
+          <li>
+            <span className="sub-tit">유도등 설치 여부</span>
+            <span className="value">{value}</span>
+          </li>
+          {
+            right.length  > 0 ? 
+            <li>
+            <span className="sub-tit">유도등이 켜져 있나요?</span>
+            <span className="value">{ right }</span>
+            </li> : null
+          }
+
+        </ul>        
         <FormControlLabel
           className="exit"
           control={

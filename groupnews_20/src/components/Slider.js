@@ -1,5 +1,6 @@
+import SwiperCore, { Autoplay } from 'swiper';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide  } from "swiper/react";
 // Import Swiper styles
 import "swiper/swiper.scss";
 // images
@@ -15,12 +16,14 @@ import 적재물2 from "../asset/imgs/error/적재물2.jpg";
 import 옥상난간없음 from "../asset/imgs/error/옥상난간없음.jpg";
 import 대피로어려움 from "../asset/imgs/error/대피로어려움.jpg";
 import { ua } from "../../../components/Util";
+SwiperCore.use([Autoplay]);
 
 export default function Slider() {
   return (
     <Swiper
       spaceBetween={ua() ? 10 : 20}
       loop={true}
+      autoplay={true}
       centeredSlides={true}
       slidesPerView={"auto"}
     >

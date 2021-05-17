@@ -23,31 +23,32 @@ export default function TransitionsModal(props) {
     };
 
     return (
+        <div id="modal">
+            <Modal
+                disablePortal
+                disableEnforceFocus
+                disableAutoFocus
+                className={classes.modal}
+                open={mdFlag}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={mdFlag}>
 
-        <Modal
-            disablePortal
-            disableEnforceFocus
-            disableAutoFocus
-            className={classes.modal}
-            open={mdFlag}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Fade in={mdFlag}>
-
-                {children ? <div className="nodata">{children}</div> : (
-                    <div className="md-wrap">
-                        <div id="chart"></div>
-                        <div id="md-contents"></div>
-                    </div>
-                )}
+                    {children ? <div className="nodata">{children}</div> : (
+                        <div className="md-wrap">
+                            <div id="chart"></div>
+                            <div id="md-contents"></div>
+                        </div>
+                    )}
 
 
-            </Fade>
-        </Modal>
+                </Fade>
+            </Modal>
+        </div>
     );
 }

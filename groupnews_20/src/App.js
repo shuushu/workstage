@@ -6,21 +6,55 @@ import {
   useLocation,
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { GoogleSpreadsheet } from 'google-spreadsheet'
+import { private_key, client_email } from '../../token.json'
 import ComboBox from "./components/Search.tsx";
-
 // custom
 import Panorama from "./panorama/index";
 import Result from "./panorama/Result";
 import { clearFire, Fire } from "./fire";
 import { init, removeSmoke } from "./smoke";
-import SidoSVG from "./components/지도.tsx";
+import Graph from "./components/지역별설치현황";
 import SliderImage from "./components/Slider";
 import "./asset/scss/style.scss";
+import Recent from "./panorama/Recent";
+
+window['APT_KEY'] = {}
+function delay() {
+  return new Promise(resolve => setTimeout(resolve, 0));
+}
+
+async function load() {
+    const doc = new GoogleSpreadsheet(process.env.REACT_APP_SHEET_URL);
+    await doc.useServiceAccountAuth({
+        client_email,
+        private_key
+    });
+    await doc.loadInfo(); // loads document properties and worksheets
+
+    const sheet = doc.sheetsByTitle['데이터_파이널(가공중)']; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
+    // read rows
+    const rows = await sheet.getRows(); // can pass in { limit, offset }
+    window['APT'] = rows;
+
+    let t = 0;
+    for(let i of rows) {      
+      await delay();
+      console.log(i.addr);
+      window['APT_KEY'][i.addr] = t;
+      t++;
+    }    
+}
 
 function Home() {
   useEffect(() => {
     init();
     setTimeout(Fire, 0);
+
+    if (!window['APT']) {
+      //load();
+    }
+    
     return () => {
       clearFire();
       removeSmoke();
@@ -30,25 +64,33 @@ function Home() {
   return (
     <div className="home">
       <div className="homeContents">
-        <h1 className="tit">우리 아파트 옥상은 어떻게 되어 있을까?</h1>
+        <h1 className="tit"> 우리 아파트 옥상은 안전할까?</h1>
         <div className="cell">
           <ComboBox />
         </div>
-        <div className="parag">
-          아파트나 건물 거주자나 근무자는 옥상피난문을 확인하지 않는 한 거주하는
-          아파트의 구조를 모르는 경우가 많으며, 응급상황과 농연속에서 옥상으로
-          대피 시 막다른 구조에 막혀 사고를 당하는 경우가 빈번합니다.
+        <div className="combo-help">
+          경기도소방재난본부 조사('19.12.14~'20.02.20)를 토대로 MBC가 정리했습니다. 경기도 이외 지역은 자료가 없습니다.
         </div>
         <div className="parag">
-          이러한 사고를 사전에 예방하고자 MBC는 경기도 내 공동주택 옥상 출입문
-          실태 조사를 꼼꼼히 검증하고 있습니다. 여러분 아파트의 소방 설비가 잘
-          되어있는지 함께 확인해 주세요.
+          불 나면 "생명문"인 옥상출입문, 맨꼭대기층일까요? 꼭 그렇지 않습니다. 작년 12월 군포 아파트 화재 때 주민 2명이 엘리베이터 기계실 문 앞에서 숨진 채 발견됐습니다. 한 층 아래가 옥상출입문이었습니다. 불길과 연기 속에 대피구를 못 찾은 겁니다.
+        </div>
+        <div className="parag">
+          항상 열려있지도 않습니다. 방범이나 안전 차원에서 닫혀있거나 아예 폐쇄된 아파트도 있고요. 문을 열면 대피 공간이 턱없이 좁거나 비탈져 있어 옥상이 더 위험한 경우도 있습니다.
         </div>
         <h3 className="s-tit">장애요인 사례</h3>
         <SliderImage />
+        <div className="parag">
+        열쇠함을 부수고 열쇠를 꺼내 옥상출입문을 열어야 합니다.
+        문을 열면 경사지붕(박공지붕)인데다 안전난간도 없습니다.
+        사다리로 올라가 철문을 젖혀야 해 노약자는 대피가 어려울 수 있습니다.
+        우리 아파트 옥상출입문이 어딘지, 문은 열려있는지, 대피 공간은 넉넉한지 미리 살펴보세요. 내 가족의 목숨이 달린 일입니다.
+        </div>
+        <div id="home-recent">
+          <Recent/>
+        </div>
         <div>
-          <h3 className="s-tit">소방특별조사 결과(30층 이상 고층건축물)</h3>
-          <SidoSVG />
+          <h3 className="s-tit">지역별 설치 현황</h3>
+          <Graph />
         </div>
       </div>
       <canvas id="smoke" width="400" height="400"></canvas>

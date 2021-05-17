@@ -40,6 +40,9 @@ code {
   position: relative;
   z-index: 10;
 }
+#pano{
+  cursor: move !important
+}
 .fail {
   background: #fff;
   color: #333;
@@ -75,7 +78,22 @@ code {
   opacity: 1;
   transition: opacity 550ms ease-in;
 }
+#modal{
+  .md-wrap {
+    height: 80%
+  }
+  #chart{
+    height: 100%;    
+  }
+}
 
+#panorama .옥상출입문개방관리.info-hotspot.green::before,
+#panorama .옥상출입문설치여부.info-hotspot.green::before,
+#panorama  .옥상출입문설치여부.info-hotspot.green::after,
+#panorama .옥상출입문위치.info-hotspot.green::before,
+#panorama  .옥상출입문위치.info-hotspot.green::after{
+  display: none;
+}
 /* 홈 */
 .home {
   position: relative;
@@ -127,6 +145,20 @@ code {
 }
 #root .result .error {
   color: #ff8989;
+}
+#tab-contents{
+  width: 100%;
+  .MuiPaper-root {
+    background-color:rgba(0,0,0,.5);
+    border-bottom: solid 1px #333;
+  }
+  .MuiTab-wrapper{
+    color:#fff;
+    font-size: 15px
+  }
+  > div{
+    background: rgba(0,0,0,0.4);
+  }
 }
 // 결과화면
 .recent {
@@ -401,10 +433,27 @@ code {
   z-index: 100;
   padding: 20px;
   overflow: hidden;
-
+  .combo-help{
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    color: #999;
+    &::before{
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 4px;
+      height: 4px;
+      margin-right: 6px;
+      border-radius: 100%;
+      background-color:#999;      
+    }
+  }
   .parag {
     line-height: 1.5;
     margin-bottom: 15px;
+    font-size: 18px;
     color: #ccc;
   }
   .tit {
@@ -417,19 +466,20 @@ code {
     display: flex;
     margin-bottom: 20px;
   }
-  .fire-Autocomplete {
-  }
+
   .fire-searchBtn {
     padding: 8px;
     width: 100px;
     margin-left: 10px;
   }
-
+.swiper-container {
+  margin-bottom: 20px
+}
   // 관련기사
   .s-tit {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 300;
-    margin: 30px 0 20px;
+    margin: 15px 0 20px;
     overflow: hidden;
     color: #fff;
   }
@@ -437,6 +487,22 @@ code {
     width: 50%;
     float: left;
     margin: 5px 0;
+  }
+}
+
+#home-recent{
+  .recent{
+    padding: 20px 0;
+    background: none;
+    color: #fff;
+    max-width: inherit;
+    .items-container li{
+      flex: 0 0 25%;
+    }
+    h3{
+      font-size: 18px;
+      margin: 0 0 10px
+    }
   }
 }
 .home-contents {
@@ -614,6 +680,15 @@ code {
       font-size: 18px;
       margin-right: 5px;
     }
+    p{
+      display: flex;
+    }
+    p::before{
+        content: '';
+        @include dot(3px, #999);
+        margin-right: 5px;
+        margin-top: 8px;
+    }
   }
   #autorotateToggle,
   #titleBar {
@@ -672,7 +747,6 @@ code {
         vertical-align: middle;
       }
       .곱 strong::before {
-        margin-left: 10px;
         content: "X";
         font-size: 17px;
         margin-right: 10px;
@@ -717,6 +791,7 @@ code {
     color: #fff;
   }
 }
+.옥상출입문개방관리 .info-hotspot-icon-wrapper::before,
 .옥상출입문위치 .info-hotspot-icon-wrapper::before,
 .옥상대피공간 .info-hotspot-icon-wrapper::before,
 .장애요인 .info-hotspot-icon-wrapper::before,
@@ -757,7 +832,7 @@ code {
     left: -5px;
   }
 }
-
+/* 
 .info-hotspot.red::before {
   @include before(rgba(255, 0, 0, 0.4));
 }
@@ -790,13 +865,24 @@ code {
   50% {
     -webkit-transform: scale(1.3);
   }
-}
+} */
 // 검색창
 .optionsLabel {
   .juso {
     font-size: 12px;
     em {
       display: block;
+    }
+  }
+  .bdNm{
+    font-size: 18px;
+    font-weight: bold;
+    color:#000;
+    span{
+      font-size: 12px;
+      font-weight: 200;
+      color: #666;
+      margin-left: 10px
     }
   }
 }
@@ -830,6 +916,14 @@ code {
       position: relative;
       padding-left: 15px;
       margin-bottom: 5px;
+    }
+    .sub-tit{
+      display: block;
+      color: #aaa;
+    }
+    .li{
+        display: block;
+        color: #aaa;
     }
     li::before {
       content: "ㆍ";
@@ -998,9 +1092,8 @@ code {
 }
 .md-wrap {
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
   border-radius: 5px;
-  background-color: #fff;
   overflow: hidden;
 }
 .tooltip {
@@ -1066,6 +1159,15 @@ code {
 /* 
     mobile-320
 */
+@media (max-width: 1400px) {
+  #home-recent{
+  .recent{    
+    .items-container li{
+      flex: 0 0 50%;
+    }
+  }
+}
+}
 @media (max-width: 1100px) {
   .home-contents #chartdiv {
     width: 300px;
@@ -1104,6 +1206,13 @@ code {
     width: 100%;
     height: 300px;
   }
+    #home-recent{
+  .recent{    
+    .items-container li{
+      flex: 0 0 100%;
+    }
+  }
+}
 }
 
 @media (max-width: 500px) {
@@ -1234,6 +1343,10 @@ code {
       font-weight: 300;
       color: #ccc;
     }
+  }
+  .optionsLabel .bdNm span{
+    display: block;
+    margin: 0 0 5px 0;
   }
 }
 @media (max-height: 400px) and (orientation: landscape) {

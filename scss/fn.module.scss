@@ -147,3 +147,13 @@ $기본소득당: rgb(99, 181, 187);
     border-right: #{$size}px solid $color;
   }
 }
+
+// dot
+@mixin dot($w, $c) {
+  display: inline-block;
+  width: $w;
+  height: $w;
+  border-radius: 100%;
+  background: $c;
+  vertical-align: middle;
+}

@@ -2,26 +2,16 @@
 <html lang="ko">
 
 <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H5RTVW0LQE"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    //gtag("js", new Date());
-
-    //gtag("config", "G-H5RTVW0LQE");
-  </script>
+  <title>%REACT_APP_TITLE%</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <!-- meta정보 -->
-  <meta name="title" content="여의도 농부 80명" />
-  <meta name="url" content="http://nz.assembly-mbc.com/" />
-  <meta name="description" content="무늬만 농부는 누구?" />
-  <meta itemprop="name" content="여의도 농부 80명" />
-  <meta itemprop="image" content="//image.imnews.imbc.com/newszoomin/groupnews/groupnews_16/thum.png" />
+  <meta name="title" content="%REACT_APP_TITLE%" />
+  <meta name="url" content="%REACT_APP_URL%" />
+  <meta name="description" content="%REACT_APP_DESC%" />
+  <meta itemprop="name" content="%REACT_APP_TITLE%" />
+  <meta itemprop="image" content="%REACT_APP_IMAGE%" />
   <!-- OG-info -->
   <meta property="og:site_name" content="MBC NEWS" />
   <meta property="article:publisher" content="https://www.facebook.com/MBCnews" />
@@ -29,29 +19,33 @@
   <meta property="fb:app_id" content="692275414241491" />
   <meta name="twitter:site" content="@mbcnews" />
 
-  <meta property="og:url" content="http://nz.assembly-mbc.com/" />
-  <meta property="og:title" content="여의도 농부 80명" />
-  <meta property="og:description" content="무늬만 농부는 누구?" />
-  <meta property="og:image"
-    content="http://image.imnews.imbc.com/newszoomin/groupnews/groupnews_19/imgs/img_640X360.png" />
+  <meta property="og:url" content="%REACT_APP_URL%" />
+  <meta property="og:title" content="%REACT_APP_TITLE%" />
+  <meta property="og:description" content="%REACT_APP_URL%" />
+  <meta property="og:image" content="%REACT_APP_IMAGE%" />
 
   <link rel="shortcut icon" type="image/x-icon" href="//image.imnews.imbc.com/page/include/images/favicon.ico" />
   <link rel="apple-touch-icon" href="//image.imnews.imbc.com/page/include/images/favicon.ico" />
-<link rel="stylesheet" href="vendor/reset.min.css">
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="vendor/reset.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="single-scene ">
 
-<div id="root"></div>
+  <div id="root"></div>
 
-<script src="vendor/screenfull.min.js" ></script>
-<script src="vendor/bowser.min.js" ></script>
-<script src="vendor/marzipano.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/2.0.0/pixi.js"></script>
+  <script src="vendor/screenfull.min.js"></script>
+  <script src="vendor/bowser.min.js"></script>
+  <script src="vendor/marzipano.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/2.0.0/pixi.js"></script>
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=03a704a6c4180ed9784211785e6ffc0b&libraries=services"></script>
 
-
-<script src="data.js"></script>
-<!-- <script src="index.js"></script> -->
-
+  <script src="data.js"></script>
+  <!-- <script src="index.js"></script> -->
+  <script>
+    window.KAKAO = new kakao.maps.services.Places();
+  </script>
 </body>
+
 </html>
