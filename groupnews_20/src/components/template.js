@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import darkUnica from "highcharts/themes/dark-unica";
+import { ua } from '../../../components/Util';
 
 darkUnica(Highcharts);
 Highcharts.setOptions({
@@ -80,12 +81,15 @@ const initHight = (props) => {
     },
     title: {
       text,
+      style: {
+        fontSize: ua() ? '14px' : '16px',
+      }
     },
     xAxis: {
       categories,
       labels: {
         style: {
-          fontSize: '16px',
+          fontSize: ua() ? '14px' : '16px',
         }
       }
     },
@@ -128,7 +132,6 @@ const initHight = (props) => {
       setHeight();
     }
   });
-  window.chart = chart;
 };
 
 

@@ -38,6 +38,7 @@ export default function Asynchronous(props) {
     const textRef = React.useRef();
     
     function resetInput() {
+        clearTimeout(timer);
         if (textRef.current && textRef.current.value) {            
             textRef.current.value = ''
         }
@@ -75,7 +76,7 @@ export default function Asynchronous(props) {
         if (!open) {
             setOptions([]);            
         }
-        setTimeout(resetInput, 100);
+        timer = setTimeout(resetInput, 100);
     }, [open]);
     return (
         <Autocomplete
@@ -122,18 +123,18 @@ export default function Asynchronous(props) {
                     if (address_name.indexOf('경기') < 0) {
                         alert('경기지역 아님');
                         setOpen(false);
-                        setTimeout(resetInput, 100);
+                        timer = setTimeout(resetInput, 100);
                         return;
                     }
                     if (category_name.indexOf('아파트') < 0) {
                         alert('해당 건물은 아파트가 아닙니다.');
                         setOpen(false);
-                        setTimeout(resetInput, 100);
+                        timer = setTimeout(resetInput, 100);
                         return;
                     }
                     if (!DATA[address_name]) {
                         alert('해당 건물은 데이터에서 찾을 수 없습니다.');
-                        setTimeout(() => btn.click(), 300);
+                        timer = setTimeout(resetInput, 100);
                         setMdFlag(true);
                         // load(address_name.split(' ')[1]).then(r => {
                         //     setData(r);
@@ -141,7 +142,7 @@ export default function Asynchronous(props) {
                         // })
                         return;
                     }
-                    
+                    clearTimeout(timer);
                     window.location.href = `#/detail:${address_name}`
                 }
             }}
@@ -152,9 +153,8 @@ export default function Asynchronous(props) {
                         label="주소 또는 아파트 이름으로 검색"
                         variant="outlined"
                         inputRef={textRef}
-                        onInput={e => {
-                            //setTValue(e.target.value);
-                            callAPI(e.target.value)
+                        onInput={e => {                            
+                            callAPI(e.target.value);                            
                         }}
                         InputProps={{
                             ...params.InputProps,

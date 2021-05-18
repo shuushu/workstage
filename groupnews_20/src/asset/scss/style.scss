@@ -153,6 +153,9 @@ code {
     background: rgba(0,0,0,0.4);
     padding-top: 10px;
   }
+  rect{
+    stroke: none !important;
+  }
 }
 // 결과화면
 .recent {
@@ -443,11 +446,14 @@ code {
   line-height: 1.3;
   padding: 0 10px;
   .items{
-    display: flex;
+    position: relative;
+    padding-left: 10px;
     &::before{
       content: '';
-      @include dot(4px, #000);
-      margin: 23px 10px 0 0
+      @include dot(3px, #000);
+      position: absolute;
+      left: 0;
+      top: 11px;
     }
   }
   .pdf{
@@ -499,10 +505,13 @@ code {
     align-items: center;
     margin: 5px 0 0 0;
     color:#666;
+    align-items: normal;
     svg {
       margin-right: 5px;
       color: #666;
       font-size: 18px;
+      position: relative;
+      top: 3px;
     }
     a {
       text-decoration: underline;
@@ -771,6 +780,25 @@ code {
 }
 
 #panorama {
+  // 모바일 스팟 텍스트
+  .info-hotspot .info-hotspot-title-wrapper:before{
+    display: none;
+  }
+  .info-hotspot .info-hotspot-title-wrapper{
+    position: relative;
+    white-space: nowrap;
+    text-align: center;
+    width: 100px;
+    left: 50%;
+    margin-left: -50px;
+  }
+  .info-hotspot-title{
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px #000;
+  }
+
   .guideText {
     display: flex;
     margin-top: 10px;
@@ -1286,15 +1314,17 @@ code {
       padding-left: 20px;
       padding-right: 20px;
     }
+    .면적{
+      font-size: 14px;
+    }
     .result .info {
+      font-size:28px;
       letter-spacing: -1px;
     }
-    .result .info .adr {
-      display: block;
-      margin-bottom: 10px;
-    }
+
     .result .adv {
       line-height: 1.2;
+      font-size: 18px;
     }
   }
   .homeContents {
@@ -1459,6 +1489,20 @@ code {
         font-size: 12px;
       }
     }
+  }
+  .MuiTab-wrapper{
+    line-height: 1.2;
+    font-size: 14px;
+    letter-spacing: -1px;
+  }
+  .result .help{
+    font-size: 14px;
+    svg{
+      font-size: 16px;
+    }
+  }
+  .pdf{
+    font-size: 14px;
   }
 }
 @media (max-height: 400px) and (orientation: landscape) {
