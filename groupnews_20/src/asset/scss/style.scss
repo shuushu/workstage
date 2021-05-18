@@ -1452,6 +1452,14 @@ code {
     display: block;
     margin: 0 0 5px 0;
   }
+  .optionsLabel {
+    .bdNm{
+      font-size: 16px;
+      span{
+        font-size: 12px;
+      }
+    }
+  }
 }
 @media (max-height: 400px) and (orientation: landscape) {
   .homeContents .parag {

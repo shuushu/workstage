@@ -48,7 +48,6 @@ function Home() {
   useEffect(() => {
     init();
     setTimeout(Fire, 0);
-    
     return () => {
       clearFire();
       removeSmoke();
