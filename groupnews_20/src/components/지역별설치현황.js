@@ -43,12 +43,6 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
-  },
-}));
 
 export default function FullWidthTabs() {
   const theme = useTheme();
@@ -71,7 +65,7 @@ export default function FullWidthTabs() {
   useEffect(() => {
     setTimeout(() => {
         loadTemtplate(data[0])
-    },0)
+    }, 0)
   }, [])
 
   return (
@@ -96,7 +90,7 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <div value={value} index={0} dir={theme.direction}>
-           <div id="chart0"></div>
+           <div id="chart"></div>
         </div>
         <div value={value} index={1} dir={theme.direction}>
           <div id="chart1"></div>

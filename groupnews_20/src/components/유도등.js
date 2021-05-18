@@ -28,9 +28,8 @@ export default function SwitchLabels(props) {
     <FormGroup row>
       <div className="contentsValue">
         <ul className="strList">
-          <li>
-            <span className="sub-tit">유도등 설치 여부</span>
-            <span className="value">{value}</span>
+          <li>            
+            <span className="value">{value === '' ? '데이터 없음' : value}</span>
           </li>
           {
             right.length  > 0 ? 

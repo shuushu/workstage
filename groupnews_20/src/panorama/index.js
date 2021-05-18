@@ -3,14 +3,14 @@ import ReactDOM from "react-dom";
 import { Link, useParams } from "react-router-dom";
 import Modal from "../components/Modal.tsx";
 import Exit from "../components/유도등";
-import PlaceIcon from "@material-ui/icons/Place";
+
 import IconExit from "@material-ui/icons/DirectionsRun";
 import IconHelp from "@material-ui/icons/EmojiPeople";
 import IconNotice from "@material-ui/icons/Report";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
-import NoMeetingRoomIcon from "@material-ui/icons/NoMeetingRoom";
+
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
@@ -33,7 +33,7 @@ let autoTimer;
 const GetMember = (props) => {
   const { data } = props;
   
-  if (data.indexOf('~') < 0) {
+  if (typeof data === 'number') {
     return (
       <>
       <SupervisorAccountIcon />
@@ -71,9 +71,8 @@ const GetMember = (props) => {
 export default function Panorama() {
   let [mdFlag, setMdFlag] = useState(false);
   let { id } = useParams();
-  const CSV = DATA[id];
-  console.log(window['APT'][id])
-  
+  const CSV = DATA[id.substr(1)];
+    
 
   function customUI(switchScene, scenes) {
     setTimeout(() => {
@@ -83,7 +82,7 @@ export default function Panorama() {
       exitIcon.forEach((v) => {
         v.addEventListener("click", () => {
           //setMdFlag(true);
-          window.location.href = `#/result:키99`;
+          window.location.href = `#/result:${id.substr(1)}`;
         });
         return ReactDOM.render(<TransitEnterexitIcon fontSize="large" />, v);
       });
@@ -109,34 +108,36 @@ export default function Panorama() {
 
           if (className === "옥상출입문위치") {
             if (value === "최상층") {
-              getNode.forEach((v) => v.classList.add("green"));
-              RenderCont = () => {
-                return (
-                  <div>
-                    <ul className="strList">
-                      <li>
-                        <span className="sub-tit">옥상 출입문 위치</span>
-                        <span className="value">{CSV["옥상 출입문 위치"]}</span>
-                      </li>
-                      <li>
-                        <span className="sub-tit">옥상 출입문 재질</span>
-                        <span className="value">{CSV["옥상 출입문 재질"]}</span>
-                      </li>      
-                    </ul>
-                    <div className="guideText">
-                      <InfoOutlinedIcon />
-                      <div className="text">
-                        최상층이 엘리베이터 기계실인 경우가 많습니다. 그럴 경우 옥상출입문은 바로 아래층이거나 2개층 아래층입니다.
-                      </div>
-                    </div>
-                  </div>
-                );
-              };
+              getNode.forEach((v) => v.classList.add("green"));;
             } else if (value === "미설치") {
               getNode.forEach((v) => v.classList.add("red"));
             } else {
               getNode.forEach((v) => v.classList.add("yellow"));
             }
+            RenderCont = () => {
+              return (
+                <div>
+                  <ul className="strList">
+                    <li>
+                      <span className="value">{CSV["옥상 출입문 위치"] === '' ? '데이터 없음' : CSV["옥상 출입문 위치"]}</span>
+                    </li>
+                    </ul>
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      최상층이 엘리베이터 기계실인 경우가 있습니다. 그럴 경우 옥상출입문은 바로 아래층이거나 2개층 아래층입니다.
+                    </div>
+                  </div>
+                  <ul className="strList">
+                    <li>
+                      <span className="sub-tit">옥상 출입문 재질</span>
+                      <span className="value">{CSV["옥상 출입문 재질"] === '' ? '데이터 없음' : CSV["옥상 출입문 재질"]}</span>
+                    </li>      
+                  </ul>
+
+                </div>
+              );       
+            }     
             overwriteIcon.forEach((v) =>
               ReactDOM.render(<ExitToAppIcon fontSize="large" />, v)
             );
@@ -150,14 +151,13 @@ export default function Panorama() {
                   <div>
                     <ul className="strList">
                       <li>
-                        <span className="sub-tit">옥상 출입문 위치</span>
-                        <span className="value">{CSV["옥상 출입문 개방관리"]}</span>
+                        <span className="value">{CSV["옥상 출입문 개방관리"] === '' ? '데이터 없음' : CSV["옥상 출입문 개방관리"]}</span>
                       </li>                         
                     </ul>
                     <div className="guideText">
                       <InfoOutlinedIcon />
                       <div className="text">
-                        2016년 2월 이후 지어진 아파트 옥상출입문에는 불이 나면 자동으로 열리는 자동개폐장치를 의무적으로 설치해야 합니다. 방범이나 안전을 이유로 열쇠나 번호키로 문을 잠가둔 아파트도 많고, 아예 폐쇄된 경우도 있습니다. 같은 단지라도 동마다 사정이 달라 혼재된 경우도 있습니다.
+                        2016년 2월 이후 지어진 아파트 옥상출입문에는 불이 나면 자동으로 열리는 자동개폐장치를 의무적으로 설치해야 합니다. 이전에 지어진 아파트는 어떨까요? 방범이나 안전을 이유로 열쇠나 번호키로 잠가둔 아파트도 많고, 아예 폐쇄된 경우도 있습니다. 동마다 사정이 달라 옥상출입문 유형이 혼재된 아파트 단지도 있습니다.
                       </div>
                     </div>
                   </div>
@@ -167,7 +167,6 @@ export default function Panorama() {
               ReactDOM.render(<IconExit fontSize="large" />, v)
             );
             overwriteContents.forEach((v) => {
-              console.log(v)
               return ReactDOM.render(<RenderCont />, v)
             }
               
@@ -181,7 +180,7 @@ export default function Panorama() {
                   <ul className="strList">
                     <li>
                       <span className="sub-tit">지붕형태</span>
-                      <span className="value">{CSV["지붕형태"]}</span>
+                      <span className="value">{CSV["지붕형태"] === '박공' ? '경사진 지붕(박공지붕)' : CSV["지붕형태"] === '슬라브' ?  '평평한 지붕(슬라브지붕)' : CSV["지붕형태"] }</span>
                     </li>
                     <li>
                       <span
@@ -203,7 +202,7 @@ export default function Panorama() {
                   <div className="guideText">
                     <InfoOutlinedIcon />
                     <div className="text">
-                      박공지붕이 대체로 대피공간이 좁고, 비탈져 있어 대피에 마땅치 않는 경우가 많습니다.
+                      박공지붕이 슬라브지붕에 비해 대체로 대피공간이 좁고 비탈져 있어 대피에 부적절한 경우가 많습니다.
                     </div>
                   </div>
                 </div>,
@@ -223,7 +222,7 @@ export default function Panorama() {
             overwriteIcon.forEach((v) =>
               ReactDOM.render(<IconExit fontSize="large" />, v)
             );
-            console.log(CSV["점등상태"])
+            
             overwriteContents.forEach((v) => {
               return ReactDOM.render(
                 <Exit
@@ -241,62 +240,52 @@ export default function Panorama() {
           if (className === "옥상출입문설치여부") {
             if (value === "설치") {
               getNode.forEach((v) => v.classList.add("green"));
-              RenderCont = () => {
-                return (
-                  <div>
-                    <ul className="strList">
-                    <li>
-                      <span className="value">{CSV["옥상출입문 설치여부"]}</span>
-                    </li>
-                      <li>
-                        <span
-                          className="sub-tit"
-                          onClick={() => {
-                            let v = data[0];
-                            v.target = 'chart';
-                            setMdFlag(true);
-                            setTimeout(
-                              () =>
-                                loadTemtplate(v),
-                              0
-                            );
-                          }}
-                        >
-                          지역별 통계 보기
-                      </span>
-                      </li>
-                    </ul>
-                    <div className="guideText">
-                      <InfoOutlinedIcon />
-                      <div className="text">
-                        <p>설치: 옥상이 대피공간으로 적절한지와 관계 없이 옥상으로 난 문이 있는 경우</p>
-                        <p>미설치: 옥상 대피공간이 없고, 옥상출입문도 없는 경우</p>
-                        <p>일부 설치:같은 단지 내 일부 동만 옥상출입문이 있는 경우</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              };
-              overwriteIcon.forEach((v) =>
-                ReactDOM.render(<MeetingRoomIcon fontSize="large" />, v)
-              );
             } else if (value === "미설치") {
-              getNode.forEach((v) => v.classList.add("red"));
-              RenderCont = () => {
-                return <div>옥상으로 대피 할 공간이 없습니다.</div>;
-              };
-              overwriteIcon.forEach((v) =>
-                ReactDOM.render(<NoMeetingRoomIcon fontSize="large" />, v)
-              );
+              getNode.forEach((v) => v.classList.add("red"));    
             } else {
               getNode.forEach((v) => v.classList.add("yellow"));
-              overwriteIcon.forEach((v) =>
-                ReactDOM.render(<MeetingRoomIcon fontSize="large" />, v)
-              );
             }
-
+            RenderCont = () => {
+              return (
+                <div>
+                  <ul className="strList">
+                  <li>
+                    <span className="value">{CSV["옥상출입문 설치여부"]}</span>
+                  </li>
+                    <li>
+                      <span
+                        className="sub-tit"
+                        onClick={() => {
+                          let v = data[0];
+                          v.target = 'chart';
+                          setMdFlag(true);
+                          setTimeout(
+                            () =>
+                              loadTemtplate(v),
+                            0
+                          );
+                        }}
+                      >
+                        지역별 통계 보기
+                    </span>
+                    </li>
+                  </ul>
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      <p>설치: 옥상으로 난 문이 있는 경우. 옥상이 대피공간으로 적절한지와는 관계 없음</p>
+                      <p>미설치: 옥상 대피공간이 없고, 옥상출입문도 없는 경우</p>
+                      <p>일부 설치:같은 단지 내 일부 동만 옥상출입문이 있는 경우</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            };
             overwriteContents.forEach((v) =>
               ReactDOM.render(<RenderCont />, v)
+            );
+            overwriteIcon.forEach((v) =>
+              ReactDOM.render(<MeetingRoomIcon fontSize="large" />, v)
             );
           }
           // [3]
@@ -344,13 +333,21 @@ export default function Panorama() {
                     <li>
                       <span className="sub-tit">대피공간내 면적</span>
                       <span className="value">
-                      {CSV["대피공간 면적"]}
+                      {CSV["대피공간 면적"] === '' ? '데이터 없음' : `${CSV["대피공간 면적"]}㎡` }
                       </span>
                     </li>
+                  </ul>
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      <p>통상 집회 참여 인원을 파악할 때 3.3m2당 5~9명으로 추정합니다. 대피공간이 넉넉하지 않으면 위험할 수 있습니다.</p>
+                    </div>
+                  </div> 
+                  <ul className="strList">                   
                     <li>
-                      <span className="sub-tit">대피공간내 난간설치</span>
+                      <span className="sub-tit">안전난간 설치 여부</span>
                       <span className="value">
-                        {CSV["대피공간내 난간설치"]}
+                        {CSV["대피공간내 난간설치"] === '' ? '데이터 없음' : CSV["대피공간내 난간설치"] }
                       </span>
                     </li>
                     <li>
@@ -371,17 +368,14 @@ export default function Panorama() {
                       </span>
                     </li>                    
                   </ul>
-                  <div className="guideText">
-                    <InfoOutlinedIcon />
-                    <div className="text">
-                      <p>통상 집회 참여 인원을 파악할 때 3.3m2당 5~9명으로 추정합니다. 대피공간이 넉넉치 않으면 위험할 수 있습니다.</p>
-                    </div>
-                  </div>
+  
+                  { CSV["대피공간 면적"] === ''? null : (
                   <div className="수용률">
                     
                     <GetMember data={CSV["대피공간 면적"]} />
      
                   </div>
+                  ) }
                 </div>
               );
             };
@@ -936,6 +930,7 @@ export default function Panorama() {
           document.body.removeChild(i);
         });
         clearInterval(autoTimer);
+        //document.getElementById('chart').highcharts().destroy();
       };
     }
   }, []);

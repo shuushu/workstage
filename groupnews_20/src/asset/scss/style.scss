@@ -46,10 +46,7 @@ code {
 .fail {
   background: #fff;
   color: #333;
-  #root .result .help svg,
-  #root .result .error {
-    color: #ff8989;
-  }
+
   .bg svg {
     color: #ffa0a0;
   }
@@ -57,10 +54,8 @@ code {
 .success {
   background: #fff;
   color: #333;
-  #root .result .help svg,
-  #root .result .error {
-    color: #62ad62;
-  }
+  
+  
   .bg svg {
     color: #62ad62;
   }
@@ -143,9 +138,7 @@ code {
     }
   }
 }
-#root .result .error {
-  color: #ff8989;
-}
+
 #tab-contents{
   width: 100%;
   .MuiPaper-root {
@@ -158,6 +151,7 @@ code {
   }
   > div{
     background: rgba(0,0,0,0.4);
+    padding-top: 10px;
   }
 }
 // 결과화면
@@ -353,11 +347,122 @@ code {
     font-size: 16px;
   }
 }
+.home{
+  .nodata{
+    margin: 20px;
+  }
+  #modal h1{
+    font-size: 24px;
+    padding-bottom: 15px;
+  }
+}
+#searchDetail{
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 500px;
+  overflow: auto;
+  min-height: 100px;
+  .loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    span{
+      position:relative;
+      z-index: 5;
+    }
+    // 유도등애니
+    @mixin zoomInOut($c, $w) {
+      $v: $w/10;
+      content: "";
+      position: absolute;
+      width: #{$w}px;
+      height: #{$w}px;
+      background-color: $c;
+      
+      border-radius: 100%;
+      margin-left: -#{$w/2}px;
+      margin-top: -#{$w/2}px;
+    }
+    @mixin before($color) {
+      @include zoomInOut($color, 50);
+      top: 50%;
+      left: 50%;
+      animation: bounce 2s infinite ease-in-out;
+    }
+    @mixin after($color) {
+      @include zoomInOut($color, 60);
+      top: 50%;
+      left: 50%;
+      animation: bounce 2s infinite ease-in-out;
+      animation-delay: -1s;
+    }
+    @keyframes bounce {
+      0%,
+      100% {
+        -webkit-transform: scale(0.3);
+      }
+
+      50% {
+        -webkit-transform: scale(1.2);
+      }
+    }
+    &::before {
+      @include before(rgba(153, 155, 146, 0.4));
+    }
+    &::after {
+      @include after(rgba(193, 174, 255, 0.2));
+    }
+
+
+  }
+  .items{
+   text-align: left;
+   margin: 3px;
+   .MuiButton-outlined{
+     border-color:#999
+   }
+   .MuiButton-label{
+     flex-direction: column;     
+     align-items: flex-start;
+     color:#fff;
+   }
+    .tit{
+      font-size: 16px;
+    }
+    .addr{
+      font-size: 13px;
+      color:#ccc;
+    }
+  }
+}
 .result {
   max-width: 1000px;
   margin: 0 auto;
   line-height: 1.3;
   padding: 0 10px;
+  .items{
+    display: flex;
+    &::before{
+      content: '';
+      @include dot(4px, #000);
+      margin: 23px 10px 0 0
+    }
+  }
+  .pdf{
+    padding: 10px 10px 12px 10px;
+    border:solid 1px #ccc;
+    border-radius: 5px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #666;
+    .icon{
+      svg{
+        margin: 0 2px 0 10px;
+      }
+    }
+  }
   h3 {
     font-weight: bold;
   }
@@ -375,7 +480,7 @@ code {
     span {
       font-weight: normal;
       font-size: 16px;
-      margin-right: 10px;
+      margin: 0 10px;
     }
   }
   .history {
@@ -385,20 +490,19 @@ code {
     }
   }
   .adv {
-    font-size: 32px;
+    font-size: 20px;
   }
   .big {
-    font-size: 24px;
   }
   .help {
-    font-size: 13px;
     display: flex;
     align-items: center;
-    margin: 10px 0;
-
+    margin: 5px 0 0 0;
+    color:#666;
     svg {
       margin-right: 5px;
-      color: #ff8989;
+      color: #666;
+      font-size: 18px;
     }
     a {
       text-decoration: underline;
@@ -752,7 +856,7 @@ code {
         margin-right: 10px;
       }
       .곱 strong {
-        font-size: 30px;
+        font-size: 27px;
       }
     }
   }

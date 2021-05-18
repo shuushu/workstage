@@ -26,7 +26,7 @@ export const data = [
             data: [1, 28, 2, 1, 3, 6, 19, 11, 8, 24, 21, 23, 0, 0, 8, 25, 12, 7, 5, 17, 1, 2, 0, 2, 7, 24, 9, 0, 1, 4, 0, 11, 7, 1, 3],
         },
         ],
-        target: `chart0`
+        target: `chart`
     },
     {
         text: '경기도 지역 옥상 대피공간 현황',
@@ -72,6 +72,7 @@ export const data = [
 const initHight = (props) => {
   const { categories, text, series, target  } = props;
   const node = target || 'chart';
+  
   const chart = Highcharts.chart(node, {
     chart: {
       type: "bar",
@@ -127,6 +128,7 @@ const initHight = (props) => {
       setHeight();
     }
   });
+  window.chart = chart;
 };
 
 

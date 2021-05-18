@@ -3,10 +3,12 @@ import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import DATA from "../components/data";
 import Recent from "./Recent";
 import { useEffect } from "react";
 import 자동개폐이미지 from "../asset/imgs/auto2.jpg";
+import Button from '@material-ui/core/Button';
 import nangan from "../asset/imgs/nangan.jpg";
 import nangan2 from "../asset/imgs/nangan2.jpg";
 import nangan3 from "../asset/imgs/nangan3.jpg";
@@ -29,89 +31,19 @@ export default function Result() {
   const 옥상대피여부 = () => {
     if (check()) {
       return (
-        <h1 className="adv">
-          이 건물은 옥상으로 대피 할 수 <span className="error">없습니다.</span>
-        </h1>
-      );
-    } else {
-      return (
-        <h1 className="adv">
-          이 건물은 옥상으로 대피 할 수 <span className="error">있습니다.</span>
-        </h1>
-      );
-    }
-  };
-  const 재질 = () => {
-    const 문 = CSV["옥상 출입문 재질"];
-    if (문 === "") {
-      return null;
-    }
-    if (문 === "방화문" || 문 === "불연재") {
-      return (
-        <>
-          불에 대한 내구성이 강한 <strong className="big error">{문}</strong>
-          으로(로)
-        </>
-      );
-    } else if (문 === "가연재") {
-      return (
-        <>
-          불에 대한 내구성이 취약한 <strong className="big error">{문}</strong>
-          로
-        </>
-      );
-    }
-  };
-
-  const 옥상출입문개방관리 = () => {
-    const v = CSV["옥상 출입문 개방관리"];
-    const 위치 = CSV["옥상 출입문 위치"];
-
-    if (v === "") {
-      return null;
-    }
-    if (v === "항시개방") {
-      return (
-        <h2>
-          옥상 출입문은 <strong className="big error">{위치}</strong>에 있으며,{" "}
-          {재질()} <strong className="big error">항시개방</strong> 되어
-          있습니다.
-        </h2>
-      );
-    } else if (v === "열쇠 또는 번호키") {
-      return (
         <div>
-          <h2>
-            옥상 출입문은 <strong className="big error">{위치}</strong>에
-            있으며, {재질()}{" "}
-            <strong className="big error">열쇠 또는 번호키</strong>로 개방
-            가능합니다.
-          </h2>
-          <p className="help error">
-            <InfoOutlinedIcon /> 비밀번호나 옥상 열쇠가 어디에 비치되어 있는지
-            알고 계신가요?
-          </p>
+          옥상으로 대피 할 수 <span className="error">없습니다.</span>
         </div>
       );
-    } else if (v === "자동개폐장치") {
-      return (
-        <h2>
-          옥상 출입문은 <strong className="big error">{위치}</strong>에 있으며,{" "}
-          {재질()} <strong className="big error">자동개폐장치</strong>가 설치
-          되어 있으며{" "}
-          <strong className="big error">{CSV["자동개폐장치 작동상태"]}</strong>
-          하고 있습니다.
-        </h2>
-      );
     } else {
       return (
-        <h2>
-          옥상 출입문은 <strong className="big error">{위치}</strong>에 있으며,{" "}
-          {재질()} <strong className="big error">{v}</strong>로 되어 있습니다.
-        </h2>
+        <div>
+          옥상으로 대피 할 수 <span className="error">있습니다.</span>
+        </div>
       );
     }
   };
+  
   const 대피공간면적 = () => {
     const v = CSV["대피공간 면적"];
 
@@ -127,13 +59,13 @@ export default function Result() {
       } else if (n !== "설치") {
         return (
           <p className="help error">
-            <InfoOutlinedIcon /> 옥상 난간이 {n} 되었습니다.
+            <InfoOutlinedIcon /> 옥상 난간이 {n}돼 있습니다.
           </p>
         );
       } else {
         return (
           <p className="help error">
-            <CheckCircleOutlineOutlinedIcon /> 옥상 난간이 {n} 되었습니다.
+            <CheckCircleOutlineOutlinedIcon /> 옥상 난간이 {n}돼 있습니다.
           </p>
         );
       }
@@ -147,44 +79,73 @@ export default function Result() {
         </p>
       );
     } else if (check() === false && v !== "") {
+      const getMember = () => {
+        const data = CSV["대피공간 면적"];
+        if (typeof data === 'number') {
+            return (
+              <>
+                  <span className="곱">            
+                    <strong>
+                      {Math.ceil(
+                        Math.ceil(parseInt(data) / 3.3) * 9
+                      )}
+                    </strong>
+                    명 가량 수용
+                  </span>
+              </>
+            )    
+
+          } else {
+            // 최소~최대 인원
+            const v = data.split('~')
+            return (
+                <span className="곱">
+                  <strong>
+                    {Math.ceil(parseInt(v[0]) / 3.3) * 9}
+                    ~
+                    {Math.ceil(parseInt(v[1]) / 3.3) * 9} 
+                  </strong>
+                  명
+                </span>
+            )
+          }
+      }
       return (
         <>
           <div className="면적">
-            수용 가능한 인원은 약{" "}
-            {Math.ceil(Math.ceil(parseInt(CSV["대피공간 면적"]) / 3.3) / 2)}
-            명입니다 <em>(면적: {CSV["대피공간 면적"]})</em>
+            대피 공간은 {CSV["대피공간 면적"]}㎡ 입니다.
+            수용 가능한 인원 {getMember()} 
+            
           </div>
           {난간설치여부()}
         </>
       );
     }
   };
-  const 유도등상테 = () => {
-    const e = CSV["점등상태"];
-    if (e === "점등") {
-      return <span className="점등상태">점등 상태가 양호합니다.</span>;
+  const 옥상문개방여부 = () => {
+    const e = CSV["옥상 출입문 개방관리"];
+    if (e === "자동개폐장치") {
+      return <div className="adv">문에는 자동개폐장치가 설치돼 있습니다</div>;
+    } else if(e === '항시개방') {
+      return <div className="adv">문은 항상 열려있습니다.</div>;
+    } else if(e === '열쇠 또는 번호키') {
+      return <div className="adv">문은 열쇠 또는 번호키로 열 수 있습니다.</div>;
     } else {
-      return <span className="점등상태">점등 상태의 확인이 필요 합니다.</span>;
+      return <div className="adv">옥상문개방여부 확인 불가</div>;
     }
   };
-  const 유도등 = () => {
-    const v = CSV["유도등 설치여부"];
 
-    if (v === "설치") {
-      return (
-        <div className="parag">
-          대피공간의 위치를 알려주는 유도등이 설치 되어 있으며 {유도등상테()}
-        </div>
-      );
-    }
-  };
   const 장애내용 = () => {
     const v = CSV["장애내용"];
     if (v !== "") {
       return (
-        <p className="help error">
-          <ReportProblemOutlinedIcon /> {v}
-        </p>
+        <li className="items">
+          <div>
+            <div className="adv">
+              장애내용: {v}
+            </div>
+          </div>
+        </li>
       );
     }
   };
@@ -205,25 +166,63 @@ export default function Result() {
     <div id="result-wrap">
       <div className="result">
         <h2 className="info">
-          마포 한강 아파트 <span>13동수</span>
-          <span className="adr">서울시 마포구 방울내로74길 323-12</span>
+          {CSV['apt_name']}
+          <span className="adr">{CSV['addr']}</span>
         </h2>
 
-        <div className="history">
+        {/* <div className="history">
           <em>건축허가일: {CSV["건축허가일"]}</em>
           <em>사용승인일: {CSV["사용승인일"]}</em>
-        </div>
-        <div className="parag">
-          {옥상대피여부()}
-          {대피공간면적()}
-        </div>
-
-        <div className="parag">
-          {옥상출입문개방관리()}
-          {유도등()}
+        </div> */}
+        <ul className="parag">
+          <li className="items">
+            <div>
+              <div className="adv">{옥상대피여부()}</div>
+            {대피공간면적()}
+            </div>
+          </li>
+          <li className="items">
+            <div>
+              <div className="adv">옥상 출입문은 <strong className="big">{CSV['옥상 출입문 위치']}</strong>에 있습니다.</div>
+              <p className="help">
+                <CheckCircleOutlineOutlinedIcon /> 출입문 위치를 알려주는 유도등이 {CSV['유도등 설치여부']}돼 있습니다.
+              </p>
+              { CSV['점등상태'] === '' ? null : 
+              <p className="help">
+                <CheckCircleOutlineOutlinedIcon /> 유도등은 {CSV['점등상태']} 상태입니다. 
+              </p>
+              }
+            </div>
+          </li>
+          <li className="items">
+            <div>
+              {옥상문개방여부()}
+              <p className="help">
+                <CheckCircleOutlineOutlinedIcon /> 옥상 열쇠가 어디에 있는지, 비밀번호가 몇 번인지 알고 계신가요? 미리 꼭 확인하세요.
+              </p>              
+            </div>
+          </li>
+          <li className="items">
+            <div>
+              <div className="adv">지붕 형태는 {CSV['지붕형태'] === '박공' ? '경사지붕(박공지붕)' : CSV['지붕형태'] === '슬라브' ? '평지붕(슬라브지붕)' : '경사+평지붕(혼재)'} 입니다.</div>
+              <p className="help">
+                <CheckCircleOutlineOutlinedIcon /> 박공지붕이 슬라브지붕에 비해 대체로 대피공간이 좁고 비탈져 있어 대피에 부적절한 경우가 많습니다.
+              </p>
+            </div>
+          </li>
           {장애내용()}
-        </div>
+        </ul>
+        <div className="pdf">
+          소화기나 소화전으로 초기 화재 진압이 불가능할 정도의 불이라면 안전한 장소로 대피하는 것이 급선무입니다. 통상적으로 복도식 아파트라면 화재층의 좌우 방향으로 대피해야 하며 계단식 아파트는 연기 유무를 확인한 뒤 지상이나 옥상으로 대피해야 합니다. 엘리베이터를 이용해선 안 됩니다. 계단에 연기와 열기가 가득하다면 집 안에서 구조를 기다려야 하는 경우도 있습니다.
+          
+          <Button href="http://fire.assembly-mbc.com/manual.pdf" target="_blank" className="icon">
+            <PictureAsPdfIcon />  아파트 화재안전매뉴얼 보기
+          </Button>
+        </div>        
       </div>
+
+
+
       <div className="example">
         <div className="wrap">
           <h3>옥상 설비 올바른 예</h3>
@@ -232,14 +231,8 @@ export default function Result() {
               <img src={자동개폐이미지} alt="" />
             </span>
             <div className="info-wrap">
-              <h4>자동개폐장치 설치</h4>
-              화재예방 소방시설 설치·유지 및 안전관리에 관한 법률에 따라 2016년
-              이후 건축된 아파트에선 상시 개방해야 합니다. 옥상문을 평소
-              닫아놓을 경우 화재 시에는 자동으로 열리는 개폐 시스템을 갖춰야
-              합니다. <br />
-              비상문 자동개폐장치의 구입비용은 50만∼100만원 정도로 비교적 저렴한
-              편이지만, 자동화재탐지설비, 유도등 등과 연동시켜야 하기 때문에
-              추가 설치비용이 발생합니다.{" "}
+              <h4>비상문자동개폐장치</h4>
+              건축법에 따라 2016년 2월 이후 지어진 아파트는 옥상으로 통하는 출입문에 비상문자동개폐장치를 설치해야 합니다. 화재 등 비상시에 소방시스템과 연동돼 잠김 상태가 자동으로 풀리는 장치를 말하는데요. 평상시에는 잠겨 있다가 불이 나면 자동으로 열리는 겁니다.{" "}
             </div>
           </div>
           <div className="right">
