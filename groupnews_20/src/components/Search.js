@@ -35,7 +35,7 @@ export default function Asynchronous(props) {
     const [options, setOptions] = React.useState([]);
     const [feieldHelpText, setFieldHelpText] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    const { setMdFlag, setData } = props;
+    const { setMdFlag, setData, setTitle } = props;
     const textRef = React.useRef();
     
     function resetInput() {
@@ -119,38 +119,53 @@ export default function Asynchronous(props) {
             size={window.innerWidth <= 320 ? 'small' : 'medium'}
             onChange={(o, v) => {
                 if (v) {
-                    const { category_name, address_name } = v;
+                    const { category_name, address_name, place_name } = v;
                     const btn = document.querySelector('.MuiAutocomplete-endAdornment button');
                     if (address_name.indexOf('경기') < 0) {
-                        alert('경기지역 아님');
+                        alert('경기 지역 데이터만 조회 가능합니다.');
                         setOpen(false);
                         timer = setTimeout(resetInput, 100);
                         return;
                     }
-                    if (category_name.indexOf('아파트') < 0) {
-                        alert('해당 건물은 아파트가 아닙니다.');
+                    if (category_name.indexOf('부동산') < 0) {
+                        alert('해당 건물은 조사 대상이 아닙니다.');
                         setOpen(false);
                         timer = setTimeout(resetInput, 100);
                         return;
+                    }
+
+                    // 
+                    const si = address_name.split(' ')[1];
+                    // 주소 없음 찾기
+                    if (주소없음[`${si} ${place_name}`] && !DATA[si][address_name]) {
+                        window.location.href = `#/detail:${si} ${place_name}&except=0`;
+                        return;                        
                     }
                     if (address_name in 중복체크) {
                         setMdFlag(true);
+                        setTitle('단지 및 아파트를 선택하세요')
                         setData(Object.entries(중복체크[address_name]));
                         return;
                     }
-                    //console.log('경기 고양시 일산동구 마두동 789', address_name)
-                    if (!DATA[address_name]) {
+                    // 유사 검색
+                    if (!DATA[si][address_name]) {
                         alert('해당 건물은 데이터에서 찾을 수 없습니다.');
                         timer = setTimeout(resetInput, 100);
-                        // setMdFlag(true);
-                        // load(address_name.split(' ')[1]).then(r => {
-                        //     setData(r);
-                        // })
+                        setMdFlag(true);
+                        setTitle('연관 지역 내 데이터에서 찾아주세요')
+                        setData(Object.entries(DATA[si]));
                         return;
                     }
+                    if (DATA[si][address_name]) {
+                        clearTimeout(timer);
+                        window.location.href = `#/detail:${si}&addr=${address_name}`
+                    }
+
+
+    
+                    //console.log('경기 고양시 일산동구 마두동 789', address_name)
+
                     
-                    clearTimeout(timer);
-                    window.location.href = `#/detail:${address_name}`
                 }
             }}
             renderInput={(params) => {

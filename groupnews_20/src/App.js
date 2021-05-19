@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import SearchIcon from '@material-ui/icons/Search';
 import ComboBox from "./components/Search";
 // custom
 import Panorama from "./panorama/index";
@@ -21,20 +22,26 @@ import Button from '@material-ui/core/Button';
 function Home() {
   let [mdFlag, setMdFlag] = useState(false);
   let [data, setData] = useState([]);
-
+  let [title, setTitle] = useState('');
 
   const RenderItems = () => {
     if(data.length === 0) {
       return <div className="loading">데이터를 가져오는 중입니다.</div>
     } else {
       return data.map(([k, v],idx) => {
-        const { apt_name, addr } = v;
-        console.log(v)
+        const { apt_name, addr } = v;        
         return (
           <div key={`sd-${idx}`} className="items">
             <Button variant="outlined" onClick={() => {
               if (addr && addr !== 'FALSE') {
-                window.location.href = `#/detail:${addr}&name=${apt_name}`
+
+                if (title === '단지 및 아파트를 선택하세요') {
+                  window.location.href = `#/detail:${addr}&name=${apt_name}`
+                } else if (title === '연관 지역 내 데이터에서 찾아주세요') {
+                  const si = addr.split(' ')[1];
+                  window.location.href = `#/detail:${si}&addr=${addr}`
+                }
+                
               } else {
                 alert('선택하신 건물은 확인 할 수 없습니다.')
               }
@@ -65,7 +72,7 @@ function Home() {
         </div>
         <h1 className="tit"> 우리 아파트 옥상은 안전할까?</h1>
         <div className="cell">
-          <ComboBox setMdFlag={setMdFlag} setData={setData} />
+          <ComboBox setMdFlag={setMdFlag} setData={setData} setTitle={setTitle} />
         </div>
         <div className="combo-help">
           경기도소방재난본부 조사('19.12.14~'20.02.20) 자료를 토대로 MBC가 정리했습니다. 경기도 이외 지역은 자료가 없습니다.  <strong>정확한 내용은 해당 아파트 관리사무소나 관할 소방서에 확인하세요</strong>
@@ -80,9 +87,9 @@ function Home() {
         <div className="parag">
         우리 아파트 옥상출입문이 어딘지, 문은 열려있는지, 대피 공간은 넉넉한지 미리 살펴보세요. 내 가족의 목숨이 달린 일입니다.
         </div>
-        {/* <div id="home-recent">
+        <div id="home-recent">
           <Recent/>
-        </div> */}
+        </div>
         <div>
           <h3 className="s-tit">지역별 설치 현황</h3>
           <Graph />
@@ -97,7 +104,7 @@ function Home() {
       <canvas id="smoke" width="400" height="400"></canvas>
       <canvas id="effect">지원하지않는 브라우져입니다.</canvas>
       <Modal mdFlag={mdFlag} setMdFlag={setMdFlag} >
-        <h1>검색 결과 중복 된 데이터가 있습니다</h1>
+        <h1><SearchIcon/>{title}</h1>
         <div id="searchDetail">          
           <RenderItems />          
         </div>

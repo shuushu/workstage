@@ -2,38 +2,12 @@ export default function Recent() {
   const gisa = [
     {
       thumb:
-        "https://cdn.kihoilbo.co.kr/news/photo/202012/899731_313585_956.jpg",
-      link: "https://www.kihoilbo.co.kr/news/articleView.html?idxno=899731",
-      tit:
-        "여기는 괜찮을까… 옥상문 열러 갔더니 도로 내려와야 했다 여기는 괜찮을까… ",
-      provider: "기호일보",
-      date: "2020.12.03",
-    },
-    {
-      thumb:
-        "https://thumb.mt.co.kr/06/2020/12/2020120211338296959_1.jpg/dims/optimize/",
-      link: "https://news.mt.co.kr/mtview.php?no=2020120211338296959",
-      tit: "4명 숨진 군포 아파트 화재 '특이 구조'가 화 키웠나…옥상 혼동 가능성",
-      provider: "뉴스1 ",
-      date: "2020.12.02",
-    },
-    {
-      thumb:
-        "https://cdn.kihoilbo.co.kr/news/photo/202012/899731_313585_956.jpg",
-      link: "https://www.kihoilbo.co.kr/news/articleView.html?idxno=899731",
-      tit:
-        "여기는 괜찮을까… 옥상문 열러 갔더니 도로 내려와야 했다 여기는 괜찮을까… ",
-      provider: "기호일보",
-      date: "2020.12.03",
-    },
-    {
-      thumb:
-        "https://thumb.mt.co.kr/06/2020/12/2020120211338296959_1.jpg/dims/optimize/",
-      link: "https://news.mt.co.kr/mtview.php?no=2020120211338296959",
-      tit: "4명 숨진 군포 아파트 화재 '특이 구조'가 화 키웠나…옥상 혼동 가능성",
-      provider: "뉴스1 ",
-      date: "2020.12.02",
-    },
+        "https://image.imnews.imbc.com/replay/2021/nwdesk/article/__icsFiles/afieldfile/2021/05/19/desk_20210519_201215_1_8_Large.jpg",
+      link: "https://imnews.imbc.com/replay/2021/nwdesk/article/6184013_34936.html",
+      tit: ` [단독] "꼭대기 층에 있을 줄 알았는데"... 숨어 있는 '옥상 출구'`,
+      provider: " 김세로",
+      date: "2021-05-19 20:35",
+    }  
   ];
 
   const RenderExample = () => {

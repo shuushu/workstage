@@ -74,13 +74,17 @@ export default function Panorama() {
   const ID = id.substr(1);
   let CSV;
   if (ID.indexOf('&name=') > 0) {
-    let [ addr, name ] = ID.split('&name=');
+    let [addr, name] = ID.split('&name=');
     // 중복데이터
-    CSV = 중복체크[addr][name];
+    CSV = 중복체크[addr][name];  
+  } else if (ID.indexOf('&except') > 0) {
+    let [name] = ID.split('&except');
+    // 주소없는데이터
+    CSV = 주소없음[name];
   } else {
-    CSV = DATA[ID];
+    let [sido, addr] = ID.split('&addr=');
+    CSV = DATA[sido][addr];
   }
-  
 
 
   function customUI(switchScene, scenes) {

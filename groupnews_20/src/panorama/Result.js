@@ -13,11 +13,24 @@ import Button from '@material-ui/core/Button';
 import nangan from "../asset/imgs/nangan.jpg";
 import nangan2 from "../asset/imgs/nangan2.jpg";
 import nangan3 from "../asset/imgs/nangan3.jpg";
-
+import { 중복체크, 주소없음 } from '../components/예외데이터'
 export default function Result() {
   let { id } = useParams();
-  id = id.substr(1);
-  const CSV = DATA[id];
+  const ID = id.substr(1);
+  let CSV;
+  if (ID.indexOf('&name=') > 0) {
+    let [addr, name] = ID.split('&name=');
+    // 중복데이터
+    CSV = 중복체크[addr][name];
+  } else if (ID.indexOf('&except') > 0) {
+    let [name] = ID.split('&except');
+    // 주소없는데이터
+    CSV = 주소없음[name];
+  } else {
+    let [sido, addr] = ID.split('&addr=');
+    CSV = DATA[sido][addr];
+  }
+
   
   const check = () => {
     if (
@@ -251,7 +264,7 @@ export default function Result() {
           </div>
         </div>
       </div>
-      {/* <Recent /> */}
+      <Recent />
       <div className="bg">
         {check() ? <CancelOutlinedIcon /> : <CheckCircleOutlineOutlinedIcon />}
       </div>
