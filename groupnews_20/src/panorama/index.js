@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Link, useParams } from "react-router-dom";
-import Modal from "../components/Modal.tsx";
-import Exit from "../components/유도등";
+import Modal from "../components/Modal.js";
 
 import IconExit from "@material-ui/icons/DirectionsRun";
 import IconHelp from "@material-ui/icons/EmojiPeople";
@@ -15,9 +14,10 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import DATA from "../components/data";
-import loadTemtplate, { data } from "../components/template";
+import loadTemtplate, { data, pieChart, barChart } from "../components/template";
 import Button from "@material-ui/core/Button";
-
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import { 중복체크, 주소없음 } from '../components/예외데이터'
 function removeWhiteSpace(str) {
   var setClassName = str;
   if (setClassName) {
@@ -32,21 +32,21 @@ let autoTimer;
 
 const GetMember = (props) => {
   const { data } = props;
-  
+
   if (typeof data === 'number') {
     return (
       <>
-      <SupervisorAccountIcon />
-          <span className="곱">            
-            <strong>
-              {Math.ceil(
-                Math.ceil(parseInt(data) / 3.3) * 9
-              )}
-            </strong>
+        <SupervisorAccountIcon />
+        <span className="곱">
+          <strong>
+            {Math.ceil(
+              Math.ceil(parseInt(data) / 3.3) * 9
+            )}
+          </strong>
             명 가량 수용
           </span>
       </>
-    )    
+    )
 
   } else {
     // 최소~최대 인원
@@ -56,9 +56,9 @@ const GetMember = (props) => {
         <SupervisorAccountIcon />
         <span className="곱">
           <strong>
-             {Math.ceil(parseInt(v[0]) / 3.3) * 9}
+            {Math.ceil(parseInt(v[0]) / 3.3) * 9}
              ~
-             {Math.ceil(parseInt(v[1]) / 3.3) * 9} 
+             {Math.ceil(parseInt(v[1]) / 3.3) * 9}
           </strong>
           명 가량 수용
         </span>
@@ -71,8 +71,17 @@ const GetMember = (props) => {
 export default function Panorama() {
   let [mdFlag, setMdFlag] = useState(false);
   let { id } = useParams();
-  const CSV = DATA[id.substr(1)];
-    
+  const ID = id.substr(1);
+  let CSV;
+  if (ID.indexOf('&name=') > 0) {
+    let [ addr, name ] = ID.split('&name=');
+    // 중복데이터
+    CSV = 중복체크[addr][name];
+  } else {
+    CSV = DATA[ID];
+  }
+  
+
 
   function customUI(switchScene, scenes) {
     setTimeout(() => {
@@ -121,23 +130,115 @@ export default function Panorama() {
                     <li>
                       <span className="value">{CSV["옥상 출입문 위치"] === '' ? '데이터 없음' : CSV["옥상 출입문 위치"]}</span>
                     </li>
-                    </ul>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          let v = data[3];
+                          v.target = 'chart';
+                          setMdFlag(true);
+                          setTimeout(
+                            () => pieChart({
+                              text: '옥상 출입문 위치 현황',
+                              data: [
+                                {
+                                  name: '최상층',
+                                  y: 3648,
+                                  sliced: true,
+                                  selected: true
+                                },
+                                {
+                                  name: '최상층 2개층 아래층',
+                                  y: 6
+                                },
+                                {
+                                  name: '최상층 아래층',
+                                  y: 1866
+                                },
+                                {
+                                  name: '기타',
+                                  y: 390
+                                },
+                              ]
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          let v = data[1];
+                          v.target = 'chart';
+                          setMdFlag(true);
+                          setTimeout(
+                            () =>
+                              loadTemtplate(v),
+                            0
+                          );
+                        }}
+                      >
+                        지역별 통계
+                      </span>
+                    </li>
+                  </ul>
                   <div className="guideText">
                     <InfoOutlinedIcon />
                     <div className="text">
-                      최상층이 엘리베이터 기계실인 경우가 있습니다. 그럴 경우 옥상출입문은 바로 아래층이거나 2개층 아래층입니다.
+                      최상층이 엘리베이터 기계실인 경우가 있습니다. 그럴 경우 옥상출입문은 바로 아래층이거나 2개층 아래층입니다. 같은 단지라도 동마다 다른 경우는 기타로 분류했습니다.
                     </div>
                   </div>
                   <ul className="strList">
                     <li>
-                      <span className="sub-tit">옥상 출입문 재질</span>
+                      <span className="sub-tit">옥상출입문 재질</span>
                       <span className="value">{CSV["옥상 출입문 재질"] === '' ? '데이터 없음' : CSV["옥상 출입문 재질"]}</span>
-                    </li>      
+                    </li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () => pieChart({
+                              text: '옥상 출입문 재질',
+                              data: [
+
+                                {
+                                  name: '방화문',
+                                  y: 5859,
+                                  sliced: true,
+                                  selected: true
+                                },
+                                {
+                                  name: '불연재',
+                                  y: 502
+                                },
+                                {
+                                  name: '가연재',
+                                  y: 27
+                                },
+                                {
+                                  name: '기타',
+                                  y: 25
+                                },
+                              ]
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+                    </li>
                   </ul>
 
                 </div>
-              );       
-            }     
+              );
+            }
             overwriteIcon.forEach((v) =>
               ReactDOM.render(<ExitToAppIcon fontSize="large" />, v)
             );
@@ -146,32 +247,98 @@ export default function Panorama() {
             );
           }
           if (className === "옥상출입문개방관리") {
-              RenderCont = () => {
-                return (
-                  <div>
-                    <ul className="strList">
-                      <li>
-                        <span className="value">{CSV["옥상 출입문 개방관리"] === '' ? '데이터 없음' : CSV["옥상 출입문 개방관리"]}</span>
-                      </li>                         
-                    </ul>
-                    <div className="guideText">
-                      <InfoOutlinedIcon />
-                      <div className="text">
-                        2016년 2월 이후 지어진 아파트 옥상출입문에는 불이 나면 자동으로 열리는 자동개폐장치를 의무적으로 설치해야 합니다. 이전에 지어진 아파트는 어떨까요? 방범이나 안전을 이유로 열쇠나 번호키로 잠가둔 아파트도 많고, 아예 폐쇄된 경우도 있습니다. 동마다 사정이 달라 옥상출입문 유형이 혼재된 아파트 단지도 있습니다.
+            RenderCont = () => {
+              return (
+                <div>
+                  <ul className="strList">
+                    <li>
+                      <span className="value">{CSV["옥상 출입문 개방관리"] === '' ? '데이터 없음' : CSV["옥상 출입문 개방관리"]}</span>
+                    </li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () => barChart({
+                              text: '옥상 출입문 개방관리 현황',
+                              categories: [
+                                '옥상 출입문 개방관리 현황'
+                              ],
+                              series: [{
+                                name: '자동개폐장치',
+                                data: [2324]
+
+                              }, {
+                                name: '항시개방',
+                                data: [1731]
+
+                              }, {
+                                name: '열쇠 또는 번호키',
+                                data: [1518]
+
+                              }, {
+                                name: '혼재',
+                                data: [327]
+
+                              }, {
+                                name: '수동개방장치',
+                                data: [4]
+
+                              }, {
+                                name: '폐쇄',
+                                data: [3]
+
+                              }, {
+                                name: '원격개방장치',
+                                data: [3]
+
+                              },
+                              ],
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          let v = data[2];
+                          v.target = 'chart';
+                          setMdFlag(true);
+                          setTimeout(
+                            () =>
+                              loadTemtplate(v),
+                            0
+                          );
+                        }}
+                      >
+                        지역별 통계
+                      </span>
+                    </li>
+                  </ul>
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      2016년 2월 이후 지어진 아파트 옥상출입문에는 불이 나면 자동으로 열리는 자동개폐장치를 의무적으로 설치해야 합니다. 이전에 지어진 아파트는 어떨까요? 방범이나 안전을 이유로 열쇠나 번호키로 잠가둔 아파트도 많고, 아예 폐쇄된 경우도 있습니다. 동마다 다른(혼재) 아파트 단지도 있습니다.
                       </div>
-                    </div>
                   </div>
-                );
-              };
+                </div>
+              );
+            };
             overwriteIcon.forEach((v) =>
               ReactDOM.render(<IconExit fontSize="large" />, v)
             );
             overwriteContents.forEach((v) => {
               return ReactDOM.render(<RenderCont />, v)
             }
-              
+
             );
-          }          
+          }
           // [1]
           if (className === "지붕형태") {
             overwriteContents.forEach((v) =>
@@ -180,29 +347,62 @@ export default function Panorama() {
                   <ul className="strList">
                     <li>
                       <span className="sub-tit">지붕형태</span>
-                      <span className="value">{CSV["지붕형태"] === '박공' ? '경사진 지붕(박공지붕)' : CSV["지붕형태"] === '슬라브' ?  '평평한 지붕(슬라브지붕)' : CSV["지붕형태"] }</span>
+                      <span className="value">{CSV["지붕형태"] === '박공' ? '경사 지붕(박공지붕)' : CSV["지붕형태"] === '슬라브' ? '평 지붕(슬라브지붕)' : CSV["지붕형태"]}</span>
                     </li>
-                    <li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
                       <span
-                        className="sub-tit"
+                        className="ch-btn"
                         onClick={() => {
-                          let v = data[2];
+                          let v = data[3];
                           v.target = 'chart';
-                          setMdFlag(true);                          
+                          setMdFlag(true);
+                          setTimeout(
+                            () => pieChart({
+                              text: '지붕 형태 현황',
+                              data: [
+                                {
+                                  name: '박공',
+                                  y: 1999,
+                                  sliced: true,
+                                  selected: true
+                                },
+                                {
+                                  name: '슬라브 + 박공',
+                                  y: 370
+                                },
+                                {
+                                  name: '슬라브',
+                                  y: 3541
+                                }
+                              ]
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          let v = data[3];
+                          v.target = 'chart';
+                          setMdFlag(true);
                           setTimeout(
                             () => loadTemtplate(v),
                             0
                           );
                         }}
                       >
-                        지역별 통계 보기
+                        지역별 통계
                       </span>
                     </li>
                   </ul>
                   <div className="guideText">
                     <InfoOutlinedIcon />
                     <div className="text">
-                      박공지붕이 슬라브지붕에 비해 대체로 대피공간이 좁고 비탈져 있어 대피에 부적절한 경우가 많습니다.
+                      경사지붕이 평지붕에 비해 대체로 대피공간이 좁고 비탈져 있어 대피에 부적절한 경우가 많습니다.
                     </div>
                   </div>
                 </div>,
@@ -222,16 +422,88 @@ export default function Panorama() {
             overwriteIcon.forEach((v) =>
               ReactDOM.render(<IconExit fontSize="large" />, v)
             );
-            
+
             overwriteContents.forEach((v) => {
               return ReactDOM.render(
-                <Exit
-                  switchScene={switchScene}
-                  scenes={scenes}
-                  value={value}
-                  right={CSV["점등상태"]}
-                  setMdFlag={setMdFlag}
-                />,
+                <div>
+                  <ul className="strList">
+                    <li>
+                      <span className="value">{CSV["유도등 설치여부"] === '' ? '데이터 없음' : CSV["유도등 설치여부"]}</span>
+                    </li>
+                    <li>
+                      <span className="sub-tit">유도등이 켜져 있나요?</span>
+                      <span className="value">{CSV["점등상태"] === '' ? '데이터 없음' : CSV["점등상태"]}</span>
+                    </li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () => barChart({
+                              text: '유도등 설치여부 현황',
+                              categories: [
+                                '유도등 설치여부 현황'
+                              ],
+                              series: [{
+                                name: '설치',
+                                data: [4551]
+
+                              }, {
+                                name: '미설치',
+                                data: [1056]
+
+                              }, {
+                                name: '알 수 없음',
+                                data: [272]
+
+                              }, {
+                                name: '일부설치',
+                                data: [31]
+
+                              }
+                              ],
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유도등 설치여부 통계
+                      </span>
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () => barChart({
+                              text: '유도등 점등여부 현황',
+                              categories: [
+                                '유도등 점등여부 현황'
+                              ],
+                              series: [{
+                                name: '점등',
+                                data: [4577]
+
+                              }, {
+                                name: '미점등',
+                                data: [0]
+
+                              }, {
+                                name: '혼재',
+                                data: [5]
+                              }
+                              ],
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유도등 점등여부 통계
+                      </span>
+                    </li>
+                  </ul>                  
+                </div>,
                 v
               );
             });
@@ -241,7 +513,7 @@ export default function Panorama() {
             if (value === "설치") {
               getNode.forEach((v) => v.classList.add("green"));
             } else if (value === "미설치") {
-              getNode.forEach((v) => v.classList.add("red"));    
+              getNode.forEach((v) => v.classList.add("red"));
             } else {
               getNode.forEach((v) => v.classList.add("yellow"));
             }
@@ -249,14 +521,46 @@ export default function Panorama() {
               return (
                 <div>
                   <ul className="strList">
-                  <li>
-                    <span className="value">{CSV["옥상출입문 설치여부"]}</span>
-                  </li>
                     <li>
+                      <span className="value">{CSV["옥상출입문 설치여부"]}</span>
+                    </li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
                       <span
-                        className="sub-tit"
+                        className="ch-btn"
                         onClick={() => {
-                          let v = data[0];
+                          setMdFlag(true);
+                          setTimeout(
+                            () => barChart({
+                              text: '옥상출입문 설치여부 현황',
+                              categories: [
+                                '옥상출입문 설치여부 현황'
+                              ],
+                              series: [{
+                                name: '설치',
+                                data: [5618]
+
+                              }, {
+                                name: '미설치',
+                                data: [264]
+
+                              }, {
+                                name: '일부설치',
+                                data: [28]
+                              }
+                              ],
+                            }),
+                            0
+                          );
+
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          let v = data[1];
                           v.target = 'chart';
                           setMdFlag(true);
                           setTimeout(
@@ -266,16 +570,16 @@ export default function Panorama() {
                           );
                         }}
                       >
-                        지역별 통계 보기
+                        지역별 통계
                     </span>
                     </li>
                   </ul>
                   <div className="guideText">
                     <InfoOutlinedIcon />
                     <div className="text">
-                      <p>설치: 옥상으로 난 문이 있는 경우. 옥상이 대피공간으로 적절한지와는 관계 없음</p>
-                      <p>미설치: 옥상 대피공간이 없고, 옥상출입문도 없는 경우</p>
-                      <p>일부 설치:같은 단지 내 일부 동만 옥상출입문이 있는 경우</p>
+                      {/* <p>설치: 옥상으로 난 문이 있는 경우. 옥상이 대피공간으로 적절한지와는 관계 없음</p> */}
+                      <p>미설치: 옥상 대피공간이 없어 출입문도 없음</p>
+                      <p>일부 설치: 단지 내 일부 동만 출입문 존재</p>
                     </div>
                   </div>
                 </div>
@@ -333,28 +637,95 @@ export default function Panorama() {
                     <li>
                       <span className="sub-tit">대피공간내 면적</span>
                       <span className="value">
-                      {CSV["대피공간 면적"] === '' ? '데이터 없음' : `${CSV["대피공간 면적"]}㎡` }
+                        {CSV["대피공간 면적"] === '' ? '데이터 없음' : `${CSV["대피공간 면적"]}㎡`}
                       </span>
                     </li>
-                  </ul>
-                  <div className="guideText">
-                    <InfoOutlinedIcon />
-                    <div className="text">
-                      <p>통상 집회 참여 인원을 파악할 때 3.3m2당 5~9명으로 추정합니다. 대피공간이 넉넉하지 않으면 위험할 수 있습니다.</p>
-                    </div>
-                  </div> 
-                  <ul className="strList">                   
-                    <li>
-                      <span className="sub-tit">안전난간 설치 여부</span>
-                      <span className="value">
-                        {CSV["대피공간내 난간설치"] === '' ? '데이터 없음' : CSV["대피공간내 난간설치"] }
-                      </span>
-                    </li>
-                    <li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
                       <span
-                        className="sub-tit"
+                        className="ch-btn"
                         onClick={() => {
-                          let v = data[1];
+                          setMdFlag(true);
+                          setTimeout(
+                            () => pieChart({
+                              text: '대피 공간 현황',
+                              data: [
+                                {
+                                  name: '대피 공간 있음',
+                                  y: 5006,
+                                  sliced: true,
+                                  selected: true
+                                },
+                                {
+                                  name: '대피 공간 없음',
+                                  y: 603
+                                },
+                                {
+                                  name: '혼재',
+                                  y: 301
+                                }
+                              ]
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () => barChart({
+                              text: '옥상 넓이 현황',
+                              categories: [
+                                '옥상 넓이 현황'
+                              ],
+                              series: [{
+                                name: '넓이 없음',
+                                data: [4551]
+
+                              }, {
+                                name: '넓이 10㎡',
+                                data: [330]
+
+                              }, {
+                                name: '넓이 30㎡',
+                                data: [479]
+
+                              }, {
+                                name: '넓이 50㎡',
+                                data: [188]
+                                }, {
+                                  name: '넓이 100㎡',
+                                data: [431]
+
+                                }, {
+                                name: '넓이 100㎡이상',
+                                data: [2621]
+
+                                }, {
+                                  name: '넓이 1000㎡이상',
+                                data: [545]
+
+                                }, {
+                                  name: '알수없음',
+                                  data: [1237]
+
+                                }
+                              ],
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        넓이별 통계
+                      </span>
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          let v = data[0];
                           v.target = 'chart';
                           setMdFlag(true);
                           setTimeout(
@@ -364,18 +735,70 @@ export default function Panorama() {
                           );
                         }}
                       >
-                        지역별 통계 보기
+                        지역별 통계
                       </span>
-                    </li>                    
+                    </li>
                   </ul>
-  
-                  { CSV["대피공간 면적"] === ''? null : (
+                  <div className="guideText">
+                    <InfoOutlinedIcon />
+                    <div className="text">
+                      <p>미국 IBC는 1인 기준 대피공간을 0.28㎡로 제시합니다. 대피공간이 좁으면 위험할 수 있습니다.</p>
+                    </div>
+                  </div>
+                  <ul className="strList">
+                    <li>
+                      <span className="sub-tit">안전난간은 있나요?</span>
+                      <span className="value">
+                        {CSV["대피공간내 난간설치"] === '' ? '데이터 없음' : CSV["대피공간내 난간설치"]}
+                      </span>
+                    </li>
+                    <li className="ch-wrap">
+                      <EqualizerIcon />
+                      <span
+                        className="ch-btn"
+                        onClick={() => {
+                          setMdFlag(true);
+                          setTimeout(
+                            () => pieChart({
+                              text: '대피공간내 난간설치',
+                              data: [
+
+                                {
+                                  name: '설치',
+                                  y: 4970,
+                                  sliced: true,
+                                  selected: true
+                                },
+                                {
+                                  name: '미설치',
+                                  y: 1112
+                                },
+                                {
+                                  name: '일부설치',
+                                  y: 14
+                                },
+                                {
+                                  name: '알 수 없음',
+                                  y: 1262
+                                },
+                              ]
+                            }),
+                            0
+                          );
+                        }}
+                      >
+                        유형별 통계
+                      </span>
+                    </li>
+                  </ul>
+
+                  {/* { CSV["대피공간 면적"] === ''? null : (
                   <div className="수용률">
                     
                     <GetMember data={CSV["대피공간 면적"]} />
      
                   </div>
-                  ) }
+                  ) } */}
                 </div>
               );
             };
@@ -779,7 +1202,7 @@ export default function Panorama() {
         wrapper.classList.add("info-hotspot");
 
         var name = removeWhiteSpace(hotspot.icon);
-        
+
         // 모바일에선 접혀서 보임
         var getClass = document.body.className;
         if (getClass.indexOf("mobile") < 0) {
@@ -974,21 +1397,10 @@ export default function Panorama() {
             <li>
               상기 이미지는 이해를 돕기 위해 제작된 것으로 실제와 다릅니다.
             </li>
-            <li>경기도소방재난본부 조사('19.12.14~'20.02.20)를 토대로 MBC가 정리했습니다.</li>
-            <li>
-              <span className="sub-tit">화재 발생시 대피 원칙</span>
-              <span className="li">
-                1) 공동주택 내 화재발생 시 지상 대피 최우선
-              </span>
-              <span className="li">
-                2) 지상대피가 어려운 경우 집안에서 연기가 들어오지
-                않도록 조치 후 구조 요청
-              </span>
-              <span className="li">
-                3) 세대안으로 불꽃이 옮겨 붙거나 연기가 들어오는 경우
-                옥상등 대피공간으로 대피
-              </span>
-            </li>            
+            <li>경기도소방재난본부 조사('19.12.14~'20.02.20) 자료를 토대로 MBC가 정리했습니다.<br />
+              소방본부가 제시한 양식에 아파트 관리사무소가 기입하는 방식으로 비대면 조사가 진행됐습니다.
+              [<a href="https://drive.google.com/file/d/1I-QsE1mhQ1OwMZVu92gmxJh5IGiIpWw2/view?usp=sharing" target="_blank">실제 조사 양식 보기</a>]<br />
+              정확한 내용은 해당 아파트 관리사무소나 관할 소방서에 확인하세요.</li>
           </ul>
 
           {/* <span

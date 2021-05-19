@@ -15,7 +15,7 @@ body,
 .App,
 .App > div,
 .home {
-  overflow: auto;
+  overflow:inherit;
 }
 ul,
 li {
@@ -39,6 +39,9 @@ code {
 .recent {
   position: relative;
   z-index: 10;
+}
+#result-wrap{
+  background: #fff;
 }
 #pano{
   cursor: move !important
@@ -80,6 +83,24 @@ code {
   #chart{
     height: 100%;    
   }
+  rect{
+    stroke: none !important;
+  }
+  .barchart,
+  .piechart{
+    width: 500px;
+    height: 500px;
+    *{
+      font-family: 'Noto Sans KR' !important;
+      font-weight: 300 !important;
+    }
+    tspan{
+      stroke: none !important
+    }
+    text{
+      text-shadow:1px 1px 5px #333
+    }
+  }
 }
 
 #panorama .옥상출입문개방관리.info-hotspot.green::before,
@@ -89,18 +110,46 @@ code {
 #panorama  .옥상출입문위치.info-hotspot.green::after{
   display: none;
 }
+.info-hotspot-header .info-hotspot-title-wrapper{
+  font-size: 18px;
+  line-height: 40px;
+}
+.logo{
+  font-size: 0;
+  img{width: 100%;}
+}
+#footer{
+  padding: 10px 0 10px 0;
+  line-height: 1.5;
+  font-size: 12px;
+  font-family: dotum;
+  color: #ccc;
+  span{display: block;}
+}
+
 /* 홈 */
 .home {
   position: relative;
-  overflow: auto;
+  .logo{
+    width: 80px;
+    margin: 0 0 0 -5px;
+  }
   .swiper-container {
     width: 100%;
+    .swiper-slide {
+      width: 400px;
+    }
+    .slide-items0{
+      width: 158px;
+    }
+    .slide-items1{
+      width: 350px;
+    }
   }
   .swiper-slide {
-    width: 460px;
-    min-height: 280px;
+    // width: 460px;
+    // min-height: 280px;
     img {
-      width: 100%;
       display: block;
     }
     font-size: 0;
@@ -156,7 +205,20 @@ code {
   rect{
     stroke: none !important;
   }
+  text{
+    font-family: "Noto Sans KR", sans-serif !important;
+  }
 }
+.ch-wrap{
+  display: flex;
+  align-items: center;
+  svg{
+    margin-right: 5px;
+  }
+}
+  .ch-btn{
+    margin-right: 10px;
+  }
 // 결과화면
 .recent {
   background: #fff;
@@ -167,7 +229,7 @@ code {
   margin: 0 auto;
   .items-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap;    
     li {
       margin: 10px 0;
       flex: 0 0 50%;
@@ -283,6 +345,7 @@ code {
       width: 50%;
       .info-wrap {
         padding: 0 10px;
+        font-size: 16px;
       }
     }
     .right {
@@ -710,7 +773,7 @@ code {
     line-height: 1.3;
   }
   .info {
-    padding-left: 10px;
+    padding: 0 10px;
     flex: 1;
   }
   .date {
@@ -780,24 +843,6 @@ code {
 }
 
 #panorama {
-  // 모바일 스팟 텍스트
-  .info-hotspot .info-hotspot-title-wrapper:before{
-    display: none;
-  }
-  .info-hotspot .info-hotspot-title-wrapper{
-    position: relative;
-    white-space: nowrap;
-    text-align: center;
-    width: 100px;
-    left: 50%;
-    margin-left: -50px;
-  }
-  .info-hotspot-title{
-    display: block;
-    margin-top: 3px;
-    font-size: 12px;
-    text-shadow: 1px 1px 3px #000;
-  }
 
   .guideText {
     display: flex;
@@ -866,9 +911,7 @@ code {
 .옥상대피공간 {
   .info-hotspot-text {
     overflow: hidden;
-    > div {
-      padding-bottom: 60px;
-    }
+
     .수용률 {
       position: absolute;
       left: -20px;
@@ -907,8 +950,7 @@ code {
   background: url("../imgs/#{$v}") no-repeat center center;
   width: 30px;
   height: 30px;
-  background-size: cover;
-  margin: 5px 0 0 5px;
+  background-size: cover;  
 }
 .info-hotspot-icon-wrapper {
   overflow: hidden;
@@ -1350,6 +1392,28 @@ code {
 }
 
 @media (max-width: 500px) {
+  #panorama {
+  // 모바일 스팟 텍스트
+  .info-hotspot .info-hotspot-title-wrapper:before{
+    display: none;
+  }
+  .info-hotspot .info-hotspot-title-wrapper{
+    position: relative;
+    white-space: nowrap;
+    text-align: center;
+    width: 150px;
+    left: 50%;
+    margin-left: -75px;
+    line-height: 1;
+  }
+  .info-hotspot-title{
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+}
   #result-wrap {
     h3 {
       margin-bottom: 10px;
@@ -1413,10 +1477,13 @@ code {
     width: 96%;
     padding: 0 10px 50px 10px;
   }
+  .home .logo{
+    margin-top:20px
+  }
   .homeContents .tit {
     font-size: 20px;
     letter-spacing: -1px;
-    margin-top: 20px;
+    margin-top: 10px;
     line-height: 1.3;
   }
   .homeContents .s-tit {
@@ -1450,16 +1517,29 @@ code {
   .말풍선 .noti li {
     font-size: 12px;
   }
-  .home {
+  .home .swiper-container {      
     .swiper-slide {
       min-height: inherit;
       width: 280px;
+      height: 200px;
       .info {
         font-size: 12px;
         padding: 5px;
         min-height: 40px;
       }
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
+    .slide-items0{
+      width: 150px;
+    }
+    .slide-items1{
+      width: 250px;
+    }    
+
   }
   .info-hotspot-icon-wrapper::before {
     margin: 0;
@@ -1503,6 +1583,9 @@ code {
   }
   .pdf{
     font-size: 14px;
+  }
+  #modal .barchart, #modal .piechart{
+    width: 350px;
   }
 }
 @media (max-height: 400px) and (orientation: landscape) {

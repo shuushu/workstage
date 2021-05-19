@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -79,9 +79,9 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="옥상출입문 설치 여부" {...a11yProps(0)} />
-          <Tab label="옥상 대피 공간" {...a11yProps(1)} />
-          <Tab label="지붕형태" {...a11yProps(2)} />
+          <Tab label="옥상 대피 공간" {...a11yProps(0)} />
+          <Tab label="옥상 출입문 설치 위치" {...a11yProps(1)} />
+          <Tab label="옥상 출입문 개방관리" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews

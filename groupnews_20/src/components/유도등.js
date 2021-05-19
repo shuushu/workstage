@@ -40,7 +40,7 @@ export default function SwitchLabels(props) {
           }
 
         </ul>        
-        <FormControlLabel
+        {/* <FormControlLabel
           className="exit"
           control={
             <Switch
@@ -50,7 +50,7 @@ export default function SwitchLabels(props) {
             />
           }
           label={window.isOn ? "점등이 없다면?" : "점등이 있다면?"}
-        />
+        /> */}
         <div className="guideText">
           <InfoOutlinedIcon />
           <div className="text">

@@ -3,6 +3,7 @@ import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import DATA from "../components/data";
 import Recent from "./Recent";
@@ -17,7 +18,7 @@ export default function Result() {
   let { id } = useParams();
   id = id.substr(1);
   const CSV = DATA[id];
-  console.log(CSV);
+  
   const check = () => {
     if (
       CSV["옥상출입문 설치여부"] === "미설치" ||
@@ -43,33 +44,33 @@ export default function Result() {
       );
     }
   };
-  
+  const 난간설치여부 = () => {
+    const n = CSV["대피공간내 난간설치"];
+    if (n === "미설치") {
+      return (
+        <p className="help error">
+          <InfoOutlinedIcon /> 옥상 난간이 설치되어 있지 않아 대피시 유의가
+            필요합니다.
+        </p>
+      );
+    } else if (n !== "설치") {
+      return (
+        <p className="help error">
+          <InfoOutlinedIcon /> 옥상 난간이 {n}돼 있습니다.
+        </p>
+      );
+    } else {
+      return (
+        <p className="help error">
+          <CheckCircleOutlineOutlinedIcon /> 옥상 난간이 {n}돼 있습니다.
+        </p>
+      );
+    }
+  };
   const 대피공간면적 = () => {
     const v = CSV["대피공간 면적"];
 
-    const 난간설치여부 = () => {
-      const n = CSV["대피공간내 난간설치"];
-      if (n === "미설치") {
-        return (
-          <p className="help error">
-            <InfoOutlinedIcon /> 옥상 난간이 설치되어 있지 않아 대피시 유의가
-            필요합니다.
-          </p>
-        );
-      } else if (n !== "설치") {
-        return (
-          <p className="help error">
-            <InfoOutlinedIcon /> 옥상 난간이 {n}돼 있습니다.
-          </p>
-        );
-      } else {
-        return (
-          <p className="help error">
-            <CheckCircleOutlineOutlinedIcon /> 옥상 난간이 {n}돼 있습니다.
-          </p>
-        );
-      }
-    };
+
 
     if (CSV["옥상 대피공간"] === "없음") {
       return (
@@ -117,7 +118,7 @@ export default function Result() {
             수용 가능한 인원 {getMember()} 
             
           </div>
-          {난간설치여부()}
+          
         </>
       );
     }
@@ -178,7 +179,7 @@ export default function Result() {
           <li className="items">
             <div>
               <div className="adv">{옥상대피여부()}</div>
-            {대피공간면적()}
+              {난간설치여부()}
             </div>
           </li>
           <li className="items">
@@ -198,7 +199,7 @@ export default function Result() {
             <div>
               {옥상문개방여부()}
               <p className="help">
-                <CheckCircleOutlineOutlinedIcon /> 옥상 열쇠가 어디에 있는지, 비밀번호가 몇 번인지 알고 계신가요? 미리 꼭 확인하세요.
+                <InfoOutlinedIcon /> 옥상 열쇠가 어디에 있는지, 비밀번호가 몇 번인지 알고 계신가요? 미리 꼭 확인하세요.
               </p>              
             </div>
           </li>
@@ -206,7 +207,7 @@ export default function Result() {
             <div>
               <div className="adv">지붕 형태는 {CSV['지붕형태'] === '박공' ? '경사지붕(박공지붕)' : CSV['지붕형태'] === '슬라브' ? '평지붕(슬라브지붕)' : '경사+평지붕(혼재)'} 입니다.</div>
               <p className="help">
-                <CheckCircleOutlineOutlinedIcon /> 박공지붕이 슬라브지붕에 비해 대체로 대피공간이 좁고 비탈져 있어 대피에 부적절한 경우가 많습니다.
+                <InfoOutlinedIcon /> 경사지붕이 평지붕에 비해 대체로 대피공간이 좁고 비탈져 있어 대피에 부적절한 경우가 많습니다.
               </p>
             </div>
           </li>
@@ -225,14 +226,13 @@ export default function Result() {
 
       <div className="example">
         <div className="wrap">
-          <h3>옥상 설비 올바른 예</h3>
+          <h3>비상문 자동 개폐장치</h3>
           <div className="left">
             <span className="thumb">
               <img src={자동개폐이미지} alt="" />
             </span>
             <div className="info-wrap">
-              <h4>비상문자동개폐장치</h4>
-              건축법에 따라 2016년 2월 이후 지어진 아파트는 옥상으로 통하는 출입문에 비상문자동개폐장치를 설치해야 합니다. 화재 등 비상시에 소방시스템과 연동돼 잠김 상태가 자동으로 풀리는 장치를 말하는데요. 평상시에는 잠겨 있다가 불이 나면 자동으로 열리는 겁니다.{" "}
+              건축법에 따라 2016년 2월 이후 지어진 아파트는 옥상으로 통하는 출입문에 비상문자동개폐장치를 설치해야 합니다. <br/>화재 등 비상시에 소방시스템과 연동돼 잠김 상태가 자동으로 풀리는 장치를 말하는데요. 평상시에는 잠겨 있다가 불이 나면 자동으로 열리는 겁니다.{" "}
             </div>
           </div>
           <div className="right">
@@ -246,12 +246,12 @@ export default function Result() {
             </span>
             <span className="nangan3">
               <img src={nangan3} alt="" />
-              <span className="txt">박공지붕 + 옥상 난간 설치</span>
+              <span className="txt">경사지붕 + 옥상 난간 설치</span>
             </span>
           </div>
         </div>
       </div>
-      <Recent />
+      {/* <Recent /> */}
       <div className="bg">
         {check() ? <CancelOutlinedIcon /> : <CheckCircleOutlineOutlinedIcon />}
       </div>
