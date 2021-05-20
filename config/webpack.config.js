@@ -398,6 +398,9 @@ module.exports = function (webpackEnv) {
               include: [paths.appSrc, paths.appParent],
               loader: require.resolve("babel-loader"),
               options: {
+                // 로컬 개발에서는 문제 없었으나 배포에 문제가 발생
+                // [error] export is not defined module , commonjs모듈이 사용되는 곳이 있었는데 babel에게 알려주어야 함
+                sourceType: "unambiguous",
                 customize: require.resolve(
                   "babel-preset-react-app/webpack-overrides"
                 ),
@@ -441,7 +444,7 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve("babel-loader"),
-              options: {
+              options: {                
                 babelrc: false,
                 configFile: false,
                 compact: false,
