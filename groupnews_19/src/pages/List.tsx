@@ -48,7 +48,7 @@ const List = (props) => {
         }
     }
     const GetEstate = (농지데이터) => {
-        const { add, area_whole } = 농지데이터;
+        const { add, area_whole, area_have, area_portion} = 농지데이터;
         const count = props.estate.length;
 
 
@@ -57,7 +57,7 @@ const List = (props) => {
                 <div>
                     <span>
                         {add}
-                        <span className="면적">{`(${area_whole} ㎡)`}</span>
+                        <span className="면적">{`(${area_have}㎡)`}</span>
                         {type === 'all' ? (
                             <span className="소유">{`${count === 1 ? '' : `외 ${count - 1}소유`}`}</span>
                         ) : ''}

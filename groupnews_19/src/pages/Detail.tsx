@@ -34,7 +34,6 @@ const Detail = (props) => {
         경영계획서
     } = props.estate[토지인덱스];
 
-
     useEffect(() => {
         const roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
         const roadview = g.roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
@@ -71,7 +70,7 @@ const Detail = (props) => {
             return <Chip className={`${props[v] === 'TRUE' ? 'MuiChip-colorPrimary' : 'default'}`} key={`라벨-${i}`} label={`${v} ${props[v] === 'TRUE' ? '해당' : '아님'}`} />
         })
     } */
-    const 전체평수: any = 평수계산(area_whole);
+    const 소유평수: any = 평수계산(area_have);
 
     const 답변뷰 = (props) => {
         const { name } = props;
@@ -151,7 +150,6 @@ const Detail = (props) => {
             }
         }
     }
-
     return (
         <Paper className="detail">
             <div className="헤드라인">
@@ -192,7 +190,7 @@ const Detail = (props) => {
                 <li>취득일자: {취득일자} </li>
                 <li>취득방법: {취득방법} ({공유자수 === 1 ? '단독소유' : `공유자수: ${공유자수}`})</li>
                 <li>면적: {area_have}㎡ ({평수계산(area_have)}평)</li>
-                <li>신고가액: {value}  (3.3㎡ 당 {콤마추가(Math.ceil(콤마제거(value) / 전체평수))}원)</li>
+                <li>신고가액: {value}  (3.3㎡ 당 {콤마추가(Math.ceil(콤마제거(value) / 소유평수))}원)</li>
                 {props.estate.length > 1 ? (<li>{`해당 토지 포함 농지 총 필지 ${props.estate.length}소유`}</li>) : ''}
             </ul>
             <div id="roadview"></div>

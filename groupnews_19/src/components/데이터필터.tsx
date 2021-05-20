@@ -57,10 +57,8 @@ const ResultSearchItem = (props) => {
     });
 
     const items = (v, i) => {
-
         // 마커ID를 찾기 위해 PK키 생성
         const 토지키 = v.estate.map(v => `${v.index}_${v.index_2}`)
-
         return (
             <List
                 {...v}
