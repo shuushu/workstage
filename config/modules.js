@@ -119,8 +119,8 @@ function getModules() {
   }
 
   config = config || {};
+  
   const options = config.compilerOptions || {};
-
   const additionalModulePaths = getAdditionalModulePaths(options);
 
   return {

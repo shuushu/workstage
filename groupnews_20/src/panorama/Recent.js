@@ -2,10 +2,26 @@ export default function Recent() {
   const gisa = [
     {
       thumb:
+        "https://image.imnews.imbc.com/replay/2021/nwdesk/article/__icsFiles/afieldfile/2021/05/20/desk_20210520_201609_1_9_Large.jpg",
+      link: "https://imnews.imbc.com/replay/2021/nwdesk/article/6185255_34936.html",
+      tit: `소방서는 "열어놔라" 경찰은 "잠가라"…무용지물 '대피소'`,
+      provider: "남재현",
+      date: "2021-05-20 20:18",
+    },
+    {
+      thumb:
+        "https://image.imnews.imbc.com/replay/2021/nwdesk/article/__icsFiles/afieldfile/2021/05/20/desk_20210520_201154_1_8_Large.jpg",
+      link: "https://imnews.imbc.com/replay/2021/nwdesk/article/6185254_34936.html",
+      tit: `[집중취재M] '옥상 대피' 성공해도…문 열면 비탈 지붕에 낭떠러지`,
+      provider: "백승우",
+      date: "2021-05-20 20:14",
+    },
+    {
+      thumb:
         "https://image.imnews.imbc.com/replay/2021/nwdesk/article/__icsFiles/afieldfile/2021/05/19/desk_20210519_201215_1_8_Large.jpg",
       link: "https://imnews.imbc.com/replay/2021/nwdesk/article/6184013_34936.html",
       tit: ` [단독] "꼭대기 층에 있을 줄 알았는데"... 숨어 있는 '옥상 출구'`,
-      provider: " 김세로",
+      provider: "김세로",
       date: "2021-05-19 20:35",
     }  
   ];
