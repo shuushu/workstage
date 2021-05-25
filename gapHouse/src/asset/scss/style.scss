@@ -1,43 +1,59 @@
-@import '../../../../scss/fn.module.scss';
+@import "../../../../scss/fn.module.scss";
 
 .red {
-    color: $pcolor;
+  color: $pcolor;
 }
-*{
+* {
   margin: 0;
   padding: 0;
 }
-#test{
+.sliderTab {
+  color: #fff;
+  float: right;
+
+  .swiper-slide {
+    width: auto;
+  }
+}
+
+// HOME
+#linechart {
+  clear: both;
+  height: 260px;
+}
+
+#test {
   position: fixed;
   font-size: 20px;
   padding: 10px;
-  color:#fff;
+  color: #fff;
   z-index: 10;
+  display: none;
 }
-#homeContents{
+#homeContents {
   position: relative;
   z-index: 10;
   width: 300px;
   margin: 0 auto;
-  color:#fff;
+  color: #fff;
   background: none;
   overflow: hidden;
   display: none;
   .amcharts-Slider-group,
-  .playbtn{
+  .playbtn {
     position: fixed;
-  }   
+  }
 }
-#sideBottom{
+#sideBottom {
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 300px;
-  left:0;
+  left: 0;
   font-size: 12px;
- *{
-   font-size: 12px;
- }
+  * {
+    font-size: 12px;
+  }
 }
 #chartdiv {
   position: fixed;
@@ -46,7 +62,7 @@
   width: 100%;
   height: 100%;
   background: #000;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 #chartdiv2 {
@@ -55,6 +71,5 @@
   background: #000;
   position: absolute;
   left: 0;
-  top:0;
-
+  top: 0;
 }
