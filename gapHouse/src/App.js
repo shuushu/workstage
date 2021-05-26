@@ -1,23 +1,38 @@
-import { useEffect, useReducer } from "react";
 import {
   HashRouter as Router,
   Switch,
   Route,
   Link,
-  useRouteMatch,
+  useLocation,
   useParams,
 } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
-//import Button from '@material-ui/core/Button'; // https://material-ui.com/
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./asset/scss/style.scss";
 import Home from "./pages/Home";
-import drawChart from "./components/Map";
-import SliderTab from "./components/Slider";
-function App() {
-  useEffect(() => {
-    drawChart();
-  }, []);
+import Detail from "./pages/Detail";
+
+function Pages() {
+  let location = useLocation();
+
   return (
-    <div>
+    <TransitionGroup>
+      <CSSTransition classNames="fade" timeout={300}>
+        <Switch>
+          <Route path="/detail:id">
+            <Detail />
+          </Route>
+          <Route path="*">
+            <Home />
+          </Route>
+        </Switch>
+      </CSSTransition>
+    </TransitionGroup>
+  );
+}
+
+function App() {
+  return (
+    <div className="App">
       <div id="homeContents">
         가나다라Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem,
         eius fugit tempore perspiciatis earum sapiente, voluptatem quam officia
@@ -25,18 +40,10 @@ function App() {
         Consequuntur perferendis numquam tenetur.
       </div>
       <button id="test">test</button>
-      <div id="chartdiv">chart</div>
-      <div id="sideBottom">
-        <div className="sliderTab">
-          <SliderTab />
-        </div>
-        <div id="linechart"></div>
-      </div>
-      <div id="playBtn"></div>
       <Router>
         <Switch>
-          <Route path="/home">
-            <Home />
+          <Route path="*">
+            <Pages />
           </Route>
         </Switch>
       </Router>

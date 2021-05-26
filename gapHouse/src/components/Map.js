@@ -1,19 +1,13 @@
 import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import ko from "@amcharts/amcharts4/lang/ko_KR";
-import POINT_NAME from "../asset/data/labels";
-import populations from "../asset/data/map";
-import geo from "../asset/data/select.json";
-import timeline from "../asset/data/timeline";
-import point from "../asset/data/point_area";
 
 import { SliderBar, LineChart, MapChart } from "./Chart";
+import test from "../asset/data/test.json";
+import { 배경주 } from "../asset/data/house";
+
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
-let populations2;
 let g = window;
 
 function delay() {
@@ -29,16 +23,16 @@ function addEventCategory(listener) {
     });
   }
 }
-export default async function getData() {
+
+// parameter is react setState
+export default async function getData(callback) {
   let temp = [];
   let temp2 = [];
   let obj = {};
-
-  for (let key of POINT_NAME) {
+  const LABEL = 배경주.area;
+  for (let key of LABEL) {
     obj[key] = Number(Number.parseFloat(Math.random() * 100).toFixed(0));
   }
-  populations2 = obj;
-
   let i = 1,
     max = 13;
   for (; i < max; i++) {
@@ -47,21 +41,22 @@ export default async function getData() {
       date,
       list: [],
     };
-    for (let key of POINT_NAME) {
+    for (let key of LABEL) {
       await obj.list.push({
-        김용현: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-        강선범: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-        진현철: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-        육정순: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+        소유: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+        가압류: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+        신탁: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+        압류: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
         id: key,
       });
     }
     temp.push(obj);
+
     temp2.push({
-      김용현: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-      강선범: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-      진현철: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-      육정순: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+      소유: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+      가압류: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+      신탁: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
+      압류: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
       date,
     });
   }
@@ -70,42 +65,57 @@ export default async function getData() {
   g.timeline = temp2;
   g.lastDate = new Date(g.timeline[g.timeline.length - 1].date);
   g.lineChartSeries = {};
-  //await delay()
 
-  const mapChart = new MapChart("chartdiv");
-  const INIT_STR = "김용현";
-  const CUSTOM = {
-    김용현: am4core.color("#ff8726"),
-    강선범: am4core.color("#d21a1a"),
-    진현철: am4core.color("#45d21a"),
-    육정순: am4core.color("#1c5fe5"),
-  };
-  mapChart.setColor(CUSTOM);
-  mapChart.setKeyName(INIT_STR);
+  const sliderBar = new SliderBar("playBtn");
   const linechart = new LineChart("linechart");
+  const mapChart = new MapChart(test);
+  const INIT_STR = "소유";
+  const CUSTOM = {
+    소유: am4core.color("#ff8726"),
+    가압류: am4core.color("#d21a1a"),
+    신탁: am4core.color("#45d21a"),
+    압류: am4core.color("#1c5fe5"),
+  };
   Object.entries(CUSTOM).forEach(([key, value]) => {
     g.lineChartSeries[key] = linechart.addSeries(key, value);
   });
-  const sliderBar = new SliderBar("playBtn");
-  linechart.setColor(CUSTOM);
-  linechart.setKeyName(INIT_STR);
-  linechart.addClick((v) => {
-    //if (!linechart.linechart.legendDown) {
-    sliderBar.start =
-      linechart.lineChart.cursor.xPosition *
-      ((linechart.dateAxis.max - linechart.dateAxis.min) /
-        (g.lastDate.getTime() - linechart.dateAxis.min));
-    //}
-    //console.log(sliderBar.start);
-  });
+  mapChart.init("chartdiv");
+  mapChart.setColor(CUSTOM);
+  mapChart.setKeyName(INIT_STR);
+  // 초깃값 셋팅
+  mapChart.updateChart(INIT_STR);
+  // 라벨 표출
+  mapChart.drawLabel(LABEL);
+  mapChart.mapChart.maxZoomLevel = 1;
+  mapChart.mapChart.seriesContainer.draggable = false;
+  mapChart.mapChart.seriesContainer.resizable = false;
   // 클래스연결
   linechart.adapter(mapChart);
+  linechart.addClick((v) => {
+    if (!linechart.lineChart.legendDown) {
+      sliderBar.slider.start =
+        linechart.lineChart.cursor.xPosition *
+        ((linechart.dateAxis.max - linechart.dateAxis.min) /
+          (g.lastDate.getTime() - linechart.dateAxis.min));
+    }
+  });
   // 외부돔(탭) 이벤트 바인딩
   addEventCategory(linechart.handleButtonClick.bind(linechart));
   setTimeout(() => {
     g.lineChartSeries[INIT_STR].show();
   }, 100);
-  sliderBar.updateMapData = (slider) => {
+
+  // 슬라이드바 이벤트 바인딩
+  sliderBar.updateTotalData = (index) => {
+    // react setState
+    // {소유: 59, 가압류: 31, 신탁: 6, 압류: 90}
+    let data = Object.entries(g.timeline[index]).map(([k, v]) => {
+      return { name: k, data: v };
+    });
+    data.pop();
+    callback(data);
+  };
+  sliderBar.updateMapData = (data) => {
     let { bubbleSeries, polygonSeries } = mapChart;
 
     bubbleSeries.dataItems.each(function (dataItem) {
@@ -114,26 +124,18 @@ export default async function getData() {
       dataItem.dataContext.recovered = 0;
       dataItem.dataContext.active = 0;
     });
-    for (let i = 0; i < slider.data.length; i++) {
-      const di = slider.data[i];
+    for (let i = 0; i < data.length; i++) {
+      const di = data[i];
       const image = bubbleSeries.getImageById(di.id);
-      const polygon = polygonSeries.getPolygonById(di.id);
       if (image) {
-        var population = Number(populations2[image.dataItem.dataContext.id]);
-        // image.dataItem.dataContext.confirmed = di.confirmed;
-        // image.dataItem.dataContext.deaths = di.deaths;
-        // image.dataItem.dataContext.recovered = di.recovered;
-        // image.dataItem.dataContext.active = di.confirmed - di.recovered - di.deaths;
         Object.entries(di).forEach(([k, v]) => {
           if (k !== "id") {
-            //let key = setToOrigin(k);
             image.dataItem.dataContext[k] = v;
           }
         });
-        //bubbleSeries.heatRules.getIndex(0).max = di['김용현']
       }
-      bubbleSeries.heatRules.getIndex(0).maxValue = 30;
-      polygonSeries.heatRules.getIndex(0).maxValue = 30;
+      bubbleSeries.heatRules.getIndex(0).maxValue = 40;
+      polygonSeries.heatRules.getIndex(0).maxValue = 40;
 
       bubbleSeries.invalidateRawData();
       polygonSeries.invalidateRawData();
@@ -141,7 +143,9 @@ export default async function getData() {
     //await amInit();
     //await sideBottom();
   };
+  //sliderBar.play();
 
-  //g.timeline = timeline;
-  //g.point_area = point;
+  g.mapChart = mapChart;
+  g.sliderBar = sliderBar;
+  g.linechart = linechart;
 }

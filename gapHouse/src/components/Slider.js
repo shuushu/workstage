@@ -7,30 +7,13 @@ import Chip from "@material-ui/core/Chip";
 import "swiper/swiper.scss";
 
 import { ua } from "../../../components/Util";
+
 SwiperCore.use([Autoplay]);
 
-const itmes = [
-  {
-    name: "김용현",
-    data: 0,
-  },
-  {
-    name: "강선범",
-    data: 0,
-  },
-  {
-    name: "진현철",
-    data: 0,
-  },
-  {
-    name: "육정순",
-    data: 0,
-  },
-];
-
-export default function Slider() {
+export default function Slider(props) {
+  const { houseData } = props;
   const drawItems = () => {
-    return itmes.map((v, i) => {
+    return houseData.map((v, i) => {
       const { name, data } = v;
       return (
         <SwiperSlide className={`slide-items${i}`} key={`slider-${i}`}>

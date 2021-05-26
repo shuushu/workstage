@@ -9,7 +9,7 @@ let g = window;
 /**
  *  CORE
  * */
-const numberFormatter = new am4core.NumberFormatter();
+//const numberFormatter = new am4core.NumberFormatter();
 
 /**
  *  유틸
@@ -33,54 +33,6 @@ function getSlideData(index) {
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-// 키네임변환
-function setToOrigin(key) {
-  let strName;
-  switch (key) {
-    case "김용현":
-      strName = "active";
-      break;
-
-    case "강선범":
-      strName = "confirmed";
-      break;
-
-    case "진현철":
-      strName = "recovered";
-      break;
-
-    case "육정순":
-      strName = "deaths";
-      break;
-    default:
-      strName = key;
-  }
-  return strName;
-}
-// 키네임변환
-function setToCustom(key) {
-  let strName;
-  switch (key) {
-    case "active":
-      strName = "김용현";
-      break;
-
-    case "confirmed":
-      strName = "강선범";
-      break;
-
-    case "recovered":
-      strName = "진현철";
-      break;
-
-    case "deaths":
-      strName = "육정순";
-      break;
-    default:
-      strName = key;
-  }
-  return strName;
-}
 
 /**
  *  CLASS 버튼(슬라이드바, 자동 플레이)
@@ -99,6 +51,17 @@ class SliderBar {
   drawButton() {
     this.playButton = this.container.createChild(am4core.PlayButton);
     this.playButton.valign = "middle";
+    // 최소값이 디폴트로 지정되어있기에 변경을 해야 크기가 변함
+    this.playButton.scale = 0.8;
+    //contentHeight
+    //contentWidth
+    this.playButton.events.on("toggled", (event) => {
+      if (event.target.isActive) {
+        this.play();
+      } else {
+        this.stop();
+      }
+    });
   }
   drawSliderBar() {
     this.container.width = am4core.percent(100);
@@ -106,6 +69,7 @@ class SliderBar {
     this.container.layout = "horizontal";
     this.container.opacity = 1;
     let slider = this.container.createChild(am4core.Slider);
+    this.slider = slider;
     slider.width = am4core.percent(100);
     slider.valign = "middle";
     slider.background.opacity = 1;
@@ -113,7 +77,7 @@ class SliderBar {
     slider.background.fill = am4core.color("#ffffff");
     slider.marginLeft = 20;
     slider.marginRight = 35;
-    slider.height = 15;
+    slider.minHeight = 5;
     slider.start = 1;
 
     slider.startGrip.background.fill = this.playButton.background.fill;
@@ -125,9 +89,12 @@ class SliderBar {
 
     // what to do when slider is dragged
     slider.events.on("rangechanged", () => {
+      const index = Math.round((g.point_area.length - 1) * slider.start);
       if (this.updateMapData) {
-        const index = Math.round((g.point_area.length - 1) * slider.start);
-        this.updateMapData.call(null, this);
+        this.updateMapData.call(null, getSlideData(index).list);
+      }
+      if (this.updateTotalData) {
+        this.updateTotalData(index);
       }
 
       //updateTotals(index);
@@ -145,71 +112,27 @@ class SliderBar {
       this.sliderAnimation.pause();
     }
   }
-
-  /* updateMapData(data) {
-    //modifying instead of setting new data for a nice animation
-    bubbleSeries.dataItems.each(function (dataItem) {
-      dataItem.dataContext.confirmed = 0;
-      dataItem.dataContext.deaths = 0;
-      dataItem.dataContext.recovered = 0;
-      dataItem.dataContext.active = 0;
-    });
-
-    maxPC = { active: 0, confirmed: 0, deaths: 0, recovered: 0 };
-
-    for (var i = 0; i < data.length; i++) {
-      var di = data[i];
-      var image = bubbleSeries.getImageById(di.id);
-      var polygon = polygonSeries.getPolygonById(di.id);
-      if (image) {
-        var population = Number(populations2[image.dataItem.dataContext.id]);
-        // image.dataItem.dataContext.confirmed = di.confirmed;
-        // image.dataItem.dataContext.deaths = di.deaths;
-        // image.dataItem.dataContext.recovered = di.recovered;
-        // image.dataItem.dataContext.active = di.confirmed - di.recovered - di.deaths;
-        Object.entries(di).forEach(([k, v]) => {
-          if (k !== "id") {
-            let key = setToOrigin(k);
-            image.dataItem.dataContext[key] = v;
-          }
-        });
-        //bubbleSeries.heatRules.getIndex(0).max = di['김용현']
-      }
-      if (polygon) {
-        // Object.entries(di).forEach(([k, v]) => {
-        //     if (k !== 'id') {
-        //         let key = setToOrigin(k);
-        //         polygon.dataItem.dataContext[`${key}PC`] = 0.1
-        //     }
-        // })
-        // polygon.dataItem.dataContext.confirmedPC = di.confirmed / population * 1000000;
-        // polygon.dataItem.dataContext.deathsPC = di.deaths / population * 1000000;
-        // polygon.dataItem.dataContext.recoveredPC = di.recovered / population * 1000000;
-        // polygon.dataItem.dataContext.active = di.confirmed - di.recovered - di.deaths;
-        // polygon.dataItem.dataContext.activePC = polygon.dataItem.dataContext.active / population * 1000000;
-        // if (population > 100000) {
-        //     if (polygon.dataItem.dataContext.confirmedPC > maxPC.confirmed) {
-        //         maxPC.confirmed = polygon.dataItem.dataContext.confirmedPC;
-        //     }
-        //     if (polygon.dataItem.dataContext.deathsPC > maxPC.deaths) {
-        //         maxPC.deaths = polygon.dataItem.dataContext.deathsPC;
-        //     }
-        //     if (polygon.dataItem.dataContext.recoveredPC > maxPC.recovered) {
-        //         maxPC.recovered = polygon.dataItem.dataContext.recoveredPC;
-        //     }
-        //     if (polygon.dataItem.dataContext.activePC > maxPC.active) {
-        //         maxPC.active = polygon.dataItem.dataContext.activePC;
-        //     }
-        // }
-      }
-
-      bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
-      polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
-
-      bubbleSeries.invalidateRawData();
-      polygonSeries.invalidateRawData();
+  play() {
+    if (!this.sliderAnimation) {
+      this.sliderAnimation = this.slider
+        .animate(
+          { property: "start", to: 1, from: 0 },
+          30000,
+          am4core.ease.linear
+        )
+        .pause();
+      this.sliderAnimation.events.on("animationended", () => {
+        this.playButton.isActive = false;
+      });
     }
-  } */
+
+    if (this.slider.start >= 1) {
+      this.slider.start = 0;
+      this.sliderAnimation.start();
+    }
+    this.sliderAnimation.resume();
+    this.playButton.isActive = true;
+  }
 }
 
 /**
@@ -360,7 +283,8 @@ class LineChart {
     lineChart.legend.contentAlign = "left";
     lineChart.legend.fontSize = "10px";
     lineChart.legend.itemContainers.template.valign = "middle";
-
+    // 레전드 클릭시에는 이벤트가 일어나지 않게 함
+    lineChart.legendDown = false;
     lineChart.legend.itemContainers.template.events.on("down", function () {
       lineChart.legendDown = true;
     });
@@ -483,10 +407,13 @@ class LineChart {
  *  amchart맵 클래스
  * */
 class MapChart {
-  constructor(name, options) {
+  constructor(data, options) {
+    this.geoData = data;
     this.container = null;
     this.options =
       {
+        width: 80,
+        height: 80,
         countryColor: am4core.color("#3b3b3b"),
         countryStrokeColor: am4core.color("#000"),
         colors: {
@@ -497,18 +424,49 @@ class MapChart {
         },
         keyName: "c1",
       } || options;
-    this.init(name);
   }
-
   setKeyName(name) {
     this.options.keyName = name;
+  }
+  drawCanvas(nodeName) {
+    this.container = am4core.create(nodeName, am4core.Container);
+    this.container = am4core.create(nodeName, am4core.Container);
+    this.container.language.locale = ko;
+    this.setSizeCanvas(this.options.width, this.options.height);
+    this.container.align = "center";
+    this.container.valign = "middle";
+
+    this.mapChart = this.container.createChild(am4maps.MapChart);
+    this.mapChart.height = am4core.percent(100);
+    this.mapChart.geodata = this.geoData;
+    this.mapChart.reverseGeodata = true;
+    // https://www.amcharts.com/docs/v4/chart-types/map/#Map_data
+    // you can use more accurate world map or map of any other country - a wide selection of maps available at: https://github.com/amcharts/amcharts4-geodata
+
+    // Set projection
+    // https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection
+    // instead of Miller, you can use Mercator or many other projections available: https://www.amcharts.com/demos/map-using-d3-projections/
+    this.mapChart.projection = new am4maps.projections.Miller();
+    this.mapChart.panBehavior = "move";
+    this.mapChart.seriesContainer.background.fillOpacity = 0;
+    // when map is globe, beackground is made visible
+    // this.mapChart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.05;
+    // this.mapChart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color(
+    //   "red"
+    // );
+    this.mapChart.backgroundSeries.hidden = false;
+    // you can have pacific - centered map if you set this to -154.8
+    //this.mapChart.deltaLongitude = -10;
+  }
+  //
+  drawBackgroundMap(nodeName) {
+    this.drawCanvas(nodeName);
+    this.drawMapFeature();
   }
   init(nodeName) {
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
-    this.container = am4core.create(nodeName, am4core.Container);
-    this.container.language.locale = ko;
-    this.setSizeCanvas(100, 100);
+    this.drawCanvas(nodeName);
     const data = this.setPaperData();
 
     this.container.tooltip = new am4core.Tooltip();
@@ -520,34 +478,13 @@ class MapChart {
     this.container.tooltip.getFillFromObject = false;
     this.container.tooltip.getStrokeFromObject = false;
 
-    this.mapChart = this.container.createChild(am4maps.MapChart);
-    this.mapChart.height = am4core.percent(100);
-    this.mapChart.zoomControl = new am4maps.ZoomControl();
-    this.mapChart.zoomControl.align = "right";
-    this.mapChart.zoomControl.marginRight = 15;
-    this.mapChart.zoomControl.valign = "middle";
+    // this.mapChart.zoomControl = new am4maps.ZoomControl();
+    // this.mapChart.zoomControl.align = "right";
+    // this.mapChart.zoomControl.marginRight = 15;
+    // this.mapChart.zoomControl.valign = "middle";
 
-    this.mapChart.seriesContainer.background.fillOpacity = 0;
-    this.mapChart.zoomEasing = am4core.ease.sinOut;
+    // this.mapChart.zoomEasing = am4core.ease.sinOut;
 
-    // https://www.amcharts.com/docs/v4/chart-types/map/#Map_data
-    // you can use more accurate world map or map of any other country - a wide selection of maps available at: https://github.com/amcharts/amcharts4-geodata
-    this.mapChart.geodata = geo;
-    this.mapChart.reverseGeodata = true;
-    // Set projection
-    // https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection
-    // instead of Miller, you can use Mercator or many other projections available: https://www.amcharts.com/demos/map-using-d3-projections/
-    this.mapChart.projection = new am4maps.projections.Miller();
-    this.mapChart.panBehavior = "move";
-
-    // when map is globe, beackground is made visible
-    this.mapChart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.05;
-    this.mapChart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color(
-      "#000"
-    );
-    this.mapChart.backgroundSeries.hidden = true;
-    // you can have pacific - centered map if you set this to -154.8
-    this.mapChart.deltaLongitude = -10;
     this.drawMapFeature(data);
     this.drawBubble(data);
   }
@@ -558,13 +495,6 @@ class MapChart {
   }
   // PREPARE DATA
   setPaperData() {
-    // let list = g.point_area[g.point_area.length - 1].list;
-    // for (let i = 0; i < list.length; i++) {
-    //   let country = list[i];
-    //   console.log(country);
-    //   countryIndexMap[country.id] = i;
-    // }
-
     // get slide data
     let slideData = getSlideData();
     // 데이터복사
@@ -572,27 +502,44 @@ class MapChart {
 
     // 성능 향상을 위해 값이 0 인 항목 제거
     for (let i = mapData.length - 1; i >= 0; i--) {
-      if (mapData[i].confirmed == 0) {
+      if (mapData[i].confirmed === 0) {
         mapData.splice(i, 1);
       }
     }
-
-    // the last day will have most
-    // for (let i = 0; i < mapData.length; i++) {
-    //   let di = mapData[i];
-    //   if (di.confirmed > max.confirmed) {
-    //     max.confirmed = di.confirmed;
-    //   }
-    //   if (di.recovered > max.recovered) {
-    //     max.recovered = di.recovered;
-    //   }
-    //   if (di.deaths > max.deaths) {
-    //     max.deaths = di.deaths;
-    //   }
-    //   max.active = max.confirmed;
-    // }
     return mapData;
     // END OF DATA
+  }
+  // data is string array
+  drawLabel(data) {
+    const { polygonSeries } = this;
+    // 맵라벨 옵션
+    let labelSeries = this.mapChart.series.push(new am4maps.MapImageSeries());
+    let labelTemplate = labelSeries.mapImages.template.createChild(
+      am4core.Label
+    );
+    labelTemplate.horizontalCenter = "middle";
+    labelTemplate.verticalCenter = "middle";
+    labelTemplate.fontSize = 12;
+    labelTemplate.interactionsEnabled = false;
+    labelTemplate.nonScaling = true;
+    labelTemplate.fillOpacity = 0.3;
+    labelTemplate.fill = "#fff";
+
+    // 라벨 표출
+    polygonSeries.events.on("inited", function () {
+      for (var i = 0; i < data.length; i++) {
+        var polygon = polygonSeries.getPolygonById(data[i]);
+
+        if (polygon) {
+          var label = labelSeries.mapImages.create();
+          var state = polygon.dataItem.dataContext.id;
+
+          label.latitude = polygon.visualLatitude;
+          label.longitude = polygon.visualLongitude;
+          label.children.getIndex(0).text = state;
+        }
+      }
+    });
   }
   // 폴리곤
   drawMapFeature(mapData) {
@@ -609,7 +556,9 @@ class MapChart {
     polygonSeries.strokeWidth = 0.5;
     // this helps to place bubbles in the visual middle of the area
     polygonSeries.calculateVisualCenter = true;
-    polygonSeries.data = mapData;
+    if (mapData) {
+      polygonSeries.data = mapData;
+    }
 
     let polygonTemplate = polygonSeries.mapPolygons.template;
     polygonTemplate.fill = this.options.countryColor;
@@ -622,50 +571,23 @@ class MapChart {
     //%polygonTemplate.events.on("hit", handleCountryHit);
     //%polygonTemplate.events.on("over", handleCountryOver);
     //%polygonTemplate.events.on("out", handleCountryOut);
+    if (mapData) {
+      polygonSeries.heatRules.push({
+        target: polygonTemplate,
+        property: "fill",
+        min: this.options.countryColor,
+        max: this.options.countryColor,
+        dataField: "value",
+      });
 
-    polygonSeries.heatRules.push({
-      target: polygonTemplate,
-      property: "fill",
-      min: this.options.countryColor,
-      max: this.options.countryColor,
-      dataField: "value",
-    });
+      // polygon 이벤트 바인딩
+      const polygonHoverState = polygonTemplate.states.create("hover");
+      polygonHoverState.transitionDuration = 100;
+      polygonHoverState.properties.fill = this.options.countryHoverColor;
 
-    // 맵라벨 옵션
-    let labelSeries = this.mapChart.series.push(new am4maps.MapImageSeries());
-    let labelTemplate = labelSeries.mapImages.template.createChild(
-      am4core.Label
-    );
-    labelTemplate.horizontalCenter = "middle";
-    labelTemplate.verticalCenter = "middle";
-    labelTemplate.fontSize = 12;
-    labelTemplate.interactionsEnabled = false;
-    labelTemplate.nonScaling = true;
-    labelTemplate.fillOpacity = 0.3;
-    labelTemplate.fill = "#fff";
-
-    // 라벨 표출
-    polygonSeries.events.on("inited", function () {
-      for (var i = 0; i < POINT_NAME.length - 1; i++) {
-        var polygon = polygonSeries.getPolygonById(POINT_NAME[i]);
-
-        if (polygon) {
-          var label = labelSeries.mapImages.create();
-          var state = polygon.dataItem.dataContext.id;
-          label.latitude = polygon.visualLatitude;
-          label.longitude = polygon.visualLongitude;
-          label.children.getIndex(0).text = state;
-        }
-      }
-    });
-
-    // polygon 이벤트 바인딩
-    const polygonHoverState = polygonTemplate.states.create("hover");
-    polygonHoverState.transitionDuration = 100;
-    polygonHoverState.properties.fill = this.options.countryHoverColor;
-
-    const polygonActiveState = polygonTemplate.states.create("active");
-    polygonActiveState.properties.fill = this.options.activeCountryColor;
+      const polygonActiveState = polygonTemplate.states.create("active");
+      polygonActiveState.properties.fill = this.options.activeCountryColor;
+    }
     this.polygonSeries = polygonSeries;
   }
   // 버블 폴리곤 위에 circle그리기
@@ -682,7 +604,7 @@ class MapChart {
     bubbleSeries.tooltip.getStrokeFromObject = true;
     bubbleSeries.tooltip.getFillFromObject = false;
     bubbleSeries.tooltip.background.fillOpacity = 0.2;
-    bubbleSeries.tooltip.background.fill = am4core.color("#000000");
+    bubbleSeries.tooltip.background.fill = am4core.color("#000");
 
     let imageTemplate = bubbleSeries.mapImages.template;
     // 지도 확대 시 버블이 커지게 할려면 false로 설정
@@ -729,6 +651,7 @@ class MapChart {
       bubbleSeries.dataItems.each((dataItem) => {
         var mapImage = dataItem.mapImage;
         var circle = mapImage.children.getIndex(0);
+
         if (mapImage.dataItem.value === 0) {
           circle.hide(0);
         } else if (circle.isHidden || circle.isHiding) {
@@ -766,15 +689,6 @@ class MapChart {
   }
   // 업데이트
   updateChart(type) {
-    // let custom = setToCustom(type),
-    //   name = setToOrigin(type);
-    // console.log(type);
-    // currentType = name;
-    // currentTypeName = name;
-    // if (name !== "육정순") {
-    //   currentTypeName += " cases";
-    // }
-
     this.bubbleSeries.mapImages.template.tooltipText =
       "[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
 
@@ -786,7 +700,7 @@ class MapChart {
 
     this.polygonSeries.dataItems.each((dataItem) => {
       dataItem.setValue("value", dataItem.dataContext[type]);
-      dataItem.mapPolygon.defaultState.properties.fill = undefined;
+      //dataItem.mapPolygon.defaultState.properties.fill = am4core.color("#ff8726");
     });
 
     // change color of bubbles
@@ -798,8 +712,8 @@ class MapChart {
       0
     ).fill = this.options.colors[type];
     // update heat rule's maxValue
-    this.bubbleSeries.heatRules.getIndex(0).maxValue = 30;
-    this.polygonSeries.heatRules.getIndex(0).maxValue = 30;
+    //this.bubbleSeries.heatRules.getIndex(0).maxValue = 30;
+    //this.polygonSeries.heatRules.getIndex(0).maxValue = 30;
   }
 }
 export { SliderBar, LineChart, MapChart };
