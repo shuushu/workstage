@@ -24,6 +24,15 @@ export default function Home() {
 
   useEffect(() => {
     drawChart(setHouseData);
+
+    // HMR 및 SPA라우터에서 페이지 전환 후 돌아 올때 맵이 꺠지는 이슈 수정 [소요시간 5h]
+    if (g.mapChart) {
+      g.mapChart.mapChart.reverseGeodata = true;
+      setTimeout(() => {
+        g.mapChart.mapChart.reverseGeodata = false;
+      }, 0);
+    }
+
     return () => {
       g.mapChart.container.dispose();
       g.mapChart.mapChart.dispose();

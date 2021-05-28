@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>building</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />    
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-interactivity@latest/dist/lottie-interactivity.min.js"></script>
+</head>
+<div>
+    <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EzPrWM.json" background="transparent" speed="1"
+        style="width: 100%; height: 100%;" autoplay controls id="building"></lottie-player>
+        <div id="MyContainerId"
+            class="w-full md:w-1/2 text-center rounded bg-grey-darkest mx-auto font-normal text-lg leading-reading text-white p-4">
+            This containers ID is "MyContainerId". The scroll activates in this
+            example once the container with "MyContainerId" is in the viewport.
+        </div>
+</div>
+
+<script>
+    LottieInteractivity.create({
+        mode: "cursor",
+        player: "#building",
+        actions: [
+            {
+                position: { x: [0, 10000], y: [0, 1] },
+                type: 'seek',
+                frames: [0, 100],
+            },
+            
+        ]
+    });
+</script>
+</html>

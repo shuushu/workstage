@@ -1,11 +1,5 @@
 @import "../../../../scss/fn.module.scss";
 
-body {
-  background-color: black;
-}
-.red {
-  color: $pcolor;
-}
 * {
   margin: 0;
   padding: 0;
@@ -29,36 +23,40 @@ body {
     width: auto;
   }
 }
+#homeNav {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  transition: all 0.5s linear;
+  transform: translateY(-100%);
 
+  &.active {
+    transform: translateY(0);
+  }
+  .MuiButton-label {
+    color: #fff;
+  }
+  .MuiButtonGroup-root {
+    width: 100%;
+    display: flex;
+  }
+  .MuiButtonGroup-grouped {
+    min-width: inherit;
+    width: 100%;
+  }
+  .btnActive .MuiButton-label {
+    color: red;
+  }
+}
 // HOME
 #linechart {
   clear: both;
   height: 260px;
 }
 
-#test {
-  position: fixed;
-  font-size: 20px;
-  padding: 10px;
-  color: #fff;
-  z-index: 10;
-  display: none;
-}
-#homeContents {
-  position: relative;
-  z-index: 10;
-  width: 300px;
-  margin: 0 auto;
-  color: #fff;
-  background: none;
-  overflow: hidden;
-  display: none;
-  .amcharts-Slider-group,
-  .playbtn {
-    position: fixed;
-  }
-  z-index: 5;
-}
 #sideBottom {
   position: fixed;
   bottom: 0;

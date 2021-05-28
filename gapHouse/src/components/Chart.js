@@ -2,8 +2,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import ko from "@amcharts/amcharts4/lang/ko_KR";
-import geo from "../asset/data/select.json";
-import POINT_NAME from "../asset/data/labels";
+
 let g = window;
 
 /**
@@ -439,7 +438,9 @@ class MapChart {
     this.mapChart = this.container.createChild(am4maps.MapChart);
     this.mapChart.height = am4core.percent(100);
     this.mapChart.geodata = this.geoData;
+    // HMR 및 SPA라우터에서 페이지 전환 후 돌아 올때 맵이 꺠지는 이슈 수정 [소요시간 5h]
     this.mapChart.reverseGeodata = true;
+
     // https://www.amcharts.com/docs/v4/chart-types/map/#Map_data
     // you can use more accurate world map or map of any other country - a wide selection of maps available at: https://github.com/amcharts/amcharts4-geodata
 
@@ -562,7 +563,7 @@ class MapChart {
 
     let polygonTemplate = polygonSeries.mapPolygons.template;
     polygonTemplate.fill = this.options.countryColor;
-    polygonTemplate.fillOpacity = 1;
+    polygonTemplate.fillOpacity = 0.8;
     polygonTemplate.stroke = this.options.countryStrokeColor;
     polygonTemplate.strokeOpacity = 0.15;
     polygonTemplate.setStateOnChildren = true;
@@ -691,16 +692,23 @@ class MapChart {
   updateChart(type) {
     this.bubbleSeries.mapImages.template.tooltipText =
       "[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
+    console.log(`circle error check : ${type}`);
+    // 에러체크 확인중
+    if (type) {
+      this.bubbleSeries.dataFields.value = type;
+      this.polygonSeries.dataFields.value = type;
+    }
 
-    this.bubbleSeries.dataFields.value = type;
-    this.polygonSeries.dataFields.value = type;
     this.bubbleSeries.dataItems.each((dataItem) => {
       dataItem.setValue("value", dataItem.dataContext[type]);
     });
 
     this.polygonSeries.dataItems.each((dataItem) => {
       dataItem.setValue("value", dataItem.dataContext[type]);
-      //dataItem.mapPolygon.defaultState.properties.fill = am4core.color("#ff8726");
+      // dataItem.mapPolygon.defaultState.properties.fill = am4core.color(
+      //   "#ff8726"
+      // );
+      //dataItem.mapPolygon.defaultState.properties.fillOpacity = 0.1;
     });
 
     // change color of bubbles
@@ -716,4 +724,5 @@ class MapChart {
     //this.polygonSeries.heatRules.getIndex(0).maxValue = 30;
   }
 }
+
 export { SliderBar, LineChart, MapChart };

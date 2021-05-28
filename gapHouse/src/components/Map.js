@@ -86,11 +86,12 @@ export default async function getData(callback) {
   mapChart.updateChart(INIT_STR);
   // 라벨 표출
   mapChart.drawLabel(LABEL);
-  mapChart.mapChart.maxZoomLevel = 1;
-  mapChart.mapChart.seriesContainer.draggable = false;
-  mapChart.mapChart.seriesContainer.resizable = false;
+  //mapChart.mapChart.maxZoomLevel = 1;
+  //mapChart.mapChart.seriesContainer.draggable = false;
+  //mapChart.mapChart.seriesContainer.resizable = false;
   // 클래스연결
   linechart.adapter(mapChart);
+  linechart.setColor(CUSTOM);
   linechart.addClick((v) => {
     if (!linechart.lineChart.legendDown) {
       sliderBar.slider.start =
@@ -140,6 +141,7 @@ export default async function getData(callback) {
       bubbleSeries.invalidateRawData();
       polygonSeries.invalidateRawData();
     }
+
     //await amInit();
     //await sideBottom();
   };

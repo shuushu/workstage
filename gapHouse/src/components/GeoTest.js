@@ -152,9 +152,7 @@ export default function call() {
   chart.geodata = ttt;
   chart.projection = new am4maps.projections.Miller();
   chart.language.locale = ko;
-
-  //chart.reverseGeodata = true;
-
+  chart.reverseGeodata = true;
   /* Set projection */
 
   window.homeMap = chart;

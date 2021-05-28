@@ -409,6 +409,7 @@ module.exports = function (webpackEnv) {
                     require.resolve("babel-preset-react-app"),
                     {
                       runtime: hasJsxRuntime ? "automatic" : "classic",
+                      //runtime: hasJsxRuntime ? "automatic" : "classic",
                     },
                   ],
                 ],
@@ -444,7 +445,7 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve("babel-loader"),
-              options: {                
+              options: {
                 babelrc: false,
                 configFile: false,
                 compact: false,
