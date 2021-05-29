@@ -9,7 +9,7 @@ export default function DisableElevation(props) {
     if (idx === 1) {
       window.scrollTo(0, 0);
     } else {
-      window.scroll[0].controller().scrollTo(`#sceen${idx}`);
+      window.scroll[0].controller().scrollTo(`#scence${idx}`);
     }
   };
   return (

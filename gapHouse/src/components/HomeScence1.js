@@ -3,7 +3,7 @@ import Lottie from "react-lottie-player";
 import building from "../asset/data/lottie/building.json";
 
 export default memo(function Sceen1(props) {
-  const { state, keyName, expend, setComplete } = props;
+  const { state, clicked, keyName, expend, setComplete } = props;
   const [playValue, setPlayValue] = useState(false);
   useEffect(() => {
     setTimeout(() => {
@@ -35,11 +35,8 @@ export default memo(function Sceen1(props) {
         //   onSegmentStart={}
         // onEnterFrame={(props) => {
         //   const { currentTime } = props;
-        //   if (!playValue.clicked && currentTime >= 60) {
-        //     setPlayValue({
-        //       clicked: false,
-        //       state: false,
-        //     });
+        //   if (!clicked && currentTime >= 60) {
+        //     setPlayValue(false);
         //   }
         // }}
         style={{ width: 300, height: 300 }}

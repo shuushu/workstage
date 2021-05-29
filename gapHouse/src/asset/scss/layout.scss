@@ -16,11 +16,12 @@ body,
   align-items: center;
   position: relative;
   flex-direction: column;
-  &.sceen1 {
+  overflow: hidden;
+  &.scence1 {
     background-color: black;
     color: #fff;
   }
-  &.sceen2 {
+  &.scence2 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg1.png);
     video {
       width: 100%;
@@ -32,13 +33,13 @@ body,
       height: 100%;
     }
   }
-  &.sceen3 {
+  &.scence3 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg2.png);
     .pre {
       width: 40%;
     }
   }
-  &.sceen4 {
+  &.scence4 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg1.png);
   }
 }
@@ -150,27 +151,29 @@ body,
     }
   }
 }
-#homeSceen1 {
-  position: absolute;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  &.complete {
-    z-index: -1;
-    .title {
-      opacity: 0;
-    }
-  }
-  .title {
-    font-size: 30px;
-    color: #fff;
-    transition: opacity 0.3s linear;
-    opacity: 0;
-  }
-  &.play .title {
-    opacity: 1;
+#scence1{
+  #homeSceen1 {
+    position: relative;
+    //z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+      &.complete {
+        z-index: -1;
+        .title {
+          opacity: 0;
+        }
+      }
+      .title {
+        font-size: 30px;
+        color: #fff;
+        transition: opacity 0.3s linear;
+        opacity: 0;
+      }
+      &.play .title {
+        opacity: 1;
+      }
   }
 }
 // VIDEO
