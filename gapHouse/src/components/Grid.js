@@ -36,7 +36,7 @@ function DrawItems(props) {
   const { setActive, active, state, keyName, clicked, setComplete } = props;
   const handleClick = async (e, key) => {
     // lottie 애니매이션이 끝났을때 클릭 이벤트 실행 됨
-    if (!state) return;
+    //if (!state) return;
     if (active === key) {
       // 내비클래스설정
       document.getElementById("homeNav").className = "active";
@@ -55,6 +55,8 @@ function DrawItems(props) {
         sectionNodes.forEach((v) => v.removeAttribute("style"));
       }, 600);
     } else {
+      // 스크롤 이동
+      document.getElementById("gridBtn").click();
       // 내비클래스삭제
       document.getElementById("homeNav").className = "";
       setComplete({

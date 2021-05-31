@@ -47,9 +47,9 @@ export default function Home() {
         <div className="sliderTab">
           <SliderTab houseData={houseData} />
         </div>
+        <div id="playBtn"></div>
         <div id="linechart"></div>
       </div>
-      <div id="playBtn"></div>
     </div>
   );
 }

@@ -12,6 +12,7 @@ export default function DisableElevation(props) {
       window.scroll[0].controller().scrollTo(`#scence${idx}`);
     }
   };
+
   return (
     <nav id="homeNav" className={complete.state ? "active" : null}>
       <ButtonGroup disableElevation variant="text">
@@ -24,8 +25,18 @@ export default function DisableElevation(props) {
         <Button onClick={(e) => handleClick(e, 3)} className="top_nav3">
           03
         </Button>
-        <Button onClick={(e) => handleClick(e, 4)} className="top_nav4">
+        <Button
+          onClick={(e) => handleClick(e, 4)}
+          id="gridBtn"
+          className="top_nav4"
+        >
           04
+        </Button>
+        <Button onClick={(e) => handleClick(e, 5)} className="top_nav5">
+          05
+        </Button>
+        <Button onClick={(e) => handleClick(e, 6)} className="top_nav6">
+          06
         </Button>
       </ButtonGroup>
     </nav>

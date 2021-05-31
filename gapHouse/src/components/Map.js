@@ -86,9 +86,9 @@ export default async function getData(callback) {
   mapChart.updateChart(INIT_STR);
   // 라벨 표출
   mapChart.drawLabel(LABEL);
-  //mapChart.mapChart.maxZoomLevel = 1;
-  //mapChart.mapChart.seriesContainer.draggable = false;
-  //mapChart.mapChart.seriesContainer.resizable = false;
+  mapChart.mapChart.maxZoomLevel = 1;
+  mapChart.mapChart.seriesContainer.draggable = false;
+  mapChart.mapChart.seriesContainer.resizable = false;
   // 클래스연결
   linechart.adapter(mapChart);
   linechart.setColor(CUSTOM);
@@ -146,6 +146,17 @@ export default async function getData(callback) {
     //await sideBottom();
   };
   //sliderBar.play();
+
+  // 버튼 스타일 변경
+  const btn = document.querySelectorAll(
+    `g[aria-labelledby="id-61-title"] path`
+  );
+  await delay(1000);
+  btn[0].setAttribute(
+    "d",
+    "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+  );
+  btn[0].setAttribute("style", "opacity: 1");
 
   g.mapChart = mapChart;
   g.sliderBar = sliderBar;

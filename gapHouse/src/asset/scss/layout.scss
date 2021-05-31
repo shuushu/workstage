@@ -18,8 +18,18 @@ body,
   flex-direction: column;
   overflow: hidden;
   &.scence1 {
-    background-color: black;
+    background: url(https://apps.bostonglobe.com/magazine/graphics/2019/01/17/valedictorians/assets/images/landingcover_1200.jpg)
+      #000;
     color: #fff;
+  }
+  &.scence1::before {
+    content: "";
+    display: block;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
   }
   &.scence2 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg1.png);
@@ -36,11 +46,19 @@ body,
   &.scence3 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg2.png);
     .pre {
-      width: 40%;
+      width: 60%;
+      position: relative;
+      top: -10%;
     }
   }
-  &.scence4 {
+  &.scence5 {
+    background: #000;
+  }
+  &.scence6 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg1.png);
+  }
+  &.scence7 {
+    background: #333;
   }
 }
 // GRID
@@ -151,7 +169,8 @@ body,
     }
   }
 }
-#scence1{
+// 장면
+#scence1 {
   #homeSceen1 {
     position: relative;
     //z-index: 2;
@@ -159,21 +178,20 @@ body,
     justify-content: center;
     align-items: center;
     flex-direction: column;
-      &.complete {
-        z-index: -1;
-        .title {
-          opacity: 0;
-        }
-      }
+    &.complete {
       .title {
-        font-size: 30px;
-        color: #fff;
-        transition: opacity 0.3s linear;
-        opacity: 0;
-      }
-      &.play .title {
         opacity: 1;
       }
+    }
+    .title {
+      font-size: 30px;
+      color: #fff;
+      transition: opacity 0.3s linear;
+      opacity: 0;
+    }
+    &.play .title {
+      //opacity: 1;
+    }
   }
 }
 // VIDEO
@@ -182,4 +200,76 @@ body,
 .vjs-control-bar,
 .vjs-hidden {
   display: none;
+}
+
+g[role="slider"] g:first-child {
+  transform: scale(1.4);
+  transform-origin: 5% 45%;
+  path {
+    transition: opacity 1s;
+    opacity: 0;
+  }
+}
+g[role="slider"] g:nth-child(2) {
+  display: none;
+}
+
+#lottieCircle {
+  display: flex;
+  max-width: 1200px;
+  flex-wrap: wrap;
+  justify-content: center;
+  .lt-items {
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    path {
+      transition: all 1s;
+      stroke: #444;
+    }
+  }
+  .lt-items2 {
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+  }
+}
+#lottieCircle.가압류 {
+  .lt-items.가압류 {
+    svg > g > g:nth-child(1) path {
+      stroke: rgb(113, 0, 243);
+    }
+    svg > g > g:nth-child(2) path {
+      stroke: dodgerblue;
+    }
+    svg > g > g:nth-child(3) path {
+      stroke: deeppink;
+    }
+  }
+}
+#lottieCircle.압류 {
+  .lt-items.압류 {
+    svg > g > g:nth-child(1) path {
+      stroke: rgba(0, 243, 150, 0.726);
+    }
+    svg > g > g:nth-child(2) path {
+      stroke: dodgerblue;
+    }
+    svg > g > g:nth-child(3) path {
+      stroke: rgb(202, 247, 4);
+    }
+  }
+}
+#lottieCircle.신탁 {
+  .lt-items.신탁 {
+    svg > g > g:nth-child(1) path {
+      stroke: rgb(243, 0, 81);
+    }
+    svg > g > g:nth-child(2) path {
+      stroke: rgb(255, 165, 30);
+    }
+    svg > g > g:nth-child(3) path {
+      stroke: deeppink;
+    }
+  }
 }

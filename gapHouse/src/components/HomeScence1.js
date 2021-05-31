@@ -12,10 +12,7 @@ export default memo(function Sceen1(props) {
   }, []);
 
   return (
-    <div
-      id="homeSceen1"
-      className={playValue && !state ? "play" : state ? "complete" : null}
-    >
+    <div id="homeSceen1" className={state ? "complete" : null}>
       <div className="title">817채 대한민국 최고 집부자</div>
       <Lottie
         className="building"
@@ -33,12 +30,18 @@ export default memo(function Sceen1(props) {
         //   onLoopComplete={}
         //   onEnterFrame={}
         //   onSegmentStart={}
-        // onEnterFrame={(props) => {
-        //   const { currentTime } = props;
-        //   if (!clicked && currentTime >= 60) {
-        //     setPlayValue(false);
-        //   }
-        // }}
+        onEnterFrame={(props) => {
+          const { currentTime } = props;
+          if (!clicked && currentTime >= 60) {
+            setPlayValue(false);
+            setComplete({
+              clicked: false,
+              state: true,
+              keyName,
+              expend,
+            });
+          }
+        }}
         style={{ width: 300, height: 300 }}
       />
     </div>
