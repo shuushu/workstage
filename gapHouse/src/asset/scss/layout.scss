@@ -61,6 +61,24 @@ body,
     background: #333;
   }
 }
+
+// scence7
+#scence7 {
+  .text {
+    position: absolute;
+    color: #fff;
+    font-size: 30px;
+    max-width: 600px;
+    opacity: 0;
+    z-index: 3;
+    transition: all 1s;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border: solid 1px #444;
+    border-radius: 5px;
+  }
+}
+
 // GRID
 .bl-main {
   position: absolute;
@@ -169,6 +187,10 @@ body,
     }
   }
 }
+// 스크롤매직 장면 공통 클래스
+.scrollmagic-pin-spacer {
+  background: #333;
+}
 // 장면
 #scence1 {
   #homeSceen1 {
@@ -201,10 +223,13 @@ body,
 .vjs-hidden {
   display: none;
 }
-
+// amchar로고 히든
+g[style="cursor: pointer;"] {
+  //opacity: 0;
+}
 g[role="slider"] g:first-child {
   transform: scale(1.4);
-  transform-origin: 5% 45%;
+  transform-origin: 50px 45%;
   path {
     transition: opacity 1s;
     opacity: 0;
@@ -219,6 +244,8 @@ g[role="slider"] g:nth-child(2) {
   max-width: 1200px;
   flex-wrap: wrap;
   justify-content: center;
+  position: relative;
+  z-index: 2;
   .lt-items {
     width: 80px;
     height: 80px;
@@ -234,7 +261,7 @@ g[role="slider"] g:nth-child(2) {
     margin: 10px;
   }
 }
-#lottieCircle.가압류 {
+#lottieCircle.압류또는가압류 {
   .lt-items.가압류 {
     svg > g > g:nth-child(1) path {
       stroke: rgb(113, 0, 243);
@@ -247,7 +274,7 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
-#lottieCircle.압류 {
+#lottieCircle.압류또는가압류 {
   .lt-items.압류 {
     svg > g > g:nth-child(1) path {
       stroke: rgba(0, 243, 150, 0.726);
@@ -260,8 +287,8 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
-#lottieCircle.신탁 {
-  .lt-items.신탁 {
+#lottieCircle.강제경매개시결정 {
+  .lt-items.강제경매개시결정 {
     svg > g > g:nth-child(1) path {
       stroke: rgb(243, 0, 81);
     }
@@ -270,6 +297,113 @@ g[role="slider"] g:nth-child(2) {
     }
     svg > g > g:nth-child(3) path {
       stroke: deeppink;
+    }
+  }
+}
+
+// 카운트애니
+.utilWrap {
+  position: absolute;
+  right: 10px;
+  bottom: -40px;
+  button {
+    position: absolute;
+    left: -999em;
+  }
+  .countWrap {
+    .count {
+      font-size: 30px;
+      color: #fff;
+    }
+  }
+}
+.lottieWrap {
+  position: relative;
+  z-index: 2;
+}
+.linkto {
+  width: 100px;
+  position: absolute;
+  right: 10px;
+  top: 50px;
+  .MuiButton-label {
+    display: flex;
+    flex-direction: column;
+  }
+  .str {
+    font-size: 16px;
+    color: #999;
+    letter-spacing: -1px;
+    position: relative;
+    top: -7px;
+  }
+}
+//
+.mapAni {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  top: 200px;
+  perspective: 400px;
+  perspective-origin: 50% 50%;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(180deg, #333, transparent);
+    left: 0;
+    top: 290px;
+    z-index: 10;
+  }
+  .bg {
+    transform-style: preserve-3d;
+    transform: translateZ(-100px);
+    position: relative;
+    width: 100%;
+    height: 600px;
+  }
+  .feature {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: rotateX(-90deg) translateZ(100px);
+  }
+  svg {
+    transform: scale(2) !important;
+    * {
+      fill-opacity: 0;
+      stroke: #666;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  #lottieCircle {
+    .lt-items {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      path {
+        stroke: #777;
+      }
+    }
+  }
+  .mapAni {
+    bottom: inherit;
+    top: 25%;
+    &::before {
+      height: 10px;
+      top: 10px;
+    }
+
+    svg {
+      transform: scale(1) !important;
+      * {
+        fill-opacity: 0;
+        stroke: #777;
+      }
     }
   }
 }

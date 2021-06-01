@@ -83,16 +83,19 @@ export default async function getData(callback) {
   mapChart.setColor(CUSTOM);
   mapChart.setKeyName(INIT_STR);
   // 초깃값 셋팅
-  mapChart.updateChart(INIT_STR);
+  //mapChart.updateChart(INIT_STR);
+  //mapChart.updateChart("가압류");
+  mapChart.updateChart2(mapChart.bubbleArr[0], INIT_STR);
+  mapChart.updateChart2(mapChart.bubbleArr[1], "가압류");
   // 라벨 표출
   mapChart.drawLabel(LABEL);
-  mapChart.mapChart.maxZoomLevel = 1;
-  mapChart.mapChart.seriesContainer.draggable = false;
-  mapChart.mapChart.seriesContainer.resizable = false;
+  // mapChart.mapChart.maxZoomLevel = 1;
+  // mapChart.mapChart.seriesContainer.draggable = false;
+  // mapChart.mapChart.seriesContainer.resizable = false;
   // 클래스연결
   linechart.adapter(mapChart);
   linechart.setColor(CUSTOM);
-  linechart.addClick((v) => {
+  linechart.addClick(() => {
     if (!linechart.lineChart.legendDown) {
       sliderBar.slider.start =
         linechart.lineChart.cursor.xPosition *
@@ -100,6 +103,7 @@ export default async function getData(callback) {
           (g.lastDate.getTime() - linechart.dateAxis.min));
     }
   });
+
   // 외부돔(탭) 이벤트 바인딩
   addEventCategory(linechart.handleButtonClick.bind(linechart));
   setTimeout(() => {
@@ -117,6 +121,36 @@ export default async function getData(callback) {
     callback(data);
   };
   sliderBar.updateMapData = (data) => {
+    // 멀티플업데이트
+    let { bubbleArr, polygonSeries } = mapChart;
+
+    bubbleArr.forEach((v) => {
+      v.dataItems.each(function (dataItem) {
+        dataItem.dataContext.confirmed = 0;
+        dataItem.dataContext.deaths = 0;
+        dataItem.dataContext.recovered = 0;
+        dataItem.dataContext.active = 0;
+      });
+      for (let i = 0; i < data.length; i++) {
+        const di = data[i];
+        const image = v.getImageById(di.id);
+        if (image) {
+          Object.entries(di).forEach(([k, v]) => {
+            if (k !== "id") {
+              image.dataItem.dataContext[k] = v;
+            }
+          });
+        }
+        // 맥스값 변경시 Nagative value Error 발생
+        //v.heatRules.getIndex(0).maxValue = 40;
+        //polygonSeries.heatRules.getIndex(0).maxValue = 40;
+        v.invalidateRawData();
+        polygonSeries.invalidateRawData();
+      }
+    });
+  };
+  // 단일업데이트
+  /* sliderBar.updateMapData = (data) => {
     let { bubbleSeries, polygonSeries } = mapChart;
 
     bubbleSeries.dataItems.each(function (dataItem) {
@@ -141,10 +175,7 @@ export default async function getData(callback) {
       bubbleSeries.invalidateRawData();
       polygonSeries.invalidateRawData();
     }
-
-    //await amInit();
-    //await sideBottom();
-  };
+  }; */
   //sliderBar.play();
 
   // 버튼 스타일 변경
@@ -152,11 +183,13 @@ export default async function getData(callback) {
     `g[aria-labelledby="id-61-title"] path`
   );
   await delay(1000);
-  btn[0].setAttribute(
-    "d",
-    "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-  );
-  btn[0].setAttribute("style", "opacity: 1");
+  if (btn[0]) {
+    btn[0].setAttribute(
+      "d",
+      "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+    );
+    btn[0].setAttribute("style", "opacity: 1");
+  }
 
   g.mapChart = mapChart;
   g.sliderBar = sliderBar;

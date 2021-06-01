@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
-
+import Lottie from "react-lottie-player";
 import Grid from "../components/Grid";
 import Homescence1 from "../components/HomeScence1";
 import HomeNav from "../components/HomeNav";
@@ -13,13 +13,18 @@ import { TweenMax, TimelineMax } from "gsap"; // Also works with TweenLite and T
 import { ScrollMagicPluginGsap } from "scrollmagic-plugin-gsap";
 import { ScrollMagicPluginIndicator } from "scrollmagic-plugins";
 
+import { ua } from "../../../components/Util";
 import "../asset/scss/layout.scss";
 import LottieCircle from "../components/LottieCircle";
+
+import clickChart from "../asset/data/lottie/clickChart.json";
+import Button from "@material-ui/core/Button";
 
 ScrollMagicPluginIndicator(ScrollMagic);
 ScrollMagicPluginGsap(ScrollMagic, TweenMax, TimelineMax);
 
 const g = window;
+let controller;
 g.scroll = [];
 function delay(v) {
   return new Promise((resolve) => setTimeout(resolve, v));
@@ -54,7 +59,7 @@ export default function Home() {
 
     //
     //
-    const controller = new ScrollMagic.Controller({
+    controller = new ScrollMagic.Controller({
       globalSceneOptions: {
         triggerHook: "onLeave",
         duration: "100%", // scence END포인트 배수로 지정됨 200%는 2배 비율
@@ -153,7 +158,7 @@ export default function Home() {
         })
       );
     scene.triggerHook(0);
-    scene.on("update start end enter leave", (event) => {
+    /* scene.on("update start end enter leave", (event) => {
       if (event.type === "start") {
         clearTimeout(g.lineChartSeries.timer);
         g.lineChartSeries.timer = setTimeout(async () => {
@@ -168,8 +173,7 @@ export default function Home() {
           //g.sliderBar.play();
         }, 1000);
       }
-    });
-    scene.triggerHook(0);
+    }); */
     g.scroll.push(scene);
     //
     // scence6
@@ -194,13 +198,25 @@ export default function Home() {
     //
     // scence7
     //
+    // 요소
+    // init Position
+    new TimelineMax().set("#scence7 .text", { y: "-50px", opacity: 0 });
+
     scene = new ScrollMagic.Scene({
       triggerElement: "#scence7",
     })
-      // .setTween(
-      //   new TimelineMax().to("#scence7 > div:nth-child(1)", 0.3, { y: "100%" })
-      // )
+      .setTween(
+        new TimelineMax()
+          .to("#scence7 .st1", 0.3, { y: 0, opacity: 1 })
+          .to("#scence7 .st1", 0.3, { opacity: 0 })
+
+          .to("#scence7 .st2", 0.3, { y: 0, opacity: 1 })
+          .to("#scence7 .st2", 0.2, { opacity: 0 })
+
+          .to("#scence7 .st3", 0.3, { y: 0, opacity: 1 })
+      )
       //.setClassToggle(".top_nav7", "btnActive")
+      .setPin("#scence7", { pushFollowers: true }) // 스크롤 잠시 고정
       .addTo(
         new ScrollMagic.Controller({
           globalSceneOptions: {
@@ -209,7 +225,37 @@ export default function Home() {
           },
         })
       );
-    scene.triggerHook(0.2);
+    scene.triggerHook(0);
+    // 버튼트리거
+    function triggerBtnReset() {
+      // reset
+      document.querySelectorAll(".utilWrap button").forEach((v) => {
+        v.classList.remove("active");
+      });
+      g.setKey("소유");
+      g.cntUpdata(582);
+    }
+    function triggerBtn(name) {
+      // add
+      const n = document.querySelector(name);
+      if (n.className.indexOf("active") < 0) {
+        n.click();
+        n.classList.add("active");
+      }
+    }
+    scene.on("progress  start end enter leave", (e) => {
+      if (e.type === "progress") {
+        const pos = Number((e.progress * 100).toFixed());
+        if (pos > 40 && pos <= 70) {
+          triggerBtn("#cirBtn1");
+        } else if (pos > 70) {
+          triggerBtn("#cirBtn2");
+        }
+      } else if (e.type === "enter") {
+        triggerBtnReset();
+      }
+    });
+
     g.scroll.push(scene);
     return () => {
       //g.homeMap.dispose();
@@ -230,7 +276,7 @@ export default function Home() {
           <video ref={videoNode} id="my-video"></video>
         </section>
         <section className="items scence3" id="scence3">
-          <div className="pre">
+          <div className="pre" id="start">
             흥동 제임스네이션 등 김용현이 빌라 전체 소유하고 있는 건물로
             시작(월요일쯤 현장 커버 필요). 건물 전체가 압류 걸렸는데 여전히
             세입자들 남아있어. 근데 주인이 1명. 가가호호 둘러보고. 이런저런
@@ -252,10 +298,41 @@ export default function Home() {
           <Grid {...complete} setComplete={setComplete} />
         </section>
         <section className="items scence7" id="scence7">
+          <div className="linkto">
+            <Button href="/#detail">
+              <Lottie
+                className="goToDetailMap"
+                animationData={clickChart}
+                play={true}
+                loop={true}
+                style={{ width: "100%", height: "100%" }}
+              />
+              <span className="str">자세히 보기</span>
+            </Button>
+          </div>
+
+          <div className="text st1">
+            알고보니 집주인인 ‘김OO’ 씨 는 수도권 일대에 임대주택인 빌라만 582채
+            가진 ‘빌라왕’ 이었습니다. (2020.05 기준)
+          </div>
+          <div className="text st2">
+            이 중 406채가 압류 또는 가압류 상태입니다.
+            <br />
+            모두 전세금을 돌려주지 못하고 있어 주택보증공사나 관할 구청이 압류를
+            한 겁니다.
+          </div>
+          <div className="text st3">
+            23채는 강제 경매가 진행 중입니다. 경매에서 낙찰이 되더라도 보증금을
+            다 돌려받기는 어렵습니다.
+          </div>
+          <div className="text st4">
+            집주인인 ‘김OO’ 씨 는 전세금을 돌려주지 못해 압류를 당하면서도 집을
+            계속 사들였습니다. 이 모든 게 기획된 겁니다.
+          </div>
           <LottieCircle />
         </section>
         <section className="items scence5" id="scence5">
-          <Detail />
+          lorem
         </section>
         <section className="items scence6" id="scence6">
           <div className="pre">

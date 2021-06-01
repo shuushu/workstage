@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import drawChart, { basicMaps } from "../components/Map";
+import drawChart from "../components/Map";
 import SliderTab from "../components/Slider";
 const g = window;
 export default function Home() {
@@ -34,6 +34,7 @@ export default function Home() {
     }
 
     return () => {
+      g.mapChart.mapChart.reverseGeodata = false;
       g.mapChart.container.dispose();
       g.mapChart.mapChart.dispose();
       g.sliderBar.container.dispose();
@@ -42,13 +43,18 @@ export default function Home() {
   }, []);
   return (
     <div id="detail">
-      <div id="chartdiv">chart</div>
-      <div id="sideBottom">
-        <div className="sliderTab">
-          <SliderTab houseData={houseData} />
+      <div className="contents">dsfasdf</div>
+      <div className="chartWrap">
+        <div id="chartdiv">
+          <h1>sdadas</h1>
         </div>
-        <div id="playBtn"></div>
-        <div id="linechart"></div>
+        <div id="sideBottom">
+          <div className="sliderTab">
+            <SliderTab houseData={houseData} />
+          </div>
+          <div id="playBtn"></div>
+          <div id="linechart"></div>
+        </div>
       </div>
     </div>
   );

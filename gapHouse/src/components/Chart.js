@@ -4,7 +4,18 @@ import * as am4maps from "@amcharts/amcharts4/maps";
 import ko from "@amcharts/amcharts4/lang/ko_KR";
 
 let g = window;
-
+const RANGE = [
+  {
+    date: new Date(2020, 3, 5),
+    endDate: new Date(2020, 5, 11),
+    str: "21번째 부동산 대책 시작",
+  },
+  {
+    date: new Date(2020, 8, 11),
+    endDate: new Date(2020, 10, 21),
+    str: "임대사업자 세금 인하",
+  },
+];
 /**
  *  CORE
  * */
@@ -52,8 +63,7 @@ class SliderBar {
     this.playButton.valign = "middle";
     // 최소값이 디폴트로 지정되어있기에 변경을 해야 크기가 변함
     this.playButton.scale = 0.8;
-    //contentHeight
-    //contentWidth
+    console.log(this.playButton);
     this.playButton.events.on("toggled", (event) => {
       if (event.target.isActive) {
         this.play();
@@ -216,9 +226,8 @@ class LineChart {
     // https://www.amcharts.com/docs/v4/concepts/axes/date-axis/
     let dateAxis = lineChart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
-    dateAxis.renderer.grid.template.stroke = am4core.color("#000000");
+    dateAxis.renderer.grid.template.stroke = am4core.color("#333");
     dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-
     dateAxis.max = g.lastDate.getTime() + am4core.time.getDuration("day", 5);
 
     dateAxis.tooltip.label.fontSize = "0.8em";
@@ -235,7 +244,7 @@ class LineChart {
     let valueAxis = lineChart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.opposite = true;
     valueAxis.interpolationDuration = 3000;
-    valueAxis.renderer.grid.template.stroke = am4core.color("#000000");
+    valueAxis.renderer.grid.template.stroke = am4core.color("#333");
     valueAxis.renderer.grid.template.strokeOpacity = 0.25;
     valueAxis.renderer.minGridDistance = 30;
     valueAxis.renderer.maxLabelPosition = 0.98;
@@ -293,10 +302,35 @@ class LineChart {
       }, 100);
     });
 
+    //  범위 가이드라인 그리기
+    const drawLine = (date) => {
+      let range2 = this.dateAxis.axisRanges.create();
+      range2.date = date;
+      range2.grid.stroke = am4core.color("#fff");
+      range2.grid.strokeWidth = 1;
+      range2.grid.strokeOpacity = 0.3;
+      range2.grid.strokeDasharray = "3,3";
+
+      return range2;
+    };
+    RANGE.forEach((obj) => {
+      let range;
+      Object.entries(obj).forEach(([key, v]) => {
+        if (key !== "str") {
+          range = drawLine(v);
+        }
+      });
+      range.label.dx = -60;
+      range.label.inside = true;
+      range.label.text = obj.str;
+      range.label.verticalCenter = "bottom";
+    });
+
     this.lineChart = lineChart;
   }
   setData(data) {
     // make a copy of data as we will be modifying it
+
     this.lineChart.data = JSON.parse(JSON.stringify(data));
   }
   // 데이터 별 지점 표시 및 툴팁 생성
@@ -305,13 +339,24 @@ class LineChart {
     series.dataFields.valueY = name;
     series.dataFields.dateX = "date";
     series.name = capitalizeFirstLetter(name);
-    series.strokeOpacity = 0.6;
+    series.strokeOpacity = 0.5;
     series.stroke = color;
     series.fill = color;
     series.maskBullets = false;
     series.minBulletDistance = 10;
-    series.hidden = true;
+    //series.hidden = true;
+    series.propertyFields.fill = am4core.color("#1c5fe5");
     series.hideTooltipWhileZooming = true;
+
+    // X축 범위 선정
+
+    RANGE.forEach((obj) => {
+      let range = this.dateAxis.createSeriesRange(series);
+      range.date = obj.date;
+      range.endDate = obj.endDate;
+      range.contents.fill = am4core.color("#999");
+      range.contents.fillOpacity = 0.5;
+    });
 
     //  bullet(포인트)
     let bullet = series.bullets.push(new am4charts.CircleBullet());
@@ -409,6 +454,8 @@ class MapChart {
   constructor(data, options) {
     this.geoData = data;
     this.container = null;
+    this.bubbleArr = [];
+    this.bubbleSeries = null;
     this.options =
       {
         width: 80,
@@ -487,7 +534,8 @@ class MapChart {
     // this.mapChart.zoomEasing = am4core.ease.sinOut;
 
     this.drawMapFeature(data);
-    this.drawBubble(data);
+    this.drawMultipleBubble(data, 0);
+    this.drawMultipleBubble(data, 1);
   }
 
   setSizeCanvas(w, h) {
@@ -606,7 +654,6 @@ class MapChart {
     bubbleSeries.tooltip.getFillFromObject = false;
     bubbleSeries.tooltip.background.fillOpacity = 0.2;
     bubbleSeries.tooltip.background.fill = am4core.color("#000");
-
     let imageTemplate = bubbleSeries.mapImages.template;
     // 지도 확대 시 버블이 커지게 할려면 false로 설정
     imageTemplate.nonScaling = true;
@@ -631,7 +678,7 @@ class MapChart {
     // add circle inside the image
     let circle = imageTemplate.createChild(am4core.Circle);
     // this makes the circle to pulsate a bit when showing it
-    circle.hiddenState.properties.scale = 0.0001;
+    circle.hiddenState.properties.scale = 0.0000001;
     circle.hiddenState.transitionDuration = 2000;
     circle.defaultState.transitionDuration = 2000;
     circle.defaultState.transitionEasing = am4core.ease.elasticOut;
@@ -654,7 +701,7 @@ class MapChart {
         var circle = mapImage.children.getIndex(0);
 
         if (mapImage.dataItem.value === 0) {
-          circle.hide(0);
+          //circle.hide(0);
         } else if (circle.isHidden || circle.isHiding) {
           circle.show();
         }
@@ -674,6 +721,7 @@ class MapChart {
 
     imageTemplate.adapter.add("longitude", (longitude, target) => {
       var polygon = this.polygonSeries.getPolygonById(target.dataItem.id);
+
       if (polygon) {
         target.disabled = false;
         return polygon.visualLongitude;
@@ -685,6 +733,111 @@ class MapChart {
     this.bubbleSeries = bubbleSeries;
     return imageTemplate;
   }
+
+  // 버블 다중 표현
+  drawMultipleBubble(mapData, type) {
+    const bubbleSeries = this.mapChart.series.push(
+      new am4maps.MapImageSeries()
+    );
+    bubbleSeries.data = JSON.parse(JSON.stringify(mapData));
+    bubbleSeries.dataFields.id = "id";
+    // adjust tooltip
+    bubbleSeries.tooltip.animationDuration = 0;
+    bubbleSeries.tooltip.showInViewport = false;
+    bubbleSeries.tooltip.background.fillOpacity = 0.2;
+    bubbleSeries.tooltip.getStrokeFromObject = true;
+    bubbleSeries.tooltip.getFillFromObject = false;
+    bubbleSeries.tooltip.background.fillOpacity = 0.2;
+    bubbleSeries.tooltip.background.fill = am4core.color("#000");
+    let imageTemplate = bubbleSeries.mapImages.template;
+    // 지도 확대 시 버블이 커지게 할려면 false로 설정
+    imageTemplate.nonScaling = true;
+    imageTemplate.strokeOpacity = 0;
+    imageTemplate.fillOpacity = 0.55;
+    imageTemplate.tooltipText = "{name}: [bold]{value}[/]";
+    imageTemplate.applyOnClones = true;
+
+    //%imageTemplate.events.on("over", handleImageOver);
+    //%imageTemplate.events.on("out", handleImageOut);
+    //%imageTemplate.events.on("hit", handleImageHit);
+
+    // 마우스오버 시 툴팁이 가운데가 아닌 원의 상단을 가리 키도록하는 데 필요합니다.
+    imageTemplate.adapter.add("tooltipY", function (tooltipY, target) {
+      return -target.children.getIndex(0).radius;
+    });
+
+    // When hovered, circles become non-opaque
+    let imageHoverState = imageTemplate.states.create("hover");
+    imageHoverState.properties.fillOpacity = 1;
+
+    // add circle inside the image
+    let circle = imageTemplate.createChild(am4core.Circle);
+    // this makes the circle to pulsate a bit when showing it
+    circle.hiddenState.properties.scale = 0.0000001;
+    circle.hiddenState.transitionDuration = 2000;
+    circle.defaultState.transitionDuration = 2000;
+    circle.defaultState.transitionEasing = am4core.ease.elasticOut;
+    // later we set fill color on template (when changing what type of data the map should show) and all the clones get the color because of this
+    circle.applyOnClones = true;
+
+    // heat rule makes the bubbles to be of a different width. Adjust min/max for smaller/bigger radius of a bubble
+    bubbleSeries.heatRules.push({
+      target: circle,
+      property: "radius",
+      min: 1,
+      max: 15,
+      dataField: "value",
+    });
+
+    // 데이터 항목의 유효성을 검사 할 때 0 값 거품을 숨 깁니다 (최소 크기가 설정 되었기 때문에).
+    bubbleSeries.events.on("dataitemsvalidated", function () {
+      bubbleSeries.dataItems.each((dataItem) => {
+        var mapImage = dataItem.mapImage;
+        var circle = mapImage.children.getIndex(0);
+
+        if (mapImage.dataItem.value === 0) {
+          //circle.hide(0);
+        } else if (circle.isHidden || circle.isHiding) {
+          circle.show();
+        }
+      });
+    });
+    let x = 0;
+    switch (type) {
+      case 0:
+        x = 0.003;
+        break;
+      case 1:
+        x = -0.003;
+        break;
+    }
+
+    // 맵 위경도에 버블 배치
+    imageTemplate.adapter.add("latitude", (latitude, target) => {
+      var polygon = this.polygonSeries.getPolygonById(target.dataItem.id);
+      if (polygon) {
+        target.disabled = false;
+        return polygon.visualLatitude + x;
+      } else {
+        target.disabled = true;
+      }
+      return latitude + x;
+    });
+
+    imageTemplate.adapter.add("longitude", (longitude, target) => {
+      var polygon = this.polygonSeries.getPolygonById(target.dataItem.id);
+
+      if (polygon) {
+        target.disabled = false;
+        return polygon.visualLongitude + x;
+      } else {
+        target.disabled = true;
+      }
+      return longitude + x;
+    });
+    this.bubbleArr.push(bubbleSeries);
+    return imageTemplate;
+  }
   setColor(colors) {
     this.options.colors = colors;
   }
@@ -693,6 +846,7 @@ class MapChart {
     this.bubbleSeries.mapImages.template.tooltipText =
       "[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
     console.log(`circle error check : ${type}`);
+
     // 에러체크 확인중
     if (type) {
       this.bubbleSeries.dataFields.value = type;
@@ -705,10 +859,6 @@ class MapChart {
 
     this.polygonSeries.dataItems.each((dataItem) => {
       dataItem.setValue("value", dataItem.dataContext[type]);
-      // dataItem.mapPolygon.defaultState.properties.fill = am4core.color(
-      //   "#ff8726"
-      // );
-      //dataItem.mapPolygon.defaultState.properties.fillOpacity = 0.1;
     });
 
     // change color of bubbles
@@ -717,6 +867,38 @@ class MapChart {
     this.bubbleSeries.mapImages.template.fill = this.options.colors[type];
     this.bubbleSeries.mapImages.template.stroke = this.options.colors[type];
     this.bubbleSeries.mapImages.template.children.getIndex(
+      0
+    ).fill = this.options.colors[type];
+    // update heat rule's maxValue
+    //this.bubbleSeries.heatRules.getIndex(0).maxValue = 30;
+    //this.polygonSeries.heatRules.getIndex(0).maxValue = 30;
+  }
+
+  updateChart2(bubbleArr, type) {
+    bubbleArr.mapImages.template.tooltipText =
+      "[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
+    console.log(`circle error check : ${type}`);
+
+    // 에러체크 확인중
+    if (type) {
+      bubbleArr.dataFields.value = type;
+      this.polygonSeries.dataFields.value = type;
+    }
+
+    bubbleArr.dataItems.each((dataItem) => {
+      dataItem.setValue("value", dataItem.dataContext[type]);
+    });
+
+    this.polygonSeries.dataItems.each((dataItem) => {
+      dataItem.setValue("value", dataItem.dataContext[type]);
+    });
+
+    // change color of bubbles
+    // setting colors on mapImage for tooltip colors
+
+    bubbleArr.mapImages.template.fill = this.options.colors[type];
+    bubbleArr.mapImages.template.stroke = this.options.colors[type];
+    bubbleArr.mapImages.template.children.getIndex(
       0
     ).fill = this.options.colors[type];
     // update heat rule's maxValue

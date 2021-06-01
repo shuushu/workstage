@@ -1,7 +1,10 @@
 import { useEffect, memo, useState } from "react";
 import Lottie from "react-lottie-player";
 import circle2 from "../asset/data/lottie/circle2.json";
-import circle3 from "../asset/data/lottie/circle3.json";
+import mapAni from "../asset/data/lottie/mapAni.json";
+
+import { useCountUp } from "react-countup";
+
 const total = {
   가압류: 292,
   압류: 114,
@@ -9,33 +12,10 @@ const total = {
   소유권이전: 42,
   김용현소유: 26,
   강제경매개시결정: 23,
+  압류또는가압류: 406,
+  소유: 582,
 };
-const initState = {
-  가압류: {
-    flag: [],
-    n: 2,
-  },
-  압류: {
-    flag: [],
-    n: 2,
-  },
-  신탁: {
-    flag: [],
-    n: 5,
-  },
-  소유권이전: {
-    flag: [],
-    n: 2,
-  },
-  김용현소유: {
-    flag: [],
-    n: 6,
-  },
-  강제경매개시결정: {
-    flag: [],
-    n: 3,
-  },
-};
+const g = window;
 function seqAuto(callback, N = 58) {
   for (let i = 1; i <= N; i++) {
     callback(i);
@@ -66,22 +46,37 @@ seqAuto((i) => {
   });
 });
 let key;
+const CompleteHook = () => {
+  const { countUp, update } = useCountUp({
+    start: 582,
+    end: 582,
+    delay: 1000,
+    duration: 5,
+  });
+  useEffect(() => {
+    g.cntUpdata = update;
+  }, []);
 
-export default memo(function Circle(props) {
+  return <span>{countUp}</span>;
+};
+
+export default memo(function Circle() {
   const [stateValue, setStateValue] = useState(initState2);
-  const [cKey, setKey] = useState("가압류");
+  const [cKey, setKey] = useState("소유");
+
   // 핸들이벤트
   function handleClick(v) {
     const newObj = [];
     stateValue.forEach((state) => {
-      if (state.type === v) {
-        state.switch = true;
-      }
+      state.switch = true;
       newObj.push(state);
     });
     setStateValue(newObj);
     setKey(v);
+    g.cntUpdata(total[v]);
   }
+  window.setKey = setKey;
+
   // 그리기
   function RenderItems() {
     return stateValue.map((obj, i) => {
@@ -92,14 +87,6 @@ export default memo(function Circle(props) {
             animationData={circle2}
             play={obj.switch}
             loop={false}
-            //onComplete={() => setComplete(true)}
-            //   onLoopComplete={}
-            //   onEnterFrame={}
-            //   onSegmentStart={}
-            onEnterFrame={(props) => {
-              const { currentTime } = props;
-              //console.log(currentTime);
-            }}
             style={{ width: "100%", height: "100%" }}
           />
         </div>
@@ -110,13 +97,33 @@ export default memo(function Circle(props) {
   useEffect(() => {}, []);
 
   return (
-    <div>
-      <button onClick={() => handleClick("가압류")}>가압류</button>
-      <button onClick={() => handleClick("압류")}>압류</button>
-      <button onClick={() => handleClick("신탁")}>신탁</button>
-      <button>소유권이전</button>
+    <div className="lottieWrap">
+      <div className="utilWrap">
+        <button id="cirBtn1" onClick={() => handleClick("압류또는가압류")}>
+          압류
+        </button>
+        <button id="cirBtn2" onClick={() => handleClick("강제경매개시결정")}>
+          강제경매개시결정
+        </button>
+        <div className="countWrap">
+          <h3 className="count">
+            {cKey} : <CompleteHook />채
+          </h3>
+        </div>
+      </div>
       <div id="lottieCircle" className={cKey}>
         <RenderItems />
+      </div>
+      <div className="mapAni">
+        <div className="bg">
+          <Lottie
+            className="feature"
+            animationData={mapAni}
+            play={cKey === "" ? false : true}
+            loop={true}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
       </div>
     </div>
   );

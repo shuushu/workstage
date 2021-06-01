@@ -9,7 +9,7 @@ function Pages() {
     <TransitionGroup>
       <CSSTransition classNames="fade" timeout={300}>
         <Switch>
-          <Route path="/detail:id">
+          <Route path="/detail">
             <Detail />
           </Route>
           <Route path="*">
