@@ -13,7 +13,7 @@ export default memo(function Sceen1(props) {
 
   return (
     <div id="homeSceen1" className={state ? "complete" : null}>
-      <div className="title">817채 대한민국 최고 집부자</div>
+      <div className="title">당신의 빌라는 안녕하십니까?</div>
       <Lottie
         className="building"
         animationData={building}
@@ -42,7 +42,6 @@ export default memo(function Sceen1(props) {
             });
           }
         }}
-        style={{ width: 300, height: 300 }}
       />
     </div>
   );

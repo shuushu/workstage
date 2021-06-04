@@ -32,18 +32,6 @@ export default function Detail() {
       const newData = JSON.parse(JSON.stringify(res));
       setAnimationData(newData);
     });
-    return () => {
-      ["매입", "상태", "전체"].forEach((i) => {
-        if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
-          console.log("out", g[i].mapChart.mapChart.reverseGeodata);
-          if (g[i].mapChart.mapChart.reverseGeodata) {
-            g[i].mapChart.mapChart.reverseGeodata = false;
-          } else {
-            g[i].mapChart.mapChart.reverseGeodata = true;
-          }
-        }
-      });
-    };
   }, []);
 
   const handleClick = () => {
@@ -69,17 +57,6 @@ export default function Detail() {
   clearTimeout(g.timer);
   clearTimeout(g.timer1);
 
-  useEffect(() => {
-    ["매입", "상태", "전체"].forEach((i) => {
-      if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
-        console.log("HASH", g[i].mapChart.mapChart.reverseGeodata);
-        g[i].mapChart.mapChart.reverseGeodata = false;
-      }
-      if (g[i] && typeof g[i] !== "string" && g[i].sliderBar) {
-        g[i].sliderBar.stop();
-      }
-    });
-  }, [window.location.hash]);
   return (
     <>
       <div id="detail">
@@ -92,10 +69,10 @@ export default function Detail() {
               전체 보유
             </Button>
             <Button href="./#/detail/change#inApp" className="top_nav2">
-              매입
+              변경 시점
             </Button>
             <Button href="./#/detail#inApp" className="top_nav3">
-              변경
+              매입 시점
             </Button>
           </nav>
           <div className="wrap">

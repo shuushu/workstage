@@ -1,10 +1,8 @@
 import { useEffect, memo, useState } from "react";
 import Lottie from "react-lottie-player";
 import circle2 from "../asset/data/lottie/circle2.json";
-import mapAni from "../asset/data/lottie/mapAni.json";
 
 import { useCountUp } from "react-countup";
-
 const total = {
   가압류: 292,
   압류: 114,
@@ -48,8 +46,8 @@ seqAuto((i) => {
 let key;
 const CompleteHook = () => {
   const { countUp, update } = useCountUp({
-    start: 582,
-    end: 582,
+    start: 0,
+    end: 0,
     delay: 1000,
     duration: 5,
   });
@@ -77,23 +75,6 @@ export default memo(function Circle() {
   }
   window.setKey = setKey;
 
-  // 그리기
-  function RenderItems() {
-    return stateValue.map((obj, i) => {
-      return (
-        <div className={`lt-items ${obj.type}`} key={`lt-${i}`}>
-          <Lottie
-            className="circle"
-            animationData={circle2}
-            play={obj.switch}
-            loop={false}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </div>
-      );
-    });
-  }
-
   useEffect(() => {}, []);
 
   return (
@@ -112,18 +93,19 @@ export default memo(function Circle() {
         </div>
       </div>
       <div id="lottieCircle" className={cKey}>
-        <RenderItems />
-      </div>
-      <div className="mapAni">
-        <div className="bg">
-          <Lottie
-            className="feature"
-            animationData={mapAni}
-            play={cKey === "" ? false : true}
-            loop={true}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </div>
+        {stateValue.map((obj, i) => {
+          return (
+            <div className={`lt-items ${obj.type}`} key={`lt-${i}`}>
+              <Lottie
+                className="circle"
+                animationData={circle2}
+                play={true}
+                loop={true}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

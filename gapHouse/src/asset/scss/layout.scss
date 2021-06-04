@@ -8,7 +8,9 @@ body,
 .App > div {
   height: 100%;
 }
-
+#home.none {
+  touch-action: none;
+}
 // scrollContent
 .scrollContent .items {
   display: flex;
@@ -18,19 +20,18 @@ body,
   flex-direction: column;
   overflow: hidden;
   &.scence1 {
-    background: url(https://apps.bostonglobe.com/magazine/graphics/2019/01/17/valedictorians/assets/images/landingcover_1200.jpg)
-      #000;
+    background: url(https://scrollmagic.io/assets/img/example_parallax_bg2.png);
     color: #fff;
   }
-  &.scence1::before {
-    content: "";
-    display: block;
-    width: 100%;
-    position: absolute;
-    height: 100%;
-    background: #000;
-    opacity: 0.6;
-  }
+  // &.scence1::before {
+  //   content: "";
+  //   display: block;
+  //   width: 100%;
+  //   position: absolute;
+  //   height: 100%;
+  //   background: #000;
+  //   opacity: 0.6;
+  // }
   &.scence2 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg1.png);
     video {
@@ -41,6 +42,20 @@ body,
     .my-video-dimensions {
       width: 100%;
       height: 100%;
+    }
+    .storyWrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      z-index: 10;
+      justify-content: center;
+      color: #fff;
+      .s1.active {
+        opacity: 1;
+      }
     }
   }
   &.scence3 {
@@ -53,12 +68,100 @@ body,
   }
   &.scence5 {
     background: #000;
+    z-index: 10;
+    .chartWrap {
+      width: 100%;
+      height: 100%;
+      #chartdiv3 {
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          z-index: 2;
+        }
+      }
+    }
+    #sideBottom3 {
+      height: 100%;
+      #linechart3,
+      #playBtn3 {
+        display: none;
+      }
+      svg,
+      .tit {
+        font-size: 20px;
+      }
+      .time-title-wrap {
+        top: inherit;
+        bottom: 20px;
+      }
+    }
+
+    .storyWrap {
+      position: absolute;
+      top: inherit;
+      .story-items {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 0 20px;
+        color: #fff;
+        z-index: 30;
+      }
+      .s3,
+      .s1,
+      .s2 {
+        transform: translate(0, 700px);
+        transition: all 1s;
+      }
+      .s3.on,
+      .s2.on,
+      .s1.on {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+    }
   }
   &.scence6 {
     background: url(https://scrollmagic.io/assets/img/example_parallax_bg1.png);
   }
   &.scence7 {
     background: #333;
+  }
+  &.scence7.pc {
+    z-index: 10;
+    background-color: #000;
+    .storyWrap {
+      position: absolute;
+      top: inherit;
+      .story-items {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 0 20px;
+        color: #fff;
+        z-index: 30;
+      }
+      .s3,
+      .s1,
+      .s2 {
+        transform: translate(0, 700px);
+        transition: all 1s;
+      }
+      .s3.on,
+      .s2.on,
+      .s1.on {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+    }
   }
 }
 
@@ -67,8 +170,7 @@ body,
   .text {
     position: absolute;
     color: #fff;
-    font-size: 30px;
-    max-width: 600px;
+    font-size: 18px;
     opacity: 0;
     z-index: 3;
     transition: all 1s;
@@ -156,7 +258,9 @@ body,
 
 // feature
 .building {
-  > svg > g > g {
+  width: 500px;
+  height: 500px;
+  /* > svg > g > g {
     &:first-child {
       g:nth-child(1) path {
         fill: #666;
@@ -184,18 +288,49 @@ body,
       path {
         fill: #555;
       }
-    }
-  }
+    } 
+  }*/
 }
+
 // 스크롤매직 장면 공통 클래스
 .scrollmagic-pin-spacer {
   background: #333;
+}
+.storyWrap {
+  position: relative;
+  width: 100%;
+  top: -8%;
+}
+.story {
+  position: relative;
+  z-index: 3;
+  padding: 15px;
+  font-size: 18px;
+  line-height: 1.5;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  border: solid 1px #666;
+  transition: all 0.3s;
+  opacity: 0;
+  &.active {
+    opacity: 1;
+  }
+  .강조 {
+    color: #ff5858;
+  }
+  .강조2 {
+    color: #e6eb56;
+  }
+  .gosi {
+    font-size: 14px;
+    font-weight: 300;
+  }
 }
 // 장면
 #scence1 {
   #homeSceen1 {
     position: relative;
-    //z-index: 2;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -206,14 +341,78 @@ body,
       }
     }
     .title {
-      font-size: 30px;
-      color: #fff;
+      font-size: 40px;
+      position: absolute;
+      color: #000;
       transition: opacity 0.3s linear;
+      font-weight: bold;
       opacity: 0;
+      top: 40px;
+      white-space: nowrap;
     }
     &.play .title {
       //opacity: 1;
     }
+  }
+  .sh-bg {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: all 1s;
+    &.active {
+      opacity: 1;
+    }
+  }
+  .house {
+    position: absolute;
+    z-index: 3;
+    height: 100%;
+    width: 100%;
+    background: url("../imgs/house.png") no-repeat center center;
+    background-size: auto 80%;
+    opacity: 0;
+    transition: all 1s;
+    transform: translate(0px, -10px);
+    .link {
+      max-width: 260px;
+      height: 63%;
+      top: 17%;
+      position: relative;
+      margin: 0 auto;
+      cursor: pointer;
+      .hClick {
+        position: absolute;
+        right: 0;
+        left: 0;
+      }
+    }
+    &.active {
+      opacity: 1;
+      transform: translate(0px, 0);
+    }
+  }
+  .story-items {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+  .shLt,
+  .shRb {
+    width: 300px;
+    font-size: 0;
+    position: absolute;
+  }
+  .shLt {
+    left: 0;
+    top: 0;
+  }
+  .shRb {
+    width: 200px;
+    right: 0;
+    bottom: 0;
   }
 }
 // VIDEO
@@ -229,7 +428,7 @@ g[style="cursor: pointer;"] {
 }
 g[role="slider"] g:first-child {
   transform: scale(1.4);
-  transform-origin: 50px 45%;
+  transform-origin: 50px 31px;
   path {
     transition: opacity 1s;
     opacity: 0;
@@ -261,6 +460,7 @@ g[role="slider"] g:nth-child(2) {
     margin: 10px;
   }
 }
+#lottieCircle.소유,
 #lottieCircle.압류또는가압류 {
   .lt-items.가압류 {
     svg > g > g:nth-child(1) path {
@@ -274,6 +474,7 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
+#lottieCircle.소유,
 #lottieCircle.압류또는가압류 {
   .lt-items.압류 {
     svg > g > g:nth-child(1) path {
@@ -287,6 +488,7 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
+#lottieCircle.소유,
 #lottieCircle.강제경매개시결정 {
   .lt-items.강제경매개시결정 {
     svg > g > g:nth-child(1) path {
@@ -300,7 +502,20 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
-
+#lottieCircle.소유,
+#lottieCircle.신탁 {
+  .lt-items.신탁 {
+    svg > g > g:nth-child(1) path {
+      stroke: rgb(143, 77, 99);
+    }
+    svg > g > g:nth-child(2) path {
+      stroke: rgb(126, 173, 148);
+    }
+    svg > g > g:nth-child(3) path {
+      stroke: rgb(20, 36, 255);
+    }
+  }
+}
 // 카운트애니
 .utilWrap {
   position: absolute;
@@ -312,8 +527,13 @@ g[role="slider"] g:nth-child(2) {
   }
   .countWrap {
     .count {
-      font-size: 30px;
+      font-size: 20px;
       color: #fff;
+      font-weight: 300;
+      span {
+        font-weight: bold;
+        font-size: 40px;
+      }
     }
   }
 }
@@ -323,19 +543,23 @@ g[role="slider"] g:nth-child(2) {
 }
 .linkto {
   width: 100px;
-  position: absolute;
+  position: fixed;
   right: 10px;
   top: 50px;
+  z-index: 10;
   .MuiButton-label {
     display: flex;
     flex-direction: column;
   }
   .str {
-    font-size: 16px;
-    color: #999;
+    font-size: 12px;
+    color: #fff;
     letter-spacing: -1px;
-    position: relative;
-    top: -7px;
+    position: absolute;
+    top: 50%;
+    height: 30px;
+    margin-top: 18px;
+    text-shadow: 1px 1px 3px #000;
   }
 }
 //
@@ -378,8 +602,217 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
+// Logo
+#mbc {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 10;
+  font-size: 0;
+  width: 80px;
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+// 시간표시레이어
+#sideBottom .time-title-wrap .tit {
+  font-size: 20px;
+  svg {
+    font-size: 20px;
+  }
+}
+.time-title-wrap {
+  position: absolute;
+  left: 10px;
+  top: -50px;
+  z-index: 10;
+  color: #fff;
+  opacity: 0;
+  transition: all 3s;
+  &.active {
+    opacity: 1;
+  }
+  .tit {
+    display: flex;
+    align-items: center;
+
+    font-weight: 300;
+    svg {
+      margin-right: 5px;
+    }
+  }
+  .time {
+    display: flex;
+    align-items: center;
+  }
+  #currentDate {
+    font-size: 24px;
+    margin-left: 20px;
+  }
+}
+// 모달팝업
+[role="presentation"] {
+  .contents {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    height: 80%;
+    padding: 10px;
+    margin: 10% 5%;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .swiper-slide {
+    overflow: auto;
+  }
+  .contWtap {
+    max-height: 500px;
+    overflow: auto;
+  }
+  .ani {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    margin: -100px 0 0 -100px;
+  }
+  .close {
+    position: absolute;
+    right: -22px;
+    top: -22px;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 100%;
+    .MuiIconButton-label {
+      color: #000;
+    }
+  }
+}
 
 @media (max-width: 500px) {
+  // 모달팝업
+  [role="presentation"] {
+    .contents {
+      height: 80%;
+      margin: 20% 5%;
+    }
+  }
+  .scrollmagic-pin-spacer {
+    z-index: -1;
+  }
+  #scence2 + .scrollmagic-pin-spacer {
+    z-index: 1;
+  }
+  #scence2,
+  #scence6,
+  #scence7 {
+    z-index: 2;
+  }
+
+  .mstory {
+    position: fixed;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    left: 0;
+    height: 40px;
+    bottom: -40px;
+    width: 100%;
+    transition: all 1s;
+    &.active {
+      bottom: 0;
+    }
+    .MuiButtonBase-root {
+      width: 100%;
+      height: 40px;
+
+      .MuiButton-label {
+        svg {
+          margin-right: 10px;
+        }
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: -0.05em;
+      }
+    }
+  }
+  .story {
+    font-size: 14px;
+    color: #fff;
+    font-weight: normal;
+  }
+  .scrollContent .items.scence2 .story-items {
+    padding: 0 10px;
+  }
+
+  #test {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 10;
+    left: 0;
+    bottom: 30%;
+    z-index: 999;
+    padding: 20px;
+  }
+  #mobile-text {
+    position: fixed;
+    left: 0;
+    bottom: 10px;
+    z-index: 3;
+    width: 100%;
+    transition: all 1s;
+    &.sceen1.active {
+      bottom: 50px;
+    }
+
+    .story-items {
+      position: absolute;
+      padding: 10px;
+      bottom: 0;
+      box-sizing: border-box;
+    }
+    .story {
+      &.active {
+        opacity: 0 !important;
+      }
+    }
+  }
+  .storyWrap {
+    display: none;
+  }
+  .linkto {
+    right: 0;
+    top: 0;
+  }
+  // 당신의~
+  #scence1 {
+    #homeSceen1 {
+      .title {
+        font-size: 24px;
+        position: relative;
+      }
+    }
+    .house {
+      background-size: auto 60%;
+    }
+
+    .shLt {
+      width: 200px;
+    }
+    .shRb {
+      width: 100px;
+    }
+  }
+  #scence7 {
+    .text {
+      display: none;
+    }
+  }
+  .building {
+    width: 250px;
+    height: 250px;
+  }
+
   #lottieCircle {
     .lt-items {
       width: 40px;

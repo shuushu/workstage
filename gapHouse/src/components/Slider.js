@@ -1,7 +1,6 @@
 import SwiperCore, { Autoplay } from "swiper";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 // Import Swiper styles
 import "swiper/swiper.scss";
@@ -10,31 +9,42 @@ import { ua } from "../../../components/Util";
 
 SwiperCore.use([Autoplay]);
 
+const g = window;
 export default function Slider(props) {
   const { houseData } = props;
-  const drawItems = () => {
-    return houseData.map((v, i) => {
-      const { name, data } = v;
-      return (
-        <SwiperSlide className={`slide-items${i}`} key={`slider-${i}`}>
-          <Chip
-            data-key={name}
-            avatar={<Avatar>{name.substr(0, 1)}</Avatar>}
-            label={`${name}: ${data}`}
-          />
-        </SwiperSlide>
-      );
-    });
+
+  const handleClick = (type) => {
+    if (g[g.KEY].mapChart2) {
+      if (type === "세대기준") {
+        g[g.KEY].mapChart2.bubbleSeries.heatRules.getIndex(0).max = 102;
+      } else if (type === "빌라기준") {
+        g[g.KEY].mapChart2.bubbleSeries.heatRules.getIndex(0).max = 60;
+      }
+      setTimeout(() => {
+        g[g.KEY].mapChart2.updateChart(type);
+      }, 0);
+    }
   };
 
   return (
     <Swiper
-      spaceBetween={ua() ? 10 : 20}
+      spaceBetween={ua() ? 5 : 10}
       loop={false}
       autoplay={false}
       slidesPerView={"auto"}
     >
-      {drawItems()}
+      <SwiperSlide className={`slide-items0`}>
+        <Chip
+          onClick={() => handleClick("세대기준")}
+          label={`세대기준 총 582채 보유`}
+        />
+      </SwiperSlide>
+      <SwiperSlide className={`slide-items1`}>
+        <Chip
+          onClick={() => handleClick("빌라기준")}
+          label={`빌라기준 총 280채 보유`}
+        />
+      </SwiperSlide>
     </Swiper>
   );
 }

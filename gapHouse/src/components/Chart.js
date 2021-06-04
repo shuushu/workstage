@@ -4,23 +4,29 @@ import * as am4maps from "@amcharts/amcharts4/maps";
 import ko from "@amcharts/amcharts4/lang/ko_KR";
 
 let g = window;
-const RANGE = [
-  {
-    date: new Date(2020, 3, 5),
-    endDate: new Date(2020, 5, 11),
-    str: "21번째 부동산 대책 시작",
-  },
-  {
-    date: new Date(2020, 8, 11),
-    endDate: new Date(2020, 10, 21),
-    str: "임대사업자 세금 인하",
-  },
-];
+const RANGE = {
+  매입: [
+    {
+      date: new Date(2015, 10, 10),
+      endDate: new Date(2017, 12, 10),
+      str: "임대사업자 세재 해택 기간",
+    },
+  ],
+  상태: [
+    {
+      date: new Date(2015, 10, 10),
+      endDate: new Date(2017, 12, 10),
+      str: "임대사업자 세재 해택 기간",
+    },
+  ],
+};
+
 /**
  *  CORE
  * */
 //const numberFormatter = new am4core.NumberFormatter();
-
+am4core.options.autoSetClassName = true;
+//am4core.options.autoDispose = true;
 /**
  *  유틸
  * */
@@ -28,9 +34,9 @@ const RANGE = [
 // index가 설정되지 않은 경우 마지막 슬라이드를 가져옵니다.
 function getSlideData(index) {
   if (index === undefined) {
-    index = g.point_area.length - 1;
+    index = g[g.KEY].point_area.length - 1;
   }
-  let data = g.point_area[index];
+  let data = g[g.KEY].point_area[index];
 
   // augment with names
   //for (let i = 0; i < data.list.length; i++) {
@@ -63,7 +69,6 @@ class SliderBar {
     this.playButton.valign = "middle";
     // 최소값이 디폴트로 지정되어있기에 변경을 해야 크기가 변함
     this.playButton.scale = 0.8;
-    console.log(this.playButton);
     this.playButton.events.on("toggled", (event) => {
       if (event.target.isActive) {
         this.play();
@@ -79,6 +84,7 @@ class SliderBar {
     this.container.opacity = 1;
     let slider = this.container.createChild(am4core.Slider);
     this.slider = slider;
+    this.slider.id = "shushu";
     slider.width = am4core.percent(100);
     slider.valign = "middle";
     slider.background.opacity = 1;
@@ -98,9 +104,11 @@ class SliderBar {
 
     // what to do when slider is dragged
     slider.events.on("rangechanged", () => {
-      const index = Math.round((g.point_area.length - 1) * slider.start);
+      const index = Math.round(
+        (g[g.KEY].point_area.length - 1) * this.slider.start
+      );
       if (this.updateMapData) {
-        this.updateMapData.call(null, getSlideData(index).list);
+        this.updateMapData.call(null, getSlideData(index).list, index);
       }
       if (this.updateTotalData) {
         this.updateTotalData(index);
@@ -184,7 +192,7 @@ class LineChart {
     this.container.language.locale = ko;
     this.setSizeCanvas(100, 100);
     this.drawLineChart();
-    this.setData(g.timeline);
+    this.setData(g[g.KEY].timeline);
   }
   setKeyName(name) {
     this.options.keyName = name;
@@ -228,7 +236,8 @@ class LineChart {
     dateAxis.renderer.minGridDistance = 50;
     dateAxis.renderer.grid.template.stroke = am4core.color("#333");
     dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-    dateAxis.max = g.lastDate.getTime() + am4core.time.getDuration("day", 5);
+    dateAxis.max =
+      g[g.KEY].lastDate.getTime() + am4core.time.getDuration("day", 5);
 
     dateAxis.tooltip.label.fontSize = "0.8em";
     dateAxis.tooltip.background.fill = this.options.colors[
@@ -305,25 +314,29 @@ class LineChart {
     //  범위 가이드라인 그리기
     const drawLine = (date) => {
       let range2 = this.dateAxis.axisRanges.create();
-      range2.date = date;
-      range2.grid.stroke = am4core.color("#fff");
-      range2.grid.strokeWidth = 1;
-      range2.grid.strokeOpacity = 0.3;
-      range2.grid.strokeDasharray = "3,3";
+      if (date instanceof Date) {
+        range2.date = date;
+        range2.grid.stroke = am4core.color("#fff");
+        range2.grid.strokeWidth = 1;
+        range2.grid.strokeOpacity = 0.3;
+        range2.grid.strokeDasharray = "3,3";
+      }
 
       return range2;
     };
-    RANGE.forEach((obj) => {
-      let range;
-      Object.entries(obj).forEach(([key, v]) => {
-        if (key !== "str") {
-          range = drawLine(v);
-        }
+    Object.entries(RANGE[g.KEY]).forEach((items) => {
+      items.forEach((d) => {
+        let range;
+        Object.entries(d).forEach(([key, v]) => {
+          if (key !== "str") {
+            range = drawLine(v);
+          }
+        });
+        range.label.dx = -60;
+        range.label.inside = true;
+        range.label.text = d.str;
+        range.label.verticalCenter = "bottom";
       });
-      range.label.dx = -60;
-      range.label.inside = true;
-      range.label.text = obj.str;
-      range.label.verticalCenter = "bottom";
     });
 
     this.lineChart = lineChart;
@@ -349,13 +362,16 @@ class LineChart {
     series.hideTooltipWhileZooming = true;
 
     // X축 범위 선정
-
-    RANGE.forEach((obj) => {
-      let range = this.dateAxis.createSeriesRange(series);
-      range.date = obj.date;
-      range.endDate = obj.endDate;
-      range.contents.fill = am4core.color("#999");
-      range.contents.fillOpacity = 0.5;
+    Object.entries(RANGE[g.KEY]).forEach((items) => {
+      items.forEach((obj) => {
+        if (obj instanceof Date) {
+          let range = this.dateAxis.createSeriesRange(series);
+          range.date = obj.date;
+          range.endDate = obj.endDate;
+          range.contents.fill = am4core.color("#999");
+          range.contents.fillOpacity = 0.5;
+        }
+      });
     });
 
     //  bullet(포인트)
@@ -396,11 +412,11 @@ class LineChart {
   // change data type (탭클릭시 데이터 전환)
   updateChart(type) {
     const color = this.options.colors[type];
-    g.lineChartSeries[type].show();
+    g[g.KEY].lineChartSeries[type].show();
     // hide other series
-    for (let key in g.lineChartSeries) {
+    for (let key in g[g.KEY].lineChartSeries) {
       if (key !== type) {
-        g.lineChartSeries[key].hide();
+        g[g.KEY].lineChartSeries[key].hide();
       }
     }
     // 날짜-월(툴팁);
@@ -511,6 +527,17 @@ class MapChart {
     this.drawCanvas(nodeName);
     this.drawMapFeature();
   }
+  mInit(nodeName, n) {
+    const data = this.init(nodeName);
+
+    for (let i = 0; i < n; i++) {
+      this.drawMultipleBubble(data, i, n);
+    }
+  }
+  initSingle(nodeName) {
+    const data = this.init(nodeName);
+    this.drawBubble(data);
+  }
   init(nodeName) {
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
@@ -534,8 +561,8 @@ class MapChart {
     // this.mapChart.zoomEasing = am4core.ease.sinOut;
 
     this.drawMapFeature(data);
-    this.drawMultipleBubble(data, 0);
-    this.drawMultipleBubble(data, 1);
+
+    return data;
   }
 
   setSizeCanvas(w, h) {
@@ -690,7 +717,7 @@ class MapChart {
       target: circle,
       property: "radius",
       min: 1,
-      max: 10,
+      max: 102,
       dataField: "value",
     });
 
@@ -735,7 +762,7 @@ class MapChart {
   }
 
   // 버블 다중 표현
-  drawMultipleBubble(mapData, type) {
+  drawMultipleBubble(mapData, type, size) {
     const bubbleSeries = this.mapChart.series.push(
       new am4maps.MapImageSeries()
     );
@@ -755,6 +782,7 @@ class MapChart {
     imageTemplate.strokeOpacity = 0;
     imageTemplate.fillOpacity = 0.55;
     imageTemplate.tooltipText = "{name}: [bold]{value}[/]";
+
     imageTemplate.applyOnClones = true;
 
     //%imageTemplate.events.on("over", handleImageOver);
@@ -773,19 +801,20 @@ class MapChart {
     // add circle inside the image
     let circle = imageTemplate.createChild(am4core.Circle);
     // this makes the circle to pulsate a bit when showing it
-    circle.hiddenState.properties.scale = 0.0000001;
-    circle.hiddenState.transitionDuration = 2000;
-    circle.defaultState.transitionDuration = 2000;
+    circle.hiddenState.properties.scale = 0.00001;
+    circle.hiddenState.transitionDuration = 2400;
+    circle.defaultState.transitionDuration = 2400;
     circle.defaultState.transitionEasing = am4core.ease.elasticOut;
     // later we set fill color on template (when changing what type of data the map should show) and all the clones get the color because of this
     circle.applyOnClones = true;
 
     // heat rule makes the bubbles to be of a different width. Adjust min/max for smaller/bigger radius of a bubble
+    let RADIUS = g.KEY === "매입" ? 71 : 110;
     bubbleSeries.heatRules.push({
       target: circle,
       property: "radius",
       min: 1,
-      max: 15,
+      max: RADIUS,
       dataField: "value",
     });
 
@@ -796,20 +825,22 @@ class MapChart {
         var circle = mapImage.children.getIndex(0);
 
         if (mapImage.dataItem.value === 0) {
-          //circle.hide(0);
+          circle.hide(0);
         } else if (circle.isHidden || circle.isHiding) {
           circle.show();
         }
       });
     });
     let x = 0;
-    switch (type) {
-      case 0:
-        x = 0.003;
-        break;
-      case 1:
-        x = -0.003;
-        break;
+    if (size > 1) {
+      switch (type) {
+        case 0:
+          x = 0.003;
+          break;
+        case 1:
+          x = -0.003;
+          break;
+      }
     }
 
     // 맵 위경도에 버블 배치
@@ -844,8 +875,8 @@ class MapChart {
   // 업데이트
   updateChart(type) {
     this.bubbleSeries.mapImages.template.tooltipText =
-      "[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
-    console.log(`circle error check : ${type}`);
+      type +
+      "[font-size:13px]{custom} [font-size:20px]{value}[/][font-size:13px]채 보유";
 
     // 에러체크 확인중
     if (type) {
@@ -876,8 +907,11 @@ class MapChart {
 
   updateChart2(bubbleArr, type) {
     bubbleArr.mapImages.template.tooltipText =
-      "[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
-    console.log(`circle error check : ${type}`);
+      //"[bold]{custom}: {value}[/] [font-size:11px]\n" + type;
+
+      "[font-size:20px]" +
+      type +
+      "[font-size:13px] 물권  [font-size:20px]{value}[/][font-size:13px]채";
 
     // 에러체크 확인중
     if (type) {
