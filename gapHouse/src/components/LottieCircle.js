@@ -99,7 +99,7 @@ export default memo(function Circle() {
               <Lottie
                 className="circle"
                 animationData={circle2}
-                play={true}
+                play={false}
                 loop={true}
                 style={{ width: "100%", height: "100%" }}
               />

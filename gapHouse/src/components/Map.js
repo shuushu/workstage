@@ -21,42 +21,19 @@ function delay() {
 }
 
 // parameter is react setState
-export default async function getData(callback) {
+export default  function getData(callback , DATA) {
   let temp = [];
   let obj = {};
   const INIT_STR = "소유";
   const CUSTOM = {
     소유: am4core.color("#ff8726"),
     강제경매개시: am4core.color("#d21a1a"),
-    압류: am4core.color("#1c5fe5"),
-    신탁: am4core.color("#cd2dff"),
+    압류: am4core.color("#7d47ff"),
   };
   g[g.KEY] = {};
   const LABEL = dong;
-  for (let key of LABEL) {
-    obj[key] = Number(Number.parseFloat(Math.random() * 100).toFixed(0));
-  }
 
-  let i = 1,
-    max = 13;
-  for (; i < max; i++) {
-    let date = `2020-${i < 10 ? `0${i}` : i}-05`;
-    let obj = {
-      date,
-      list: [],
-    };
-    for (let key of LABEL) {
-      await obj.list.push({
-        소유: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-        압류: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-        강제경매: Number(Number.parseFloat(Math.random() * 100).toFixed(0)),
-        id: key,
-      });
-    }
-    temp.push(obj);
-  }
-
-  g[g.KEY].point_area = temp;
+  g[g.KEY].point_area = DATA;
   g[g.KEY].timeline = 상태현황전체데이터;
   g[g.KEY].lastDate = new Date(
     g[g.KEY].timeline[g[g.KEY].timeline.length - 1].date
@@ -75,15 +52,16 @@ export default async function getData(callback) {
   mapChart.setKeyName(INIT_STR);
 
   // 초깃값 셋팅
-  //mapChart.updateChart(INIT_STR);
-  //mapChart.updateChart("가압류");
-  mapChart.updateChart2(mapChart.bubbleArr[0], INIT_STR);
+  mapChart.updateChart2(mapChart.bubbleArr[0], '소유');
   mapChart.updateChart2(mapChart.bubbleArr[1], "압류");
+  mapChart.updateChart2(mapChart.bubbleArr[2], "강제경매개시");
   // 라벨 표출
   mapChart.drawLabel(LABEL);
-  // mapChart.mapChart.maxZoomLevel = 1;
-  // mapChart.mapChart.seriesContainer.draggable = false;
-  // mapChart.mapChart.seriesContainer.resizable = false;
+  mapChart.mapChart.homeZoomLevel = 5;
+  mapChart.mapChart.homeGeoPoint = {
+    latitude: 37.487,
+    longitude: 126.878,
+  };
   // 클래스연결
   linechart.adapter(mapChart);
   linechart.setColor(CUSTOM);
@@ -106,7 +84,6 @@ export default async function getData(callback) {
   // 슬라이드바 이벤트 바인딩
   sliderBar.updateTotalData = (index) => {
     // react setState
-    // {소유: 59, 가압류: 31, 신탁: 6, 압류: 90}
     let data = Object.entries(g[g.KEY].timeline[index]).map(([k, v]) => {
       return { name: k, data: v };
     });
@@ -115,28 +92,95 @@ export default async function getData(callback) {
     // 라인차트 라벨
     callback(data);
   };
-  sliderBar.updateMapData = (data) => {
-    // 멀티플업데이트
-    let { bubbleArr, polygonSeries } = mapChart;
-    bubbleArr.forEach((v) => {
-      v.dataItems.each(function (dataItem) {
-        dataItem.dataContext.confirmed = 0;
-        dataItem.dataContext.deaths = 0;
-        dataItem.dataContext.recovered = 0;
-        dataItem.dataContext.active = 0;
-      });
+  sliderBar.updateMapData = (data, d) => {
+    // 멀티플업데이트    
+    let { bubbleArr, polygonSeries } = mapChart;    
+    
+    bubbleArr.forEach((v) => {      
       for (let i = 0; i < data.length; i++) {
         const di = data[i];
         const image = v.getImageById(di.id);
         if (image) {
           Object.entries(di).forEach(([k, v]) => {
-            if (k !== "id") {
+            if (k !== "id") {              
               image.dataItem.dataContext[k] = v;
             }
           });
         }
         // 맥스값 변경시 Nagative value Error 발생
-        //v.heatRules.getIndex(0).maxValue = 40;
+        if (v.dataFields.value === '압류') {
+          let MAX = 10;          
+          if (d < 72) {
+            MAX = 1;
+          } else if (d >= 72 && d < 85) {
+            MAX = 5;
+          } else if (d >= 85 && d < 93) {
+            MAX = 10;
+          } else if (d >= 93 && d < 100) {
+            MAX = 15;
+          } else if (d >= 100 && d < 104) {
+            MAX = 22;
+          } else if (d >= 104 && d < 108) {
+            MAX = 25;
+          } else if (d >= 108 && d < 121) {
+            MAX = 30;
+          }
+
+          v.heatRules.getIndex(0).max = MAX;
+        } else if (v.dataFields.value === '소유') {
+          let MAX = 10;
+          if (d < 30) {
+            MAX = 2;
+          } else if (d >= 30 && d < 45) {
+            MAX = 8;
+          } else if (d >= 45 && d < 48) {
+            MAX = 14;
+          } else if (d >= 47 && d < 50) {
+            MAX = 20;
+          } else if (d >= 50 && d < 55) {
+            MAX = 25;
+          } else if (d >= 55 && d < 57) {
+            MAX = 35;
+          } else if (d >= 55 && d < 60) {
+            MAX = 45;
+          } else if (d >= 60 && d < 65) {
+            MAX = 50;
+          } else if (d >= 65 && d < 85) {
+            MAX = 45;
+          } else if (d >= 85 && d < 97) {
+            MAX = 43;
+          } else if (d >= 97 && d < 100) {
+            MAX = 35;
+          } else if (d >= 100 && d < 103) {
+            MAX = 30;
+          } else if (d >= 103 && d < 108) {
+            MAX = 20;
+          } else if (d >= 108 && d < 109) {
+            MAX = 15;
+          } else {
+            MAX = 10;
+          }
+          v.heatRules.getIndex(0).max = MAX;
+        } else {
+          let MAX = 10;
+          if (d < 95) {
+            MAX = 1;
+          } else if (d >= 95 && d < 100) {
+            MAX = 2
+          } else if (d >= 100 && d < 102) {
+            MAX = 10;
+          } else if (d >= 102 && d < 105) {
+            MAX = 20;
+          } else if (d >= 105 && d < 107) {
+            MAX = 25;
+          } else {
+            MAX = 26;
+          }
+
+          v.heatRules.getIndex(0).max = 10;
+        }
+        
+        //v.heatRules.getIndex(0).max = MAX;
         //polygonSeries.heatRules.getIndex(0).maxValue = 40;
         v.invalidateRawData();
         polygonSeries.invalidateRawData();
@@ -173,19 +217,7 @@ export default async function getData(callback) {
   }; */
   //sliderBar.play();
 
-  // 버튼 스타일 변경
-  const btn = document.querySelectorAll(
-    `.amcharts-shushu .amcharts-RoundedRectangle`
-  );
 
-  await delay(400);
-  if (btn[1]) {
-    btn[1].setAttribute(
-      "d",
-      "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-    );
-    btn[1].setAttribute("style", "opacity: 1");
-  }
   g[g.KEY].mapChart = mapChart;
   g[g.KEY].sliderBar = sliderBar;
   g[g.KEY].linechart = linechart;
@@ -246,7 +278,7 @@ export function TotalDraw() {
   g[g.KEY].mapChart2 = mapChart;
 }
 
-export async function buyDraw(callback, DATA) {
+export function buyDraw(callback, DATA) {
   const INIT_STR = "매입";
   const CUSTOM = {
     매입: am4core.color("#1c5fe5"),
@@ -361,20 +393,7 @@ export async function buyDraw(callback, DATA) {
     });
   };
 
-  // 버튼 스타일 변경
-  const btn = document.querySelectorAll(
-    `.amcharts-shushu .amcharts-RoundedRectangle`
-  );
-
-  await delay(400);
-  if (btn[1]) {
-    btn[1].setAttribute(
-      "d",
-      "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-    );
-    btn[1].setAttribute("style", "opacity: 1");
-  }
-
+  
   g[g.KEY].sliderBar = sliderBar;
   g[g.KEY].linechart = linechart;
   //}

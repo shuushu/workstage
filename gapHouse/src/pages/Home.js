@@ -60,19 +60,12 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const videoNode = useRef();
 
-  useEffect(() => {
-    [("매입", "상태", "전체")].forEach((i) => {
-      if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
-        console.log("HOME", g[i].mapChart.mapChart.reverseGeodata);
-        g[i].mapChart.mapChart.reverseGeodata = false;
-      }
-      if (g[i] && typeof g[i] !== "string" && g[i].sliderBar) {
-        g[i].sliderBar.stop();
-      }
-    });
-  }, [window.location.hash]);
 
   useEffect(() => {
+    if (g['매입'].mapChart) {
+      g['매입'].mapChart.mapChart.reverseGeodata = true;
+    }
+
     // VIDEO
     const options = {
       autoplay: "muted",
@@ -384,12 +377,12 @@ export default function Home() {
     //
     // scence4
     //
-    scene = new ScrollMagic.Scene({ triggerElement: "#scence4" })
+    /* scene = new ScrollMagic.Scene({ triggerElement: "#scence4" })
       .setClassToggle(".top_nav4", "btnActive")
       .setPin("#scence4", { pushFollowers: false })
       .addTo(controller);
 
-    g.scroll.push(scene);
+    g.scroll.push(scene); */
     //
     // scence5
     //

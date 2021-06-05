@@ -11,8 +11,6 @@ SwiperCore.use([Autoplay]);
 
 const g = window;
 export default function Slider(props) {
-  const { houseData } = props;
-
   const handleClick = (type) => {
     if (g[g.KEY].mapChart2) {
       if (type === "세대기준") {

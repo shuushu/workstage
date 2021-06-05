@@ -107,7 +107,7 @@ class SliderBar {
       const index = Math.round(
         (g[g.KEY].point_area.length - 1) * this.slider.start
       );
-      if (this.updateMapData) {
+      if (this.updateMapData) {        
         this.updateMapData.call(null, getSlideData(index).list, index);
       }
       if (this.updateTotalData) {
@@ -809,7 +809,19 @@ class MapChart {
     circle.applyOnClones = true;
 
     // heat rule makes the bubbles to be of a different width. Adjust min/max for smaller/bigger radius of a bubble
-    let RADIUS = g.KEY === "매입" ? 71 : 110;
+    //let RADIUS = g.KEY === "매입" ? 71 : 110;
+    let RADIUS;
+    // if (bubbleSeries.dataFields.value === '압류') {
+    //   RADIUS = 30
+    // } else if (bubbleSeries.dataFields.value === '소유') {
+    //   RADIUS = 10
+    // } else if (bubbleSeries.dataFields.value === '강제경매개시') {
+    //   RADIUS = 13
+    // } else {
+    //   RADIUS = 70
+    // }
+    console.log(this)
+
     bubbleSeries.heatRules.push({
       target: circle,
       property: "radius",

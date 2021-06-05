@@ -8,7 +8,7 @@ import TimeLineContents from "./TimeLineContents";
 import Total from "./Total";
 import Change from "./Change";
 import TotalContents from "./TotalContents";
-
+import * as am4core from "@amcharts/amcharts4/core";
 import HomeIcon from "@material-ui/icons/Home";
 const g = window;
 
@@ -33,16 +33,7 @@ export default function Detail() {
       setAnimationData(newData);
     });
     return () => {
-      ["매입", "상태", "전체"].forEach((i) => {
-        if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
-          console.log("out", g[i].mapChart.mapChart.reverseGeodata);
-          if (g[i].mapChart.mapChart.reverseGeodata) {
-            g[i].mapChart.mapChart.reverseGeodata = false;
-          } else {
-            g[i].mapChart.mapChart.reverseGeodata = true;
-          }
-        }
-      });
+      // 정리
     };
   }, []);
 
@@ -64,22 +55,25 @@ export default function Detail() {
       return "nth3";
     }
   };
-  // 모든 차트 dispose
-  //am4core.options.autoDispose = true;
+
   clearTimeout(g.timer);
   clearTimeout(g.timer1);
 
   useEffect(() => {
+    // 모든 차트 dispose
+    am4core.options.autoDispose = true;
+
     ["매입", "상태", "전체"].forEach((i) => {
-      if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
+      /* if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
         console.log("HASH", g[i].mapChart.mapChart.reverseGeodata);
-        g[i].mapChart.mapChart.reverseGeodata = false;
-      }
+        //g[i].mapChart.mapChart.reverseGeodata = false;
+        //g[i].mapChart.mapChart.dispose();
+      } */
       if (g[i] && typeof g[i] !== "string" && g[i].sliderBar) {
         g[i].sliderBar.stop();
       }
     });
-  }, [window.location.hash]);
+  }, [window.location.href]);
   return (
     <>
       <div id="detail">
