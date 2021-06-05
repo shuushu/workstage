@@ -1,6 +1,7 @@
 import { useEffect, memo, useState } from "react";
 import Lottie from "react-lottie-player";
 import building from "../asset/data/lottie/building.json";
+import titleImg from "../asset/imgs/main_title.png";
 
 export default memo(function Sceen1(props) {
   const { state, clicked, keyName, expend, setComplete } = props;
@@ -13,8 +14,8 @@ export default memo(function Sceen1(props) {
 
   return (
     <div id="homeSceen1" className={state ? "complete" : null}>
-      <div className="title">당신의 빌라는 안녕하십니까?</div>
-      <Lottie
+      <img src={titleImg} className="title-img"></img>
+      {/* <Lottie
         className="building"
         animationData={building}
         play={playValue}
@@ -42,7 +43,7 @@ export default memo(function Sceen1(props) {
             });
           }
         }}
-      />
+      /> */}
     </div>
   );
 });

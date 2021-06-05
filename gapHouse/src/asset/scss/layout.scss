@@ -23,6 +23,8 @@ body,
     // background: url(https://scrollmagic.io/assets/img/example_parallax_bg2.png);
     background-color: #333;
     color: #fff;
+    background: url("../imgs/main_bg.png") no-repeat center center;
+    background-size: cover;
   }
   // &.scence1::before {
   //   content: "";
@@ -305,14 +307,17 @@ body,
   top: -8%;
 }
 .story {
-  position: relative;
+  position: absolute;
   z-index: 3;
+  width: 25%;
+  right: 10%;
   padding: 15px;
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: 16px;
+
+  line-height: 1.7em;
   border-radius: 5px;
   background: rgba(0, 0, 0, 0.6);
-  border: solid 1px #666;
+
   transition: all 0.3s;
   opacity: 0;
   &.active {
@@ -371,6 +376,7 @@ body,
     z-index: 3;
     height: 100%;
     width: 50%;
+    left: 0;
     background: url("../imgs/house.png") no-repeat center center;
     background-size: auto 80%;
     opacity: 0;
@@ -548,7 +554,7 @@ g[role="slider"] g:nth-child(2) {
   width: 100px;
   position: fixed;
   right: 10px;
-  top: 50px;
+  bottom: 50px;
   z-index: 10;
   .MuiButton-label {
     display: flex;

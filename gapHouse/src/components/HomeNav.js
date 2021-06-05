@@ -1,4 +1,5 @@
 import React from "react";
+import titleImg from "../asset/imgs/sub_title.png";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import { ua } from "../../../components/Util";
@@ -12,10 +13,12 @@ export default function DisableElevation(props) {
   return (
     <nav id="homeNav" className={complete.state ? "active" : null}>
       <div>
-        <div class="title">대한민국 나쁜 집주인 리포트</div>
-        <div class="day_1 day-btn">#첫째 날</div>
-        <div class="day_2 day-btn">#둘쨰 날</div>
-        <div class="day_3 day-btn">#셋째 날</div>
+        <div>
+          <img src={titleImg} className="title"></img>
+        </div>
+        {/* <div className="day_1 day-btn">#첫째 날</div>
+        <div className="day_2 day-btn">#둘쨰 날</div>
+        <div className="day_3 day-btn">#셋째 날</div> */}
       </div>
       {/* <ButtonGroup disableElevation variant="text"> */}
 

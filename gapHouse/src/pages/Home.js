@@ -591,7 +591,8 @@ export default function Home() {
       <HomeNav complete={complete} />
       <div className="scrollContent">
         <section className="items scence1" id="scence1">
-          <div className="house">
+          <div className="house"></div>
+          {/* <div className="house">
             {ua() ? null : (
               <div className="link" onClick={() => setOpen(true)}>
                 <Lottie
@@ -603,37 +604,54 @@ export default function Home() {
                 />
               </div>
             )}
-          </div>
+          </div> */}
           <Homescence1 {...complete} setComplete={setComplete} />
           <div className="storyWrap">
             <div className="story-items">
               <p className="story s1">
-                첫 독립, 신혼집, 처음 살아보는 신축빌라.. <br />
-                부푼 꿈을 안고 서울 시흥동의 작은 빌라에서 시작한 삶이 어느 날
-                갑자기 산산히 조각 났습니다. <br />
-                전재산과 다름 없는 전세 보증금을 돌려받지 못하고 있는 겁니다.
+                <div className="paragraph">
+                  첫 독립, 신혼집, 처음 살아보는 신축빌라..
+                </div>
+                <div className="paragraph">
+                  부푼 꿈을 안고 서울 시흥동의 작은 빌라에서 시작한 삶이 어느 날
+                  갑자기 산산히 조각 났습니다.
+                </div>
+                <div className="paragraph">
+                  전재산과 다름 없는 전세 보증금을 돌려받지 못하고 있는 겁니다.
+                </div>
               </p>
             </div>
             <div className="story-items">
               <p className="story s2">
-                8층 짜리 빌라에 세 들어사는 열 네 가족 모두 마찬가지 신세입니다.
-                <br />
-                집주인 ‘김OO’ 씨는 줄 돈이 없다며 새로운 세입자를 구해서 돈을
-                돌려받거나, 웃돈을 주고 직접 빌라를 사라는 무책임한 말 뿐입니다.
-                <br />한 푼이라도 더 돌려받기 위해 세입자들은 백방으로
-                알아봤지만 소용이 없었습니다.
+                <div className="paragraph">
+                  8층 짜리 빌라에 세 들어사는 열 네 가족 모두 마찬가지
+                  신세입니다.
+                </div>
+                <div className="paragraph">
+                  집주인 ‘김OO’ 씨는 줄 돈이 없다며 새로운 세입자를 구해서 돈을
+                  돌려받거나, 웃돈을 주고 직접 빌라를 사라는 무책임한 말
+                  뿐입니다.
+                </div>
+                <div className="paragraph">
+                  한 푼이라도 더 돌려받기 위해 세입자들은 백방으로 알아봤지만
+                  소용이 없었습니다.
+                </div>
               </p>
             </div>
 
             <div className="story-items">
               <p className="story s3">
-                빌라 14채 중 9채는 <strong className="강조">강제로 경매</strong>
-                에 부쳐졌고, 4채는 주택보증공사에서 1백억 대{" "}
-                <strong className="강조2">가압류 상태</strong>입니다.{" "}
-                <span className="gosi">(2021.05 기준)</span>
-                <br />
-                압류된 집에 들어올 세입자를 구할 수도 없고, 이 집을 살 수도
-                없습니다.
+                <div className="paragraph">
+                  빌라 14채 중 9채는{" "}
+                  <strong className="강조">강제로 경매</strong>에 부쳐졌고,
+                  4채는 주택보증공사에서 1백억 대{" "}
+                  <strong className="강조2">가압류 상태</strong>입니다.{" "}
+                  <span className="gosi">(2021.05 기준)</span>
+                </div>
+                <div className="paragraph">
+                  압류된 집에 들어올 세입자를 구할 수도 없고, 이 집을 살 수도
+                  없습니다.
+                </div>
               </p>
             </div>
           </div>
