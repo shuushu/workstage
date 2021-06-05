@@ -11,8 +11,15 @@ export default function DisableElevation(props) {
   //124756
   return (
     <nav id="homeNav" className={complete.state ? "active" : null}>
-      <ButtonGroup disableElevation variant="text">
-        <Button onClick={(e) => handleClick(e, 1)} className="top_nav1">
+      <div>
+        <div class="title">대한민국 나쁜 집주인 리포트</div>
+        <div class="day_1 day-btn">#첫째 날</div>
+        <div class="day_2 day-btn">#둘쨰 날</div>
+        <div class="day_3 day-btn">#셋째 날</div>
+      </div>
+      {/* <ButtonGroup disableElevation variant="text"> */}
+
+      {/* <Button onClick={(e) => handleClick(e, 1)} className="top_nav1">
           01
         </Button>
         <Button onClick={(e) => handleClick(e, 2)} className="top_nav2">
@@ -37,8 +44,8 @@ export default function DisableElevation(props) {
         )}
         <Button onClick={(e) => handleClick(e, 6)} className="top_nav6">
           06
-        </Button>
-      </ButtonGroup>
+        </Button> */}
+      {/* </ButtonGroup>   */}
     </nav>
   );
 }

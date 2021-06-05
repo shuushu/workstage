@@ -640,12 +640,12 @@ export default function Home() {
           <div className="sh-bg">
             <Lottie animationData={shBg} play={true} loop={true} />,
           </div>
-          <div className="shLt">
+          {/* <div className="shLt">
             <Lottie animationData={shLt} play={true} loop={true} />
           </div>
           <div className="shRb">
             <Lottie animationData={shRb} play={true} loop={true} />
-          </div>
+          </div> */}
         </section>
         <section className="items scence2" id="scence2">
           <div className="storyWrap">
@@ -742,8 +742,6 @@ export default function Home() {
           <Lottie
             className="goToDetailMap"
             animationData={clickChart}
-            play={true}
-            loop={true}
             style={{ width: "100%", height: "100%" }}
           />
           <span className="str">상세보기</span>
