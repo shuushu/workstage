@@ -1,52 +1,73 @@
 import { useEffect, useState } from "react";
 import { buyDraw } from "../components/Map";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import { dong, hDate, callSheet } from "../asset/data/house";
-
+import {
+  d소유,
+  d강제경매개시,
+  d압류,
+  area
+} from '../asset/data/data'
 const g = window;
-function delay() {
-  return new Promise((resolve) => setTimeout(resolve, 3000));
+const origin = {
+  소유: d소유,
+  강제경매개시: d강제경매개시,
+  압류: d압류
+};
+
+
+function delay(v) {
+  return new Promise((resolve) => setTimeout(resolve, v));
 }
 
 export default function TimelineAll(props) {
   const { setHouseData, pos } = props;
   const [dateValue, setDateValue] = useState("");
-  let cache;
 
   useEffect(async () => {
     g.KEY = "매입";
     g.setDateValue = setDateValue;
-    const getCache = localStorage.getItem("buy");
-
+    const getCache = localStorage.getItem("timeline");
+    let cache
     if (getCache) {
       cache = JSON.parse(getCache);
     } else {
-      const getData = await callSheet("when");
 
-      let temp = {};
+      const DATA = [];
+      let i = 0;
 
-      hDate.forEach((date) => {
-        temp[date] = {
-          date: date,
-          list: [],
-        };
-      });
-
-      dong.forEach((dong, i) => {
-        hDate.forEach((date, i2) => {
-          temp[date].list.push({
-            매입: getData[i]._rawData[i2 + 1],
-            id: dong,
+      while (i < 200) {
+        let t1 = origin.소유[i];
+        let t2 = origin.압류[i];
+        let t3 = origin.강제경매개시[i];
+        if (t1 && t2 && t3) {
+          let obj = {
+            date: null,
+            list: []
+          }
+          obj.date = t1.date;
+          area.forEach(name => {
+            let items = {
+              id: name,
+              소유: t1[name],
+              압류: t2[name],
+              강제경매개시: t3[name]
+            }
+            obj.list.push(items);
           });
-        });
-      });
-      cache =  Object.entries(temp).map((v) => v[1]);
-      localStorage.setItem("buy", JSON.stringify(cache));
-    }
+          DATA.push(obj)
+        } else {
+          break;
+        }
+        i++;
+      }
 
+      cache = DATA;
+      localStorage.setItem("timeline", JSON.stringify(DATA));
+    }
+    
     if (pos === "main") {
       buyDraw(null, cache);
-    } else {      
+    } else {
       buyDraw(setHouseData, cache);
     }
     // HMR 및 SPA라우터에서 페이지 전환 후 돌아 올때 맵이 꺠지는 이슈 수정 [소요시간 5h]
@@ -58,7 +79,7 @@ export default function TimelineAll(props) {
       `.amcharts-shushu .amcharts-RoundedRectangle`
     );
 
-    await delay(400);
+    await delay(2000);
     if (btn[1]) {
       btn[1].setAttribute(
         "d",
@@ -68,12 +89,15 @@ export default function TimelineAll(props) {
     }
 
 
-    g.timer1 = setTimeout(() => {
-      const zone = document.querySelector(".time-title-wrap");
-      if (zone) {
-        zone.classList.add("active");
-      }
-    }, 2000);
+    const zone = document.querySelector(".time-title-wrap");
+    if (zone) {
+      zone.classList.add("active");
+    }
+
+    if (g[g.KEY].sliderBar) {
+      g[g.KEY].sliderBar.play();
+    }
+    
   }, []);
   // [이슈파악완료] async에서는 clear 처리가 안됨- 정리가 안되어 맵 갱신 이슈가 발생
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { HashRouter as Router, Switch, Route } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
 import "./asset/scss/style.scss";
-import Home from "./pages/Home";
+import MainContents from "./pages/MainContents";
 import Detail from "./pages/Detail";
 
 function App() {
@@ -8,11 +8,14 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
+          <Route path="/mainMap">
+            <MainContents />
+          </Route>
           <Route path="/detail">
             <Detail />
           </Route>
           <Route path="*">
-            <Home />
+            <Detail />
           </Route>
         </Switch>
       </Router>

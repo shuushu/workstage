@@ -164,7 +164,21 @@ body,
     }
   }
 }
-
+.amcharts-ZoomControl-group{
+  display: none
+}
+#mainMapContents{
+  overflow: hidden;
+  .chartWrap{
+    width: 100%;
+  }
+  #sideBottom{
+    display: none;
+  }
+  .amcharts-ZoomControl-group{
+    display: block
+  }
+}
 // scence7
 #scence7 {
   .text {
@@ -688,7 +702,167 @@ g[role="slider"] g:nth-child(2) {
     }
   }
 }
+.map-contents{
+  padding: 0 8px;
+  overflow: auto;
 
+
+
+  .month{
+    display: flex;    
+    > div{
+      width: 27px;
+      font-size: 11px;
+      text-align: center;
+      font-weight: 200;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+  .tit-year{
+    position: absolute;
+    font-size: 13px;
+    font-weight: 300;
+    left: 0;
+    margin-top: 6px;
+  }
+  .tit{
+    margin: 30px 0 10px;
+    font-size: 20px;
+    font-weight: normal;
+  }
+  .time-rec,
+  .month{
+    padding-left: 30px;
+  }
+  .time-rec{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    .wrap-cont{
+      
+    }
+      .tit-year + .date-buy-items{
+    //margin-bottom: 20px
+  }
+    .date-buy-items{
+      display: flex;
+      margin: 1px 1px 0 0;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+      justify-content: center;
+      background: rgba(255,255,255,.3);
+      width: 26px;
+      height: 26px;
+      font-size: 13px;
+      overflow: hidden;
+      
+    }
+    .date-buy-items.v1{
+       background: rgba(226, 187, 135, 0.3)
+     }    
+     .date-buy-items.v3,
+    .date-buy-items.v2{
+       background: rgba(226, 187, 135, 0.4)
+     }    
+     
+     .date-buy-items.v6,
+.date-buy-items.v5,
+.date-buy-items.v4{
+       background: rgba(226, 187, 135, 0.5)
+     }    
+.date-buy-items.v11,
+.date-buy-items.v14,
+.date-buy-items.v13,
+.date-buy-items.v17,
+.date-buy-items.v10{
+       background: rgba(226, 187, 135, 0.6)
+     }    
+.date-buy-items.v19,
+.date-buy-items.v21,
+.date-buy-items.v22,
+.date-buy-items.v28,
+.date-buy-items.v27,
+.date-buy-items.v24{
+       background: rgba(245, 147, 55, 0.6)
+     }        
+     .date-buy-items.v29,
+     .date-buy-items.v36,
+     .date-buy-items.v37,
+     .date-buy-items.v35{
+       background: rgba(224, 101, 20, 0.6)
+     }       
+          .date-buy-items.v41,
+     .date-buy-items.v45,
+     .date-buy-items.v49{
+       background: rgba(224, 44, 20, 0.6)
+     }        
+          .date-buy-items.v65{
+       background: rgba(255, 30, 0, 0.6)
+     }        
+    .date{
+      font-size: 11px;
+    }
+  }
+  .year-wrap{
+    margin: 10px 0
+  }
+  .year{
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    .x-y{
+      font-size: 12px;
+      font-weight: 300;
+      margin-top: 3px
+    }
+    .x-c{
+      background: rgba(255,255,255,.4);
+      font-size: 14px;
+      text-align: center;      
+      padding: 8px 0;
+    }
+    .r24,
+    .r27{
+      background-color: rgba(243, 186, 0, 0.726)
+    }
+    .r321{
+      background-color: rgba(243, 0, 0, 0.726)
+    }
+    .r271{
+      background-color: rgba(243, 69, 0, 0.726)
+    }
+  }
+
+  .chip-wrap{
+    margin: 30px 0 10px;
+    .MuiChip-root{
+      margin-right: 5px;
+    }
+    .MuiChip-label{
+      line-height: 1;
+    }    
+  }
+  .parag{
+    margin: 15px 0;
+  }
+  .list{
+    display: flex;
+    font-size: 14px;
+    font-weight: 300;
+    transition: all 1s;
+    .addr{
+      padding: 5px 0;
+      width: 100%
+    }
+    .count{
+      width: 100px;
+      padding: 5px 10px;   
+      text-align: right; 
+    }
+  }
+}
 @media (max-width: 500px) {
   // 모달팝업
   [role="presentation"] {
@@ -838,5 +1012,61 @@ g[role="slider"] g:nth-child(2) {
         stroke: #777;
       }
     }
+  }
+
+
+
+  #mbc{
+    right: inherit;
+    left: 10px;
+    top: inherit;
+    bottom:10px;
+    opacity: 0.8;
+    width: 50px;
+  }
+  #detailNav{
+    width: 100%;
+  }
+  #detail{
+    display: block;
+    overflow: hidden;
+    .map-contents{
+      padding:0;
+      height: 100%;
+    }
+  }
+  #detail .contents{
+    position: relative;
+    width: auto;
+    margin: 10px;
+    z-index: 2;
+    height: 83%;
+    border-radius: 8px;
+    padding: 0;
+    box-sizing: border-box;
+    margin-top: 57px;
+    overflow: auto;
+    background: none;
+    //border:solid 1px #000;
+    //background: rgba(0,0,0,.5);
+    .swiper-container{
+      height: 100%;
+    }
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #list-wrap{
+      height: 80%;
+      overflow: auto;      
+    }
+  }
+  #root #detail .chartWrap{
+    position: fixed;
+    width: 100%;
+    top: 0;
   }
 }

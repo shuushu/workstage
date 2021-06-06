@@ -34,13 +34,13 @@ export default function Slider(props) {
       <SwiperSlide className={`slide-items0`}>
         <Chip
           onClick={() => handleClick("세대기준")}
-          label={`세대기준 총 582채 보유`}
+          label={`세대기준`}
         />
       </SwiperSlide>
       <SwiperSlide className={`slide-items1`}>
         <Chip
           onClick={() => handleClick("빌라기준")}
-          label={`빌라기준 총 280채 보유`}
+          label={`빌라기준`}
         />
       </SwiperSlide>
     </Swiper>

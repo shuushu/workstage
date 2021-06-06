@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import drawChart from "../components/Map";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import { dong, hDate, callSheet } from "../asset/data/house";
 import {
   d소유,
   d강제경매개시,
@@ -16,8 +15,8 @@ const origin = {
 }
 
 
-function delay() {
-  return new Promise((resolve) => setTimeout(resolve, 3000));
+function delay(v) {
+  return new Promise((resolve) => setTimeout(resolve, v));
 }
 export default function TimelineAll(props) {
   const { setHouseData } = props;
@@ -71,12 +70,14 @@ export default function TimelineAll(props) {
       g[g.KEY].mapChart.mapChart.reverseGeodata = true;
     }
 
+
     // 버튼 스타일 변경
     const btn = document.querySelectorAll(
       `.amcharts-shushu .amcharts-RoundedRectangle`
     );
 
-    await delay(400);
+    await delay(2000);
+
     if (btn[1]) {
       btn[1].setAttribute(
         "d",
@@ -85,12 +86,14 @@ export default function TimelineAll(props) {
       btn[1].setAttribute("style", "opacity: 1");
     }
 
-    g.timer1 = setTimeout(() => {
-      const zone = document.querySelector(".time-title-wrap");
-      if (zone) {
-        zone.classList.add("active");
-      }
-    }, 2000);
+    const zone = document.querySelector(".time-title-wrap");
+    if (zone) {
+      zone.classList.add("active");
+    }
+    if (g[g.KEY].sliderBar) {
+      g[g.KEY].sliderBar.play();
+    }
+    
   }, []);
   useEffect(() => {
     return () => {

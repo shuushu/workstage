@@ -9,6 +9,7 @@ import {
   total,
   dong,
   매입시점전체데이터,
+  매입시점별컨텐츠
 } from "../asset/data/house";
 
 // Themes begin
@@ -16,14 +17,9 @@ am4core.useTheme(am4themes_animated);
 // Themes end
 let g = window;
 
-function delay() {
-  return new Promise((resolve) => setTimeout(resolve, 3000));
-}
 
 // parameter is react setState
 export default  function getData(callback , DATA) {
-  let temp = [];
-  let obj = {};
   const INIT_STR = "소유";
   const CUSTOM = {
     소유: am4core.color("#ff8726"),
@@ -62,6 +58,7 @@ export default  function getData(callback , DATA) {
     latitude: 37.487,
     longitude: 126.878,
   };
+  mapChart.mapChart.seriesContainer.resizable = true;
   // 클래스연결
   linechart.adapter(mapChart);
   linechart.setColor(CUSTOM);
@@ -84,6 +81,9 @@ export default  function getData(callback , DATA) {
   // 슬라이드바 이벤트 바인딩
   sliderBar.updateTotalData = (index) => {
     // react setState
+    if (index < 1) {
+      return
+    }
     let data = Object.entries(g[g.KEY].timeline[index]).map(([k, v]) => {
       return { name: k, data: v };
     });
@@ -233,11 +233,10 @@ export function TotalDraw() {
 
   const INIT_STR = "세대기준";
   const LABEL = [];
-  // for (let key of LABEL) {
-  //   obj[key] = Number(Number.parseFloat(Math.random() * 100).toFixed(0));
-  // }
+
   let i = 1,
     max = 2;
+  
   for (; i < max; i++) {
     let date = `2020-${i < 10 ? `0${i}` : i}-05`;
     let obj = {
@@ -256,6 +255,10 @@ export function TotalDraw() {
 
     temp.push(obj);
   }
+  let obj2 = {
+    date: '2020-02-02',
+    list: [],
+  };  
 
   g[g.KEY] = {
     point_area: temp,
@@ -279,9 +282,9 @@ export function TotalDraw() {
 }
 
 export function buyDraw(callback, DATA) {
-  const INIT_STR = "매입";
+  const INIT_STR = "소유";
   const CUSTOM = {
-    매입: am4core.color("#1c5fe5"),
+    소유: am4core.color("#1c5fe5"),
   };
   const LABEL = dong;
   g[g.KEY] = {};
@@ -324,6 +327,7 @@ export function buyDraw(callback, DATA) {
         linechart.lineChart.cursor.xPosition *
         ((linechart.dateAxis.max - linechart.dateAxis.min) /
           (g[g.KEY].lastDate.getTime() - linechart.dateAxis.min));
+      console.log(sliderBar.slider.start)
     }
   });
 
@@ -337,11 +341,25 @@ export function buyDraw(callback, DATA) {
   sliderBar.updateTotalData = (index) => {
     // react setState
     // {소유: 59, 가압류: 31, 신탁: 6, 압류: 90}
+    if (index < 1) {
+      return false;
+    }
     let data = Object.entries(g[g.KEY].timeline[index]).map(([k, v]) => {
       return { name: k, data: v };
     });
     data.pop();
     g.setDateValue(g[g.KEY].timeline[index].date);
+    
+    // 변동내역스테이트
+    if (g.setBuyChange) {
+      const v = new Date(data[0].data).getTime()
+      const filterData = 매입시점별컨텐츠.filter(ii => {
+        if (new Date(ii.date).getTime() <= v) {
+          return ii
+        }        
+      })
+      g.setBuyChange(filterData)
+    }
 
     // 라인차트 라벨
     if (callback !== null) {

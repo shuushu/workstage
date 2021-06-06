@@ -126,6 +126,9 @@ body.none {
     position: relative;
     z-index: 2;
     padding: 10px;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
   }
   .sideBG {
     overflow: hidden;

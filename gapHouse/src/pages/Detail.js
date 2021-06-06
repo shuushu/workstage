@@ -8,10 +8,11 @@ import TimeLineContents from "./TimeLineContents";
 import Total from "./Total";
 import Change from "./Change";
 import TotalContents from "./TotalContents";
+import ChangeContents from "./ChangeContents";
 import * as am4core from "@amcharts/amcharts4/core";
 import HomeIcon from "@material-ui/icons/Home";
-const g = window;
-
+import "../asset/scss/layout.scss";
+import { ua } from "../../../components/Util";
 export default function Detail() {
   const [houseData, setHouseData] = useState([
     {
@@ -25,7 +26,6 @@ export default function Detail() {
   ]);
   const [animationData, setAnimationData] = useState();
   let match = useRouteMatch();
-
   useEffect(() => {
     import("../asset/data/lottie/sidebg.json").then((res) => {
       // [이슈: 라우터 이동시 메모리릭 발생] lottie애니메이션 데이터를 파싱해서 매번 새데이터로 교체한다.
@@ -33,7 +33,7 @@ export default function Detail() {
       setAnimationData(newData);
     });
     return () => {
-      // 정리
+      // 정리      
     };
   }, []);
 
@@ -56,40 +56,27 @@ export default function Detail() {
     }
   };
 
-  clearTimeout(g.timer);
-  clearTimeout(g.timer1);
 
-  useEffect(() => {
+  useEffect(() => {    
     // 모든 차트 dispose
     am4core.options.autoDispose = true;
-
-    ["매입", "상태", "전체"].forEach((i) => {
-      /* if (g[i] && typeof g[i] !== "string" && g[i].mapChart) {
-        console.log("HASH", g[i].mapChart.mapChart.reverseGeodata);
-        //g[i].mapChart.mapChart.reverseGeodata = false;
-        //g[i].mapChart.mapChart.dispose();
-      } */
-      if (g[i] && typeof g[i] !== "string" && g[i].sliderBar) {
-        g[i].sliderBar.stop();
-      }
-    });
   }, [window.location.href]);
   return (
     <>
       <div id="detail">
         <div className="contents">
           <nav id="detailNav" className={setClassStr()}>
-            <IconButton onClick={() => handleClick()}>
+            <IconButton onClick={handleClick}>
               <HomeIcon />
             </IconButton>
-            <Button href="./#/detail/total#inApp" className="top_nav1">
-              전체 보유
+            <Button href="./#/detail/total" className="top_nav1">
+              어디에 샀나
             </Button>
-            <Button href="./#/detail/change#inApp" className="top_nav2">
-              매입
+            <Button href="./#/detail/change" className="top_nav2">
+              언제 샀나
             </Button>
-            <Button href="./#/detail#inApp" className="top_nav3">
-              변경
+            <Button href="./#/detail" className="top_nav3">
+              끝나지 않았다
             </Button>
           </nav>
           <div className="wrap">
@@ -101,21 +88,23 @@ export default function Detail() {
                 <TotalContents />
               </Route>
               <Route path={`${match.path}/change`}>
-                <div>asdfasdf</div>
+                <ChangeContents />
               </Route>
               <Route path="/detail/*">
                 <Redirect to="/detail" />
               </Route>
             </Switch>
           </div>
-          <div className="sideBG">
-            <Lottie
-              animationData={animationData}
-              play={true}
-              loop={true}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </div>
+          {ua() ? null :
+            <div className="sideBG">
+              <Lottie
+                animationData={animationData}
+                play={true}
+                loop={true}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+          }
         </div>
 
         <Switch>

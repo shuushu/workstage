@@ -133,13 +133,16 @@ class SliderBar {
     if (!this.sliderAnimation) {
       this.sliderAnimation = this.slider
         .animate(
-          { property: "start", to: 1, from: 0 },
-          30000,
+          { property: "start", to: 1, from: 0.3 },
+          20000,
           am4core.ease.linear
         )
         .pause();
       this.sliderAnimation.events.on("animationended", () => {
         this.playButton.isActive = false;
+        setTimeout(() => {
+          this.play();
+        }, 1000);        
       });
     }
 
@@ -395,7 +398,7 @@ class LineChart {
     series.tooltip.background.fill = am4core.color("#000000");
     series.tooltip.dy = -4;
     series.tooltip.fontSize = "0.8em";
-    series.tooltipText = "Total {name}: {valueY}";
+    series.tooltipText = "{name}: {valueY}";
 
     this.series = series;
     return series;
@@ -492,13 +495,17 @@ class MapChart {
   }
   drawCanvas(nodeName) {
     this.container = am4core.create(nodeName, am4core.Container);
-    this.container = am4core.create(nodeName, am4core.Container);
     this.container.language.locale = ko;
     this.setSizeCanvas(this.options.width, this.options.height);
-    this.container.align = "center";
-    this.container.valign = "middle";
-
+    this.container.align = "right";
+    this.container.valign = "bottom";
+    
     this.mapChart = this.container.createChild(am4maps.MapChart);
+    this.mapChart.zoomControl = new am4maps.ZoomControl();
+    this.mapChart.zoomControl.align = "right";
+    this.mapChart.zoomControl.marginRight = 15;
+    this.mapChart.zoomControl.valign = "middle";
+    
     this.mapChart.height = am4core.percent(100);
     this.mapChart.geodata = this.geoData;
     // HMR 및 SPA라우터에서 페이지 전환 후 돌아 올때 맵이 꺠지는 이슈 수정 [소요시간 5h]
@@ -809,18 +816,20 @@ class MapChart {
     circle.applyOnClones = true;
 
     // heat rule makes the bubbles to be of a different width. Adjust min/max for smaller/bigger radius of a bubble
-    //let RADIUS = g.KEY === "매입" ? 71 : 110;
     let RADIUS;
-    // if (bubbleSeries.dataFields.value === '압류') {
-    //   RADIUS = 30
-    // } else if (bubbleSeries.dataFields.value === '소유') {
-    //   RADIUS = 10
-    // } else if (bubbleSeries.dataFields.value === '강제경매개시') {
-    //   RADIUS = 13
-    // } else {
-    //   RADIUS = 70
-    // }
-    console.log(this)
+    if (g.KEY === "매입") {
+      RADIUS = 71
+    } else  if(g.KEY ==='상태'){
+      if (type === 1) { // '압류'
+        RADIUS = 30
+      } else if (type === 0) {// '소유'
+        RADIUS = 10
+      } else if (type === 2) { // '강제경매개시'
+        RADIUS = 13
+      } else {
+        RADIUS = 70
+      }
+    }
 
     bubbleSeries.heatRules.push({
       target: circle,
