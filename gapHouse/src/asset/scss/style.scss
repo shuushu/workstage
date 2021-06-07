@@ -94,6 +94,11 @@ body.none {
 #detail {
   height: 100%;
   width: 100%;
+  &.nth2 {
+    .wrap {
+      overflow-y: scroll;
+    }
+  }
 }
 #chartdiv3,
 #chartdiv2,
@@ -132,7 +137,6 @@ body.none {
     font-size: 14px;
     font-weight: 300;
     word-break: keep-all;
-    padding: 30px;
     line-height: 1.7em;
   }
   .sideBG {

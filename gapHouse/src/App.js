@@ -11,7 +11,7 @@ function App() {
           <Route path="/mainMap">
             <MainContents />
           </Route>
-          <Route path="/detail">
+          <Route path="/map">
             <Detail />
           </Route>
           <Route path="*">

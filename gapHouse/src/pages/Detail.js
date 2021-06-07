@@ -33,17 +33,12 @@ export default function Detail() {
       setAnimationData(newData);
     });
     return () => {
-      // 정리      
+      // 정리
     };
   }, []);
 
   const handleClick = () => {
-    const check = window.location.hash;
-    if (check.indexOf("inApp") > 0) {
-      window.location.href = "./#";
-    } else {
-      window.history.back();
-    }
+    window.location.href = "http://badlandlords.mbc-interactive.com/";
   };
   const setClassStr = () => {
     const link = window.location.href;
@@ -56,26 +51,25 @@ export default function Detail() {
     }
   };
 
-
-  useEffect(() => {    
+  useEffect(() => {
     // 모든 차트 dispose
     am4core.options.autoDispose = true;
   }, [window.location.href]);
   return (
     <>
-      <div id="detail">
+      <div id="detail" className={setClassStr()}>
         <div className="contents">
           <nav id="detailNav" className={setClassStr()}>
             <IconButton onClick={handleClick}>
               <HomeIcon />
             </IconButton>
-            <Button href="./#/detail/total" className="top_nav1">
+            <Button href="./#/map/total" className="top_nav1">
               어디에 샀나
             </Button>
-            <Button href="./#/detail/change" className="top_nav2">
+            <Button href="./#/map/change" className="top_nav2">
               언제 샀나
             </Button>
-            <Button href="./#/detail" className="top_nav3">
+            <Button href="./#/map" className="top_nav3">
               끝나지 않았다
             </Button>
           </nav>
@@ -90,12 +84,12 @@ export default function Detail() {
               <Route path={`${match.path}/change`}>
                 <ChangeContents />
               </Route>
-              <Route path="/detail/*">
-                <Redirect to="/detail" />
+              <Route path="/map/*">
+                <Redirect to="/map" />
               </Route>
             </Switch>
           </div>
-          {ua() ? null :
+          {ua() ? null : (
             <div className="sideBG">
               <Lottie
                 animationData={animationData}
@@ -104,7 +98,7 @@ export default function Detail() {
                 style={{ width: "100%", height: "100%" }}
               />
             </div>
-          }
+          )}
         </div>
 
         <Switch>

@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
 import drawChart from "../components/Map";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import {
-  d소유,
-  d강제경매개시,
-  d압류,
-  area
-} from '../asset/data/data'
+import { d소유, d강제경매개시, d압류, area } from "../asset/data/data";
 const g = window;
 const origin = {
   소유: d소유,
-  강제경매개시: d강제경매개시,
-  압류: d압류
-}
-
+  경매개시: d강제경매개시,
+  "압류.가압류": d압류,
+};
 
 function delay(v) {
   return new Promise((resolve) => setTimeout(resolve, v));
@@ -25,35 +19,34 @@ export default function TimelineAll(props) {
   useEffect(async () => {
     g.KEY = "상태";
     g.setDateValue = setDateValue;
-    const getCache = localStorage.getItem("timeline");
-    let cache
+    const getCache = localStorage.getItem("timeline3");
+    let cache;
     if (getCache) {
       cache = JSON.parse(getCache);
     } else {
-      
       const DATA = [];
       let i = 0;
 
       while (i < 200) {
         let t1 = origin.소유[i];
-        let t2 = origin.압류[i];
-        let t3 = origin.강제경매개시[i];
+        let t2 = origin["압류.가압류"][i];
+        let t3 = origin.경매개시[i];
         if (t1 && t2 && t3) {
           let obj = {
             date: null,
-            list: []
-          }
+            list: [],
+          };
           obj.date = t1.date;
-          area.forEach(name => {
+          area.forEach((name) => {
             let items = {
               id: name,
               소유: t1[name],
-              압류: t2[name],
-              강제경매개시: t3[name]
-            }
+              "압류.가압류": t2[name],
+              경매개시: t3[name],
+            };
             obj.list.push(items);
           });
-          DATA.push(obj)
+          DATA.push(obj);
         } else {
           break;
         }
@@ -61,15 +54,14 @@ export default function TimelineAll(props) {
       }
 
       cache = DATA;
-      localStorage.setItem("timeline", JSON.stringify(DATA));
+      localStorage.setItem("timeline3", JSON.stringify(DATA));
     }
- 
+
     drawChart(setHouseData, cache);
     // HMR 및 SPA라우터에서 페이지 전환 후 돌아 올때 맵이 꺠지는 이슈 수정 [소요시간 5h]
     if (g[g.KEY] && g[g.KEY].mapChart) {
       g[g.KEY].mapChart.mapChart.reverseGeodata = true;
     }
-
 
     // 버튼 스타일 변경
     const btn = document.querySelectorAll(
@@ -93,15 +85,14 @@ export default function TimelineAll(props) {
     if (g[g.KEY].sliderBar) {
       g[g.KEY].sliderBar.play();
     }
-    
   }, []);
   useEffect(() => {
     return () => {
       if (g[g.KEY] && g[g.KEY].mapChart) {
         g[g.KEY].mapChart.mapChart.reverseGeodata = false;
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div className="chartWrap">

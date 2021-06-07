@@ -4,12 +4,13 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { SliderBar, LineChart, MapChart } from "./Chart";
 import test from "../asset/data/emd.json";
 import sigu from "../asset/data/select.json";
+import { ua } from "../../../components/Util";
 import {
   상태현황전체데이터,
   total,
   dong,
   매입시점전체데이터,
-  매입시점별컨텐츠
+  매입시점별컨텐츠,
 } from "../asset/data/house";
 
 // Themes begin
@@ -17,14 +18,13 @@ am4core.useTheme(am4themes_animated);
 // Themes end
 let g = window;
 
-
 // parameter is react setState
-export default  function getData(callback , DATA) {
+export default function getData(callback, DATA) {
   const INIT_STR = "소유";
   const CUSTOM = {
     소유: am4core.color("#ff8726"),
-    강제경매개시: am4core.color("#d21a1a"),
-    압류: am4core.color("#7d47ff"),
+    경매개시: am4core.color("#d21a1a"),
+    "압류.가압류": am4core.color("#7d47ff"),
   };
   g[g.KEY] = {};
   const LABEL = dong;
@@ -48,9 +48,9 @@ export default  function getData(callback , DATA) {
   mapChart.setKeyName(INIT_STR);
 
   // 초깃값 셋팅
-  mapChart.updateChart2(mapChart.bubbleArr[0], '소유');
-  mapChart.updateChart2(mapChart.bubbleArr[1], "압류");
-  mapChart.updateChart2(mapChart.bubbleArr[2], "강제경매개시");
+  mapChart.updateChart2(mapChart.bubbleArr[0], "소유");
+  mapChart.updateChart2(mapChart.bubbleArr[1], "압류.가압류");
+  mapChart.updateChart2(mapChart.bubbleArr[2], "경매개시");
   // 라벨 표출
   mapChart.drawLabel(LABEL);
   mapChart.mapChart.homeZoomLevel = 5;
@@ -62,11 +62,13 @@ export default  function getData(callback , DATA) {
   // 클래스연결
   linechart.adapter(mapChart);
   linechart.setColor(CUSTOM);
-  linechart.addClick(() => {
+  linechart.addClick((ev) => {
     g[g.KEY].mapChart.mapChart.reverseGeodata = true;
     if (!linechart.lineChart.legendDown) {
+      let vv = ua() ? ev.point.x : linechart.lineChart.cursor.xPosition;
+      let value = ua() ? vv / window.innerWidth : vv;
       sliderBar.slider.start =
-        linechart.lineChart.cursor.xPosition *
+        value *
         ((linechart.dateAxis.max - linechart.dateAxis.min) /
           (g[g.KEY].lastDate.getTime() - linechart.dateAxis.min));
     }
@@ -82,7 +84,7 @@ export default  function getData(callback , DATA) {
   sliderBar.updateTotalData = (index) => {
     // react setState
     if (index < 1) {
-      return
+      return;
     }
     let data = Object.entries(g[g.KEY].timeline[index]).map(([k, v]) => {
       return { name: k, data: v };
@@ -93,23 +95,23 @@ export default  function getData(callback , DATA) {
     callback(data);
   };
   sliderBar.updateMapData = (data, d) => {
-    // 멀티플업데이트    
-    let { bubbleArr, polygonSeries } = mapChart;    
-    
-    bubbleArr.forEach((v) => {      
+    // 멀티플업데이트
+    let { bubbleArr, polygonSeries } = mapChart;
+
+    bubbleArr.forEach((v) => {
       for (let i = 0; i < data.length; i++) {
         const di = data[i];
         const image = v.getImageById(di.id);
         if (image) {
           Object.entries(di).forEach(([k, v]) => {
-            if (k !== "id") {              
+            if (k !== "id") {
               image.dataItem.dataContext[k] = v;
             }
           });
         }
         // 맥스값 변경시 Nagative value Error 발생
-        if (v.dataFields.value === '압류') {
-          let MAX = 10;          
+        if (v.dataFields.value === "압류") {
+          let MAX = 10;
           if (d < 72) {
             MAX = 1;
           } else if (d >= 72 && d < 85) {
@@ -127,7 +129,7 @@ export default  function getData(callback , DATA) {
           }
 
           v.heatRules.getIndex(0).max = MAX;
-        } else if (v.dataFields.value === '소유') {
+        } else if (v.dataFields.value === "소유") {
           let MAX = 10;
           if (d < 30) {
             MAX = 2;
@@ -166,7 +168,7 @@ export default  function getData(callback , DATA) {
           if (d < 95) {
             MAX = 1;
           } else if (d >= 95 && d < 100) {
-            MAX = 2
+            MAX = 2;
           } else if (d >= 100 && d < 102) {
             MAX = 10;
           } else if (d >= 102 && d < 105) {
@@ -179,7 +181,7 @@ export default  function getData(callback , DATA) {
 
           v.heatRules.getIndex(0).max = 10;
         }
-        
+
         //v.heatRules.getIndex(0).max = MAX;
         //polygonSeries.heatRules.getIndex(0).maxValue = 40;
         v.invalidateRawData();
@@ -217,7 +219,6 @@ export default  function getData(callback , DATA) {
   }; */
   //sliderBar.play();
 
-
   g[g.KEY].mapChart = mapChart;
   g[g.KEY].sliderBar = sliderBar;
   g[g.KEY].linechart = linechart;
@@ -236,7 +237,7 @@ export function TotalDraw() {
 
   let i = 1,
     max = 2;
-  
+
   for (; i < max; i++) {
     let date = `2020-${i < 10 ? `0${i}` : i}-05`;
     let obj = {
@@ -256,9 +257,9 @@ export function TotalDraw() {
     temp.push(obj);
   }
   let obj2 = {
-    date: '2020-02-02',
+    date: "2020-02-02",
     list: [],
-  };  
+  };
 
   g[g.KEY] = {
     point_area: temp,
@@ -321,13 +322,14 @@ export function buyDraw(callback, DATA) {
   });
   linechart.adapter(mapChart);
   linechart.setColor(CUSTOM);
-  linechart.addClick(() => {
+  linechart.addClick((ev) => {
     if (!linechart.lineChart.legendDown) {
+      let vv = ua() ? ev.point.x : linechart.lineChart.cursor.xPosition;
+      let value = ua() ? vv / window.innerWidth : vv;
       sliderBar.slider.start =
-        linechart.lineChart.cursor.xPosition *
+        value *
         ((linechart.dateAxis.max - linechart.dateAxis.min) /
           (g[g.KEY].lastDate.getTime() - linechart.dateAxis.min));
-      console.log(sliderBar.slider.start)
     }
   });
 
@@ -349,16 +351,16 @@ export function buyDraw(callback, DATA) {
     });
     data.pop();
     g.setDateValue(g[g.KEY].timeline[index].date);
-    
+
     // 변동내역스테이트
     if (g.setBuyChange) {
-      const v = new Date(data[0].data).getTime()
-      const filterData = 매입시점별컨텐츠.filter(ii => {
+      const v = new Date(data[0].data).getTime();
+      const filterData = 매입시점별컨텐츠.filter((ii) => {
         if (new Date(ii.date).getTime() <= v) {
-          return ii
-        }        
-      })
-      g.setBuyChange(filterData)
+          return ii;
+        }
+      });
+      g.setBuyChange(filterData);
     }
 
     // 라인차트 라벨
@@ -403,7 +405,7 @@ export function buyDraw(callback, DATA) {
           });
         }
         // 맥스값 변경시 Nagative value Error 발생
-        v.heatRules.getIndex(0).max = MAX;
+        v.heatRules.getIndex(0).max = ua() ? MAX / 2 : MAX;
         //polygonSeries.heatRules.getIndex(0).maxValue = 40;
         v.invalidateRawData();
         polygonSeries.invalidateRawData();
@@ -411,7 +413,6 @@ export function buyDraw(callback, DATA) {
     });
   };
 
-  
   g[g.KEY].sliderBar = sliderBar;
   g[g.KEY].linechart = linechart;
   //}

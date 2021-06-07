@@ -2,7 +2,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import ko from "@amcharts/amcharts4/lang/ko_KR";
-
+import { ua } from "../../../components/Util";
 let g = window;
 const RANGE = {
   매입: [
@@ -68,7 +68,7 @@ class SliderBar {
     this.playButton = this.container.createChild(am4core.PlayButton);
     this.playButton.valign = "middle";
     // 최소값이 디폴트로 지정되어있기에 변경을 해야 크기가 변함
-    this.playButton.scale = 0.8;
+    this.playButton.scale = ua() ? 0.5 : 0.8;
     this.playButton.events.on("toggled", (event) => {
       if (event.target.isActive) {
         this.play();
@@ -79,7 +79,12 @@ class SliderBar {
   }
   drawSliderBar() {
     this.container.width = am4core.percent(100);
-    this.container.padding(0, 15, 15, 10);
+    if (ua()) {
+      this.container.padding(0, 5, 5, 10);
+    } else {
+      this.container.padding(0, 15, 15, 10);
+    }
+
     this.container.layout = "horizontal";
     this.container.opacity = 1;
     let slider = this.container.createChild(am4core.Slider);
@@ -90,9 +95,9 @@ class SliderBar {
     slider.background.opacity = 1;
     slider.opacity = 0.7;
     slider.background.fill = am4core.color("#ffffff");
-    slider.marginLeft = 20;
-    slider.marginRight = 35;
-    slider.minHeight = 5;
+    slider.marginLeft = ua() ? 10 : 20;
+    slider.marginRight = ua() ? 15 : 35;
+    slider.minHeight = ua() ? 2 : 5;
     slider.start = 1;
 
     slider.startGrip.background.fill = this.playButton.background.fill;
@@ -107,7 +112,7 @@ class SliderBar {
       const index = Math.round(
         (g[g.KEY].point_area.length - 1) * this.slider.start
       );
-      if (this.updateMapData) {        
+      if (this.updateMapData) {
         this.updateMapData.call(null, getSlideData(index).list, index);
       }
       if (this.updateTotalData) {
@@ -142,7 +147,7 @@ class SliderBar {
         this.playButton.isActive = false;
         setTimeout(() => {
           this.play();
-        }, 1000);        
+        }, 1000);
       });
     }
 
@@ -182,6 +187,7 @@ class SliderBar {
 class LineChart {
   constructor(name, options) {
     this.container = am4core.create(name, am4core.Container);
+    this.container.tapToActivate = true;
     this.options =
       {
         colors: {
@@ -204,7 +210,7 @@ class LineChart {
     this.pluginChart = classObject;
   }
   addClick(callback) {
-    this.lineChart.plotContainer.events.on("up", callback);
+    this.lineChart.plotContainer.events.on("hit", callback);
   }
   setSizeCanvas(w, h) {
     this.container.width = am4core.percent(w);
@@ -218,7 +224,12 @@ class LineChart {
     lineChartContainer.width = am4core.percent(100);
     lineChartContainer.background = new am4core.RoundedRectangle();
     lineChartContainer.background.fill = am4core.color("#000000");
-    lineChartContainer.background.cornerRadius(30, 30, 0, 0);
+    if (ua()) {
+      lineChartContainer.background.cornerRadius(10, 10, 0, 0);
+    } else {
+      lineChartContainer.background.cornerRadius(30, 30, 0, 0);
+    }
+
     lineChartContainer.background.fillOpacity = 0.25;
     lineChartContainer.paddingTop = 12;
     lineChartContainer.paddingBottom = 0;
@@ -226,11 +237,11 @@ class LineChart {
     // https://www.amcharts.com/docs/v4/chart-types/xy-chart/
     let lineChart = lineChartContainer.createChild(am4charts.XYChart);
     lineChart.fontSize = "0.8em";
-    lineChart.paddingRight = 30;
-    lineChart.paddingLeft = 30;
+    lineChart.paddingRight = ua() ? 10 : 30;
+    lineChart.paddingLeft = ua() ? 10 : 30;
     lineChart.maskBullets = false;
-    lineChart.paddingBottom = 5;
-    lineChart.paddingTop = 3;
+    lineChart.paddingBottom = ua() ? 1 : 5;
+    lineChart.paddingTop = ua() ? 1 : 3;
     lineChart.zoomOutButton.disabled = true;
 
     // date axis
@@ -301,7 +312,8 @@ class LineChart {
     lineChart.legend.labels.template.fill = am4core.color("#ffffff");
     lineChart.legend.markers.template.height = 8;
     lineChart.legend.contentAlign = "left";
-    lineChart.legend.fontSize = "10px";
+    lineChart.legend.fontSize = "12px";
+    lineChart.legend.x = 0;
     lineChart.legend.itemContainers.template.valign = "middle";
     // 레전드 클릭시에는 이벤트가 일어나지 않게 함
     lineChart.legendDown = false;
@@ -327,7 +339,7 @@ class LineChart {
 
       return range2;
     };
-    Object.entries(RANGE[g.KEY]).forEach((items) => {
+    /* Object.entries(RANGE[g.KEY]).forEach((items) => {
       items.forEach((d) => {
         let range;
         Object.entries(d).forEach(([key, v]) => {
@@ -338,9 +350,11 @@ class LineChart {
         range.label.dx = -60;
         range.label.inside = true;
         range.label.text = d.str;
+        range.label.fontSize = "11px";
+        range.label.fillOpacity = 0.5;
         range.label.verticalCenter = "bottom";
       });
-    });
+    }); */
 
     this.lineChart = lineChart;
   }
@@ -499,13 +513,16 @@ class MapChart {
     this.setSizeCanvas(this.options.width, this.options.height);
     this.container.align = "right";
     this.container.valign = "bottom";
-    
+
     this.mapChart = this.container.createChild(am4maps.MapChart);
+    this.mapChart.responsive = {
+      enabled: true,
+    };
     this.mapChart.zoomControl = new am4maps.ZoomControl();
     this.mapChart.zoomControl.align = "right";
     this.mapChart.zoomControl.marginRight = 15;
     this.mapChart.zoomControl.valign = "middle";
-    
+
     this.mapChart.height = am4core.percent(100);
     this.mapChart.geodata = this.geoData;
     // HMR 및 SPA라우터에서 페이지 전환 후 돌아 올때 맵이 꺠지는 이슈 수정 [소요시간 5h]
@@ -602,10 +619,10 @@ class MapChart {
     );
     labelTemplate.horizontalCenter = "middle";
     labelTemplate.verticalCenter = "middle";
-    labelTemplate.fontSize = 12;
+    labelTemplate.fontSize = ua() ? 10 : 12;
     labelTemplate.interactionsEnabled = false;
     labelTemplate.nonScaling = true;
-    labelTemplate.fillOpacity = 0.3;
+    labelTemplate.fillOpacity = ua() ? 0.15 : 0.3;
     labelTemplate.fill = "#fff";
 
     // 라벨 표출
@@ -616,7 +633,6 @@ class MapChart {
         if (polygon) {
           var label = labelSeries.mapImages.create();
           var state = polygon.dataItem.dataContext.id;
-
           label.latitude = polygon.visualLatitude;
           label.longitude = polygon.visualLongitude;
           label.children.getIndex(0).text = state;
@@ -735,7 +751,7 @@ class MapChart {
         var circle = mapImage.children.getIndex(0);
 
         if (mapImage.dataItem.value === 0) {
-          //circle.hide(0);
+          circle.hide();
         } else if (circle.isHidden || circle.isHiding) {
           circle.show();
         }
@@ -818,16 +834,19 @@ class MapChart {
     // heat rule makes the bubbles to be of a different width. Adjust min/max for smaller/bigger radius of a bubble
     let RADIUS;
     if (g.KEY === "매입") {
-      RADIUS = 71
-    } else  if(g.KEY ==='상태'){
-      if (type === 1) { // '압류'
-        RADIUS = 30
-      } else if (type === 0) {// '소유'
-        RADIUS = 10
-      } else if (type === 2) { // '강제경매개시'
-        RADIUS = 13
+      RADIUS = 71;
+    } else if (g.KEY === "상태") {
+      if (type === 1) {
+        // '압류'
+        RADIUS = 30;
+      } else if (type === 0) {
+        // '소유'
+        RADIUS = 10;
+      } else if (type === 2) {
+        // '강제경매개시'
+        RADIUS = 13;
       } else {
-        RADIUS = 70
+        RADIUS = 70;
       }
     }
 
@@ -835,7 +854,7 @@ class MapChart {
       target: circle,
       property: "radius",
       min: 1,
-      max: RADIUS,
+      max: ua() ? RADIUS / 2 : RADIUS,
       dataField: "value",
     });
 
@@ -844,7 +863,6 @@ class MapChart {
       bubbleSeries.dataItems.each((dataItem) => {
         var mapImage = dataItem.mapImage;
         var circle = mapImage.children.getIndex(0);
-
         if (mapImage.dataItem.value === 0) {
           circle.hide(0);
         } else if (circle.isHidden || circle.isHiding) {
@@ -878,7 +896,6 @@ class MapChart {
 
     imageTemplate.adapter.add("longitude", (longitude, target) => {
       var polygon = this.polygonSeries.getPolygonById(target.dataItem.id);
-
       if (polygon) {
         target.disabled = false;
         return polygon.visualLongitude + x;
