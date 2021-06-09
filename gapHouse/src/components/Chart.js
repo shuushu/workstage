@@ -139,7 +139,7 @@ class SliderBar {
       this.sliderAnimation = this.slider
         .animate(
           { property: "start", to: 1, from: 0.3 },
-          20000,
+          30000,
           am4core.ease.linear
         )
         .pause();
@@ -147,7 +147,7 @@ class SliderBar {
         this.playButton.isActive = false;
         setTimeout(() => {
           this.play();
-        }, 1000);
+        }, 5000);
       });
     }
 

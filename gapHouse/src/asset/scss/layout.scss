@@ -842,7 +842,22 @@ g[role="slider"] g:nth-child(2) {
     }
   }
   .parag {
-    margin: 15px 0;
+    margin: 20px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    .강조 {
+      font-size: 20px;
+      font-weight: 300;
+      color: #d2a1ff;
+    }
+    .하이라이트 {
+      background: #ff7676d8;
+    }
+    .참고 {
+      color: #ccc;
+      font-size: 11px;
+      margin-left: 5px;
+    }
   }
   .list {
     display: flex;

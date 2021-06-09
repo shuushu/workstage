@@ -54,12 +54,13 @@ export default function TotalCont() {
 
   const nodes = [
     <p className="parag">
-      MBC 기획취재팀은 임대사업자 김OO 씨가 소유한 주택 800여채 가운데 653채의
-      정보를 확보했습니다.
+      MBC 기획취재팀은 임대사업자 김OO 씨가 소유한 주택 800여채 가운데{" "}
+      <strong className="강조">653</strong>채의 정보를 확보했습니다.
     </p>,
     <p className="parag">
-      김 씨가 매입한 주택은 서울, 인천, 경기 전역에 걸쳐 있는데요. 특히 서울
-      강서구와 금천구, 경기 부천시 등 서부권에 집중돼 있습니다.
+      김 씨가 매입한 주택은 서울, 인천, 경기 전역에 걸쳐 있는데요. 특히{" "}
+      <span className="하이라이트">서울 강서구와 금천구, 경기 부천시</span> 등
+      서부권에 집중돼 있습니다.
     </p>,
     <p className="parag">
       원의 크기가 클 수록 해당 지역에 갖고 있는 집이 많다는 의미입니다.
@@ -89,7 +90,7 @@ export default function TotalCont() {
   ];
   let liArr = [];
   let sw = [];
-  let DIV = window.innerWidth === 320 ? 12 : 14;
+  let DIV = window.innerWidth === 320 ? 12 : 12;
   data.map((v, ii) => {
     if (ii !== 0 && ii % DIV === 0) {
       sw.push(liArr);

@@ -2,6 +2,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom"; // https
 import "./asset/scss/style.scss";
 import MainContents from "./pages/MainContents";
 import Detail from "./pages/Detail";
+import Grid from "./components/Grid";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
           </Route>
           <Route path="/map">
             <Detail />
+          </Route>
+          <Route path="/story">
+            <Grid />
           </Route>
           <Route path="*">
             <Detail />

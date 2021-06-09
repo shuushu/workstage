@@ -4,6 +4,7 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import { d소유, d강제경매개시, d압류, area } from "../asset/data/data";
 const g = window;
 const origin = {
+  매입: d소유,
   소유: d소유,
   경매개시: d강제경매개시,
   "압류.가압류": d압류,
@@ -20,7 +21,7 @@ export default function TimelineAll(props) {
   useEffect(async () => {
     g.KEY = "매입";
     g.setDateValue = setDateValue;
-    const getCache = localStorage.getItem("timeline3");
+    const getCache = localStorage.getItem("timeline5");
     let cache;
     if (getCache) {
       cache = JSON.parse(getCache);
@@ -29,7 +30,7 @@ export default function TimelineAll(props) {
       let i = 0;
 
       while (i < 200) {
-        let t1 = origin.소유[i];
+        let t1 = origin.매입[i];
         let t2 = origin["압류.가압류"][i];
         let t3 = origin.경매개시[i];
         if (t1 && t2 && t3) {
@@ -41,6 +42,7 @@ export default function TimelineAll(props) {
           area.forEach((name) => {
             let items = {
               id: name,
+              매입: t1[name],
               소유: t1[name],
               "압류.가압류": t2[name],
               경매개시: t3[name],
@@ -55,7 +57,7 @@ export default function TimelineAll(props) {
       }
 
       cache = DATA;
-      localStorage.setItem("timeline3", JSON.stringify(DATA));
+      localStorage.setItem("timeline5", JSON.stringify(DATA));
     }
 
     if (pos === "main") {

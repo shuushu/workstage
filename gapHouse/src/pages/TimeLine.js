@@ -5,6 +5,7 @@ import { d소유, d강제경매개시, d압류, area } from "../asset/data/data"
 const g = window;
 const origin = {
   소유: d소유,
+  매입: d소유,
   경매개시: d강제경매개시,
   "압류.가압류": d압류,
 };
@@ -19,7 +20,7 @@ export default function TimelineAll(props) {
   useEffect(async () => {
     g.KEY = "상태";
     g.setDateValue = setDateValue;
-    const getCache = localStorage.getItem("timeline3");
+    const getCache = localStorage.getItem("timeline5");
     let cache;
     if (getCache) {
       cache = JSON.parse(getCache);
@@ -41,6 +42,7 @@ export default function TimelineAll(props) {
             let items = {
               id: name,
               소유: t1[name],
+              매입: t1[name],
               "압류.가압류": t2[name],
               경매개시: t3[name],
             };
@@ -54,7 +56,7 @@ export default function TimelineAll(props) {
       }
 
       cache = DATA;
-      localStorage.setItem("timeline3", JSON.stringify(DATA));
+      localStorage.setItem("timeline5", JSON.stringify(DATA));
     }
 
     drawChart(setHouseData, cache);

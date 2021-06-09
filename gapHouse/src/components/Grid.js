@@ -31,70 +31,50 @@ const data = {
   },
 };
 
-let timer;
-function DrawItems(props) {
-  const { setActive, active, state, keyName, clicked, setComplete } = props;
-  const handleClick = async (e, key) => {
-    // lottie 애니매이션이 끝났을때 클릭 이벤트 실행 됨
-    //if (!state) return;
-    if (active === key) {
-      // 내비클래스설정
-      document.getElementById("homeNav").className = "active";
-      document.querySelector("#bl-main");
-      setActive("");
-      setComplete({
-        clicked,
-        state,
-        keyName,
-        expend: false,
-      });
-      e.target.parentElement.setAttribute("style", "z-index: 100");
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        const sectionNodes = document.querySelectorAll(".bl-main section");
-        sectionNodes.forEach((v) => v.removeAttribute("style"));
-      }, 600);
-    } else {
-      // 스크롤 이동
-      document.getElementById("gridBtn").click();
-      // 내비클래스삭제
-      document.getElementById("homeNav").className = "";
-      setComplete({
-        clicked,
-        state,
-        keyName,
-        expend: true,
-      });
-      setActive(key);
-    }
-  };
+const handleClick = (e) => {
+  const ct = e.target.parentElement;
+  const wrap = document.querySelector("#bl-main");
+  const t = document.querySelectorAll(".sec");
+  if (ct.className.indexOf("bl-expand") > 0) {
+    ct.className = "sec";
+    wrap.className = "bl-main";
+  } else {
+    wrap.className = "bl-main bl-expand-item";
+    t.forEach((i) => {
+      console.log(i === ct);
+      if (i === ct) {
+        i.className = "sec bl-expand";
+        i.setAttribute("style", "z-index:10");
+      } else {
+        i.className = "sec";
+        i.removeAttribute("style");
+      }
+    });
+  }
+};
 
-  return Object.entries(data).map(([key, v], i) => {
-    const { url } = v;
-
-    return (
-      <section
-        key={`box-${i}`}
-        className={key === active ? "bl-expand" : null}
-        onClick={(e) => handleClick(e, key)}
-      >
-        <div className="bl-box">
-          <img src={url} alt="" />
-        </div>
-        <div className="bl-content">222</div>
-        <span className="bl-icon bl-icon-close"></span>
-      </section>
-    );
-  });
-}
 export default function Grid(props) {
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState(false);
+
+  function DrawItems() {
+    return Object.entries(data).map(([key, v], i) => {
+      const { url } = v;
+
+      return (
+        <section className="sec" key={`box-${i}`} onClick={handleClick}>
+          <div className="bl-box">
+            <img src={url} alt="" />
+          </div>
+          <div className="bl-content">222</div>
+          <span className="bl-icon bl-icon-close"></span>
+        </section>
+      );
+    });
+  }
+
   return (
-    <div
-      id="bl-main"
-      className={props.expend ? "bl-main bl-expand-item" : "bl-main"}
-    >
-      <DrawItems setActive={setActive} active={active} {...props} />
+    <div id="bl-main" className={active ? "bl-main bl-expand-item" : "bl-main"}>
+      <DrawItems />
     </div>
   );
 }

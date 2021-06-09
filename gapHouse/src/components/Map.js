@@ -110,7 +110,7 @@ export default function getData(callback, DATA) {
           });
         }
         // 맥스값 변경시 Nagative value Error 발생
-        if (v.dataFields.value === "압류") {
+        if (v.dataFields.value === "압류.가압류") {
           let MAX = 10;
           if (d < 72) {
             MAX = 1;
@@ -283,9 +283,9 @@ export function TotalDraw() {
 }
 
 export function buyDraw(callback, DATA) {
-  const INIT_STR = "소유";
+  const INIT_STR = "매입";
   const CUSTOM = {
-    소유: am4core.color("#1c5fe5"),
+    매입: am4core.color("#1c5fe5"),
   };
   const LABEL = dong;
   g[g.KEY] = {};
