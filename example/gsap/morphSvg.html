@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>building</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        *{margin: 0; padding: 0}
+    </style>
+</head>
+<div>
+    <div id="test">
+        <div>
+            <section class="n1">1</section>
+            <section class="n2">1</section>
+            <section class="n3">
+                <div id="fullpage">
+                    <div class="section " id="section0">
+                        <div class="intro">
+                            <h1>Enable Your Scroll Bar!</h1>
+                            <p>The perfect combination!</p>
+                        </div>
+                    </div>
+                    <div class="section" id="section1">
+                        <div class="slide" id="slide1">
+                            <div class="intro">
+                                <h1>Free scroll</h1>
+                                <p>
+                                    User can still using the scroll bar and fullPage.js will do the rest!
+                                </p>
+                            </div>
+                        </div>
+                
+                        <div class="slide" id="slide2">
+                            <h1>Slide 2</h1>
+                        </div>
+                
+                    </div>
+                    <div class="section" id="section2">
+                        <div class="intro">
+                            <h1>Great User Experience!</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://alvarotrigo.com/fullPage/fullpage.js"></script>
+
+<script>
+    var myFullpage = new fullpage('#fullpage', {
+        anchors: ['firstPage', 'secondPage', '3rdPage'],
+        sectionsColor: ['#C63D0F', '#1BBC9B', '#7E8F7C'],
+        scrollBar: true
+    });
+</script>
+
+</html>

@@ -1,3 +1,4 @@
+import bg from "../ExtremelyMap/src/asset/bg.png";
 window.hflag = {
   SIDO: null,
   GU: null,
@@ -100,10 +101,49 @@ function makeStepFillLayer(valuesRange, props) {
         [...정당별컬러스텝[3]],
         ["==", ["get", `${prefix}_개표결과`], "바른정당_득표율"],
         [...정당별컬러스텝[4]],
-        "#cccccc",
+        "transparent",
       ],
       "fill-opacity": ["step", ["zoom"], ...level],
     },
+  });
+
+  let bigMatchZoomLevel = level;
+
+  // 경합지역 패턴으로 지정
+  g.map.loadImage(bg, function (err, image) {
+    // Throw an error if something goes wrong.
+    if (err) throw err;
+
+    // Add the image to the map style.
+    g.map.addImage(`pattern${id}`, image);
+
+    // Create a new layer and style it using `fill-pattern`.
+    g.map.addLayer({
+      id: `${id}-big`,
+      source,
+      type: "fill",
+      "source-layer": name,
+      paint: {
+        "fill-pattern": [
+          "case",
+          [
+            "<=",
+            [
+              "abs",
+              [
+                "-",
+                ["get", `${prefix}_더불어민주당_득표율`],
+                ["get", `${prefix}_자유한국당_득표율`],
+              ],
+            ],
+            2,
+          ],
+          "pattern",
+          "transparent",
+        ],
+        "fill-opacity": ["step", ["zoom"], ...bigMatchZoomLevel],
+      },
+    });
   });
 }
 // 라인그리기
@@ -134,11 +174,16 @@ function makeStrokeLayer(props) {
 function handleEvent(props) {
   const { source, sourceLayer, type, layerName } = props;
 
+  function moveFn(prefix, e) {
+    g.setPrefixValue(prefix);
+    g.setMapValue(e.features[0].properties);
+  }
   switch (type) {
     case "mousemove":
       g.map.on(type, layerName, function (e) {
         if (e.features.length > 0) {
           if (g.hflag[source] !== null) {
+            const lv = g.map.getZoom();
             map.setFeatureState(
               {
                 source,
@@ -147,6 +192,16 @@ function handleEvent(props) {
               },
               { hover: false }
             );
+            // 시도 영역
+            if (lv < 9 && source === "SIDO") {
+              moveFn("19대대선시도", e);
+            }
+            if (lv >= 9 && lv < 10 && source === "GU") {
+              moveFn("19대대선구", e);
+            }
+            if (lv >= 10 && source === "DONG") {
+              moveFn("19대대선동", e);
+            }
           }
           g.hflag[source] = e.features[0].id;
           map.setFeatureState(
@@ -174,6 +229,7 @@ function handleEvent(props) {
         }
 
         g.hflag[source] = null;
+        g.setMapValue();
       });
       break;
   }

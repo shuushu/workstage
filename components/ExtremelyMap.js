@@ -1,7 +1,9 @@
-import { useEffect } from "react";
-import mapboxgl from "mapbox-gl";
+import { useEffect, useState } from "react";
+import mapboxgl from "!mapbox-gl";
 import styled from "styled-components";
 import { makeStepFillLayer, makeStrokeLayer, handleEvent } from "./mapboxUtil";
+import ReactTooltip from "react-tooltip";
+import Chip from "@material-ui/core/Chip";
 
 window.hflag = {
   SIDO: null,
@@ -56,14 +58,14 @@ function drawSI() {
 function drawGU() {
   g.map.addSource("GU", {
     type: "vector",
-    url: "mapbox://mapbox.mapbox-streets-v5,shuushu.95qxj8nm",
+    url: "mapbox://mapbox.mapbox-streets-v5,shuushu.5f8q1cqr",
     promoteId: "SIG_CD",
   });
   const valuesRange = [35, 40, 45, 50, 55, 100];
   const identifier = {
     source: "GU",
-    name: "GU19-63mwoh",
-    sourceLayer: "GU19-63mwoh",
+    name: "GU19v2-4we0h8",
+    sourceLayer: "GU19v2-4we0h8",
     level: [0, 9, 1],
   };
   makeStepFillLayer(valuesRange, {
@@ -104,18 +106,17 @@ function drawGU() {
     layerName: "GU-fill-Layer",
   });
 }
-
 function drawDONG() {
   g.map.addSource("DONG", {
     type: "vector",
-    url: "mapbox://mapbox.mapbox-streets-v5,shuushu.7upuc8js",
+    url: "mapbox://mapbox.mapbox-streets-v5,shuushu.8afmuqyo",
     promoteId: "adm_dr_cd", // 필드명을 고유아디로 지정
   });
   const valuesRange = [35, 40, 45, 50, 55, 100];
   const identifier = {
     source: "DONG",
-    name: "DONG19-8yl2io",
-    sourceLayer: "DONG19-8yl2io",
+    name: "DONG19-a7ywpv",
+    sourceLayer: "DONG19-a7ywpv",
     level: [0, 10, 1],
   };
 
@@ -134,11 +135,12 @@ function drawDONG() {
     id: "DONG-line-Layer",
   });
 
-  map.addLayer({
+  // 지역라벨보이기
+  /*map.addLayer({
     id: "DONG-label",
     type: "symbol",
     source: "DONG",
-    "source-layer": "DONG19-8yl2io",
+    "source-layer": "DONG19-a7ywpv",
     layout: {
       "text-field": "{19대대선동_구시군} {adm_dr_nm}",
       "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
@@ -146,6 +148,22 @@ function drawDONG() {
     },
     paint: {
       "text-opacity": ["step", ["zoom"], ...identifier.level],
+    },
+  });*/
+
+  g.map.addLayer({
+    id: "DONG-HOVER-GU-AREA",
+    type: "fill",
+    source: "GU",
+    "source-layer": "GU19v2-4we0h8",
+    paint: {
+      "fill-opacity": [
+        "step",
+        ["zoom"],
+        0,
+        10,
+        ["case", ["boolean", ["feature-state", "hover"], false], 0.2, 0],
+      ],
     },
   });
 
@@ -163,8 +181,10 @@ function drawDONG() {
 }
 
 function Map() {
+  const [mapValue, setMapValue] = useState();
+  const [prefixValue, setPrefixValue] = useState("");
   useEffect(() => {
-    g.map = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/shuushu/ckn6qh3f005na17kir1q7kije",
       center: [127.015063, 37.5358887],
@@ -175,16 +195,65 @@ function Map() {
       ],
     });
 
-    g.map.on("load", () => {
+    map.on("load", () => {
       drawSI();
       drawGU();
       drawDONG();
     });
-
-    //getData();
+    g.setMapValue = setMapValue;
+    g.setPrefixValue = setPrefixValue;
+    g.map = map;
   }, []);
 
-  return <MapContainer id="map" />;
+  //19대대선시도_투표수
+  return (
+    <>
+      <MapContainer data-tip="" id="map" />
+      {mapValue ? (
+        <ReactTooltip>
+          <div id="tooltip">
+            <div className="tit-wrap">
+              {mapValue["CTP_KOR_NM"] && <h2>{mapValue["CTP_KOR_NM"]}</h2>}
+              {mapValue["SIG_KOR_NM"] && (
+                <h2>
+                  {mapValue["19대대선구_시도"]} {mapValue["SIG_KOR_NM"]}
+                </h2>
+              )}
+              {mapValue["19대대선동_읍면동"] && (
+                <h2>
+                  {mapValue["19대대선동_시도"]} {mapValue["19대대선동_구시군"]}{" "}
+                  {mapValue["19대대선동_읍면동"]}
+                </h2>
+              )}
+              {Math.abs(
+                mapValue[`${prefixValue}_더불어민주당_득표율`] -
+                  mapValue[`${prefixValue}_자유한국당_득표율`]
+              ) <= 2 ? (
+                <Chip label="경합지역" variant="outlined" />
+              ) : null}
+            </div>
+            <h3>개표결과</h3>
+            <ul>
+              <li>
+                투표수:{" "}
+                {Number(mapValue[`${prefixValue}_투표수`]).toLocaleString()}
+              </li>
+              <li>
+                더불어민주당: {mapValue[`${prefixValue}_더불어민주당_득표율`]}%
+              </li>
+              <li>
+                자유한국당: {mapValue[`${prefixValue}_자유한국당_득표율`]}%
+              </li>
+              <li>국민의당: {mapValue[`${prefixValue}_국민의당_득표율`]}%</li>
+              <li>바른정당: {mapValue[`${prefixValue}_바른정당_득표율`]}%</li>
+              <li>정의당: {mapValue[`${prefixValue}_정의당_득표율`]}%</li>
+              <li>기타정당: {mapValue[`${prefixValue}_기타`]}%</li>
+            </ul>
+          </div>
+        </ReactTooltip>
+      ) : null}
+    </>
+  );
 }
 
 export { Map };
