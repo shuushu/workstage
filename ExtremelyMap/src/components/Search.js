@@ -11,7 +11,6 @@ export default function Asynchronous(props) {
   const [options, setOptions] = React.useState([]);
   const [feieldHelpText, setFieldHelpText] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const { setMdFlag, setData, setTitle } = props;
   const textRef = React.useRef();
 
   function resetInput() {
@@ -56,7 +55,6 @@ export default function Asynchronous(props) {
   }, [open]);
   return (
     <Autocomplete
-      id="asynchronous-demo"
       fullWidth
       open={open}
       blurOnSelect

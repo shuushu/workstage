@@ -84,8 +84,25 @@ em {
 #drawer.open #btn-search2 {
   transform: scale(1);
 }
-
+#chart {
+  height: 800px;
+}
+#paper {
+  overflow-y: auto;
+  position: relative;
+}
+// noti
+.noti {
+  padding: 10px;
+  background: #efefef;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-size: 14px;
+  letter-spacing: -0.05em;
+}
 // 검색창
+
 .optionsLabel {
   .juso {
     font-size: 12px;
@@ -103,5 +120,17 @@ em {
       color: #666;
       margin-left: 10px;
     }
+  }
+}
+
+@media (max-width: 500px) {
+  #btn-search2,
+  #btn-search {
+    left: -50px;
+  }
+  #drawer {
+    width: 300px;
+    padding: 10px;
+    transform: translate3d(300px, 0, 0);
   }
 }

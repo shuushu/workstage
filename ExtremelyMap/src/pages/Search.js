@@ -5,8 +5,7 @@ import mapboxgl from "mapbox-gl";
 
 const g = window;
 
-function SearchView(props) {
-  const { setName } = props;
+function SearchView() {
   let { id } = useParams();
   let marker;
 

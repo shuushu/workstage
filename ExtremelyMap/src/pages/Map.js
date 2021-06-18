@@ -21,6 +21,7 @@ import DefaultView from "../pages/Default";
 import "../scss/mapbox-gl.css";
 import "../scss/style.scss";
 
+import { ua } from "../../../components/Util";
 function PageMap() {
   const [drawer, setDrawer] = useState(true);
   const [mapValue, setMapValue] = useState();
@@ -85,19 +86,32 @@ function PageMap() {
       ) : null}
 
       <aside id="drawer" className={drawer ? "open" : "close"}>
-        <Fab color="primary" id="btn-search" onClick={handleSearch}>
-          <SearchIcon fontSize="large" />
+        <Fab
+          color="primary"
+          size={ua() ? "small" : "medium"}
+          id="btn-search"
+          onClick={handleSearch}
+        >
+          <SearchIcon fontSize={ua() ? "medium" : "large"} />
         </Fab>
-        <Fab color="primary" id="btn-search2" onClick={handleSearch}>
-          <CloseIcon fontSize="large" />
+        <Fab
+          color="primary"
+          id="btn-search2"
+          size={ua() ? "small" : "medium"}
+          onClick={handleSearch}
+        >
+          <CloseIcon fontSize={ua() ? "medium" : "large"} />
         </Fab>
+
         <Search />
-        <Router>
-          <Switch>
-            <Route path="/search:id" children={SearchView} />
-            <Route path="*" children={DefaultView} />
-          </Switch>
-        </Router>
+        <div id="paper">
+          <Router>
+            <Switch>
+              <Route path="/search:id" children={<SearchView />} />
+              <Route path="*" children={<DefaultView />} />
+            </Switch>
+          </Router>
+        </div>
       </aside>
     </Layout>
   );
