@@ -10,6 +10,8 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <script type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_MAPKEY%&libraries=services"></script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -26,17 +28,11 @@
 
       
     -->
-    <title>React App</title>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />    
-    <style>
-      body,html,#root{
-        padding:0;margin:0;height: 100%;
-      }
-    </style>
+    <title>19대 대선 선거 결과</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root"></div>    
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -47,5 +43,8 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      window.KAKAO = new kakao.maps.services.Places();
+    </script>
   </body>
 </html>

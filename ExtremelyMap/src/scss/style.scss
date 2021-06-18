@@ -1,0 +1,107 @@
+body,
+html,
+#root {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+em {
+  font-style: normal;
+}
+
+#tooltip * {
+  padding: 0;
+  margin: 0;
+}
+#tooltip li {
+  list-style: none;
+  margin: 5px 0;
+}
+#tooltip li::before {
+  content: "";
+  display: inline-block;
+  background-color: #fff;
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+#tooltip {
+  font-size: 14px;
+}
+#tooltip h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
+}
+#tooltip .tit-wrap {
+  display: flex;
+}
+#tooltip .MuiChip-outlined {
+  border-color: #fff;
+  padding: 0 7px;
+  margin: 0 5px;
+}
+#tooltip .MuiChip-label {
+  color: #fff;
+}
+.mapboxgl-control-container {
+  display: none;
+}
+
+#mapLayout,
+#mapLayout main {
+  height: 100%;
+}
+#drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 500px;
+  background: #fff;
+  transition: all 0.3s;
+  padding: 20px;
+  box-sizing: border-box;
+  transform: translate3d(500px, 0, 0);
+}
+#drawer.open {
+  transform: translate3d(0, 0, 0);
+}
+#btn-search2,
+#btn-search {
+  position: absolute;
+  bottom: 15px;
+  left: -70px;
+  transition: all 0.5s;
+}
+#btn-search2 {
+  transform: scale(0);
+}
+#drawer.open #btn-search {
+  transform: scale(0);
+}
+#drawer.open #btn-search2 {
+  transform: scale(1);
+}
+
+// 검색창
+.optionsLabel {
+  .juso {
+    font-size: 12px;
+    em {
+      display: block;
+    }
+  }
+  .bdNm {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    span {
+      font-size: 12px;
+      font-weight: 200;
+      color: #666;
+      margin-left: 10px;
+    }
+  }
+}

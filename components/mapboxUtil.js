@@ -171,12 +171,16 @@ function makeStrokeLayer(props) {
   });
 }
 // 마우스이벤트
+let cache = null;
 function handleEvent(props) {
   const { source, sourceLayer, type, layerName } = props;
-
   function moveFn(prefix, e) {
-    g.setPrefixValue(prefix);
-    g.setMapValue(e.features[0].properties);
+    // 같은영역에서 마우스를 움직일 경우에는 이벤트 발생 시키지 않게 처리
+    if (cache !== e.features[0].properties[`${prefix}_투표수`]) {
+      cache = e.features[0].properties[`${prefix}_투표수`];
+      g.setPrefixValue(prefix);
+      g.setMapValue(e.features[0].properties);
+    }
   }
   switch (type) {
     case "mousemove":
@@ -230,6 +234,7 @@ function handleEvent(props) {
 
         g.hflag[source] = null;
         g.setMapValue();
+        cache = null;
       });
       break;
   }

@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import mapboxgl from "!mapbox-gl";
 import styled from "styled-components";
 import { makeStepFillLayer, makeStrokeLayer, handleEvent } from "./mapboxUtil";
-import ReactTooltip from "react-tooltip";
-import Chip from "@material-ui/core/Chip";
 
 window.hflag = {
   SIDO: null,
@@ -181,8 +179,6 @@ function drawDONG() {
 }
 
 function Map() {
-  const [mapValue, setMapValue] = useState();
-  const [prefixValue, setPrefixValue] = useState("");
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: "map",
@@ -200,8 +196,7 @@ function Map() {
       drawGU();
       drawDONG();
     });
-    g.setMapValue = setMapValue;
-    g.setPrefixValue = setPrefixValue;
+
     g.map = map;
   }, []);
 
@@ -209,49 +204,6 @@ function Map() {
   return (
     <>
       <MapContainer data-tip="" id="map" />
-      {mapValue ? (
-        <ReactTooltip>
-          <div id="tooltip">
-            <div className="tit-wrap">
-              {mapValue["CTP_KOR_NM"] && <h2>{mapValue["CTP_KOR_NM"]}</h2>}
-              {mapValue["SIG_KOR_NM"] && (
-                <h2>
-                  {mapValue["19대대선구_시도"]} {mapValue["SIG_KOR_NM"]}
-                </h2>
-              )}
-              {mapValue["19대대선동_읍면동"] && (
-                <h2>
-                  {mapValue["19대대선동_시도"]} {mapValue["19대대선동_구시군"]}{" "}
-                  {mapValue["19대대선동_읍면동"]}
-                </h2>
-              )}
-              {Math.abs(
-                mapValue[`${prefixValue}_더불어민주당_득표율`] -
-                  mapValue[`${prefixValue}_자유한국당_득표율`]
-              ) <= 2 ? (
-                <Chip label="경합지역" variant="outlined" />
-              ) : null}
-            </div>
-            <h3>개표결과</h3>
-            <ul>
-              <li>
-                투표수:{" "}
-                {Number(mapValue[`${prefixValue}_투표수`]).toLocaleString()}
-              </li>
-              <li>
-                더불어민주당: {mapValue[`${prefixValue}_더불어민주당_득표율`]}%
-              </li>
-              <li>
-                자유한국당: {mapValue[`${prefixValue}_자유한국당_득표율`]}%
-              </li>
-              <li>국민의당: {mapValue[`${prefixValue}_국민의당_득표율`]}%</li>
-              <li>바른정당: {mapValue[`${prefixValue}_바른정당_득표율`]}%</li>
-              <li>정의당: {mapValue[`${prefixValue}_정의당_득표율`]}%</li>
-              <li>기타정당: {mapValue[`${prefixValue}_기타`]}%</li>
-            </ul>
-          </div>
-        </ReactTooltip>
-      ) : null}
     </>
   );
 }
