@@ -69,8 +69,9 @@ export default function Asynchronous(props) {
       }}
       filterOptions={(x) => x}
       getOptionSelected={(option, value) => option.bdNm === value.bdNm}
-      getOptionLabel={(option) => {
-        return `${option.bdNm}`;
+      getOptionLabel={() => {
+        return "";
+        //return `${option.bdNm}`;
       }}
       renderOption={(option) => {
         const {
@@ -104,7 +105,26 @@ export default function Asynchronous(props) {
       size={window.innerWidth <= 320 ? "small" : "medium"}
       onChange={(o, v) => {
         if (v) {
-          window.location.href = `#/search:${v.road_address_name}`;
+          var geocoder = new g.kakao.maps.services.Geocoder();
+          geocoder.coord2RegionCode(v.x, v.y, goLocation);
+
+          function goLocation(result, status) {
+            if (status === g.kakao.maps.services.Status.OK) {
+              for (var i = 0; i < result.length; i++) {
+                // 행정동의 region_type 값은 'H' 이므로
+                if (result[i].region_type === "H") {
+                  const {
+                    region_2depth_name,
+                    region_3depth_name,
+                    x,
+                    y,
+                  } = result[i];
+                  window.location.href = `#/search:${region_2depth_name}${region_3depth_name}&x=${x}&y=${y}`;
+                  break;
+                }
+              }
+            }
+          }
         }
       }}
       renderInput={(params) => {

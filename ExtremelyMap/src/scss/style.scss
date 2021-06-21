@@ -122,6 +122,113 @@ em {
     }
   }
 }
+.rank-result {
+  * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .topElse {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    justify-content: space-between;
+    li {
+      display: flex;
+      align-items: center;
+      .name {
+        font-weight: bold;
+        margin-right: 3px;
+      }
+    }
+  }
+  .info {
+    display: flex;
+    position: relative;
+    align-items: center;
+    .정당 {
+      width: 25px;
+      height: 25px;
+      background: url("../asset//logo.jpg") no-repeat;
+      background-size: 80px auto;
+      border: solid 1px #ccc;
+      border-radius: 100%;
+      margin-right: 3px;
+    }
+  }
+  .자유한국당_득표율 .정당 {
+    background-position: -50px 0;
+  }
+  .국민의당_득표율 .정당 {
+    background-position: -50px -25px;
+  }
+  .정의당_득표율 .정당 {
+    background-position: -25px -25px;
+  }
+  .바른정당_득표율 .정당 {
+    background-position: 0 -25px;
+  }
+  .기타 .정당 {
+    display: none;
+  }
+
+  .top::before {
+    content: "VS";
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    li:last-child::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      display: block;
+      width: 100px;
+      height: 130px;
+      opacity: 0.5;
+      background-color: #000;
+    }
+    .name {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+    @mixin thumb {
+      text-align: center;
+      &::before {
+        content: "";
+        width: 100px;
+        height: 130px;
+        display: block;
+        background: url("../asset/people.jpg") no-repeat;
+        background-size: 320px auto;
+      }
+    }
+    .더불어민주당_득표율 {
+      @include thumb();
+      &::before {
+        background-position: -100px -20px;
+      }
+    }
+    .자유한국당_득표율 {
+      @include thumb();
+      &::before {
+        background-position: -200px -20px;
+      }
+    }
+    .국민의당_득표율 {
+      @include thumb();
+      &::before {
+        background-position: -100px -150px;
+      }
+    }
+  }
+}
 
 @media (max-width: 500px) {
   #btn-search2,
